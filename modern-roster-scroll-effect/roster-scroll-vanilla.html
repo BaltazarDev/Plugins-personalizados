@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Roster Scroll Effect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&family=Inter:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: transparent;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .bodoni-moda {
+            font-family: 'Bodoni Moda', serif;
+        }
+
+        /* Intro Section */
+        .intro-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .intro-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(63, 63, 70, 0.2), #000);
+            pointer-events: none;
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro-small-text {
+            color: #71717a;
+            font-weight: 700;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            font-size: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .intro-title {
+            font-size: clamp(4rem, 14vw, 14rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .intro-subtitle {
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 2rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2.5rem;
+            width: 1px;
+            height: 5rem;
+            background: linear-gradient(to bottom, white, transparent);
+            opacity: 0.2;
+        }
+
+        /* Roster Section - ALTURA AJUSTABLE */
+        .roster-section {
+            height: 500vh;
+            /* Más alto = scroll más lento */
+            position: relative;
+            background: transparent;
+        }
+
+        .roster-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Texto Marquesina */
+        .marquee-text {
+            position: absolute;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            z-index: 10;
+            will-change: transform;
+        }
+
+        .marquee-text h2 {
+            font-size: 42vw;
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            color: #000;
+            opacity: 0.3;
+        }
+
+        /* Contenedor de Tarjetas */
+        .cards-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 1920px;
+            margin: 0 auto;
+            pointer-events: none;
+        }
+
+        /* Tarjeta de Persona */
+        .person-card {
+            position: absolute;
+            pointer-events: auto;
+            width: 18vw;
+            min-width: 200px;
+            will-change: transform;
+        }
+
+        .card-inner {
+            position: relative;
+        }
+
+        .card-image-wrapper {
+            overflow: hidden;
+            border-radius: 2px;
+            background: #18181b;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.7s ease-out;
+        }
+
+        .person-card:hover .card-image-wrapper {
+            transform: scale(1.05);
+        }
+
+        .card-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(100%);
+            transition: filter 1s ease;
+        }
+
+        .person-card:hover .card-image {
+            filter: grayscale(0%);
+        }
+
+        .card-label {
+            position: absolute;
+            bottom: -1rem;
+            left: -1rem;
+            padding: 0.5rem 1.5rem;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .person-card:hover .card-label {
+            transform: translateY(-0.5rem);
+        }
+
+        .card-label-front {
+            background: white;
+            color: black;
+        }
+
+        .card-label-back {
+            background: #27272a;
+            color: white;
+        }
+
+        /* Outro Section */
+        .outro-section {
+            min-height: 100vh;
+            background: white;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 3rem;
+            position: relative;
+            z-index: 50;
+        }
+
+        .outro-title {
+            font-size: clamp(3rem, 9vw, 9rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .outro-text {
+            font-size: clamp(1rem, 2vw, 2rem);
+            color: #71717a;
+            font-weight: 500;
+            line-height: 1.6;
+            max-width: 48rem;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 0;
+            background: #000;
+            color: #18181b;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1em;
+            text-transform: uppercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .person-card {
+                width: 30vw;
+                min-width: 150px;
+            }
+
+            .marquee-text h2 {
+                font-size: 60vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Intro Section -->
+    <section class="intro-section">
+        <div class="intro-bg"></div>
+        <div class="intro-content">
+            <span class="intro-small-text">Inspiración Webflow</span>
+            <h1 class="intro-title bodoni-moda">THE<br>CORE</h1>
+            <p class="intro-subtitle">Haz scroll para activar el efecto</p>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Roster Section con efecto scroll -->
+    <section class="roster-section" id="roster-section">
+        <div class="roster-sticky">
+            <!-- Texto Marquesina -->
+            <div class="marquee-text" id="marquee">
+                <h2 class="bodoni-moda">EL EQUIPO EL EQUIPO EL EQUIPO</h2>
+            </div>
+
+            <!-- Contenedor de Tarjetas -->
+            <div class="cards-container" id="cards-container">
+                <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Outro Section -->
+    <section class="outro-section">
+        <div>
+            <h2 class="outro-title">EFECTO<br><span style="color: #e5e5e5;">FINALIZADO</span></h2>
+            <p class="outro-text">
+                Este es el final de la sección sticky. Al salir de los 500vh de altura,
+                el scroll recupera su comportamiento natural de WordPress.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 MODERN SCROLL MODULE</p>
+    </footer>
+
+    <script>
+        // Datos del equipo - EDITA AQUÍ TUS IMÁGENES Y NOMBRES
+        const ROSTER = [
+            {
+                id: 1,
+                name: "ALEX RIVERA",
+                img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
+                x: "8%",
+                y: "15%",
+                speed: 1.6,
+                z: 20
+            },
+            {
+                id: 2,
+                name: "SARA MONTERO",
+                img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80",
+                x: "32%",
+                y: "45%",
+                speed: 0.8,
+                z: 5
+            },
+            {
+                id: 3,
+                name: "MARC COSTA",
+                img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80",
+                x: "58%",
+                y: "20%",
+                speed: 1.4,
+                z: 20
+            },
+            {
+                id: 4,
+                name: "JULIA SOLER",
+                img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+                x: "12%",
+                y: "65%",
+                speed: 1.1,
+                z: 5
+            },
+            {
+                id: 5,
+                name: "DANIEL VELA",
+                img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80",
+                x: "78%",
+                y: "60%",
+                speed: 2.2,
+                z: 20
+            },
+            {
+                id: 6,
+                name: "ELENA PEÑA",
+                img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=600&q=80",
+                x: "85%",
+                y: "25%",
+                speed: 0.5,
+                z: 5
+            }
+        ];
+
+        // Crear tarjetas de personas
+        const cardsContainer = document.getElementById('cards-container');
+
+        ROSTER.forEach(person => {
+            const card = document.createElement('div');
+            card.className = 'person-card';
+            card.style.left = person.x;
+            card.style.top = person.y;
+            card.style.zIndex = person.z;
+            card.dataset.speed = person.speed;
+
+            const labelClass = person.z > 10 ? 'card-label-front' : 'card-label-back';
+
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-image-wrapper">
+                        <img src="${person.img}" alt="${person.name}" class="card-image">
+                    </div>
+                    <div class="card-label ${labelClass}">
+                        ${person.name}
+                    </div>
+                </div>
+            `;
+
+            cardsContainer.appendChild(card);
+        });
+
+        // Variables de scroll
+        const rosterSection = document.getElementById('roster-section');
+        const marquee = document.getElementById('marquee');
+        const personCards = document.querySelectorAll('.person-card');
+
+        let isAnimating = false;
+
+        function handleScroll() {
+            if (isAnimating) return;
+
+            isAnimating = true;
+            requestAnimationFrame(updateParallax);
+        }
+
+        function updateParallax() {
+            // Obtener posición de la sección
+            const rect = rosterSection.getBoundingClientRect();
+            const sectionHeight = rosterSection.offsetHeight;
+            const viewportHeight = window.innerHeight;
+
+            const sectionTop = rect.top;
+            const sectionBottom = rect.bottom;
+
+            // Calcular progreso (0 a 1)
+            const scrollStart = -sectionTop;
+            const scrollEnd = sectionHeight - viewportHeight;
+            let progress = scrollStart / scrollEnd;
+            progress = Math.max(0, Math.min(1, progress));
+
+            // Solo animar cuando la sección está visible
+            if (sectionBottom > 0 && sectionTop < viewportHeight) {
+                // Movimiento horizontal del texto (de derecha a izquierda)
+                const xMarquee = 80 + (progress * -260); // Va de 80% a -180%
+                marquee.style.transform = `translateX(${xMarquee}%)`;
+
+                // Movimiento vertical de las tarjetas (parallax)
+                personCards.forEach(card => {
+                    const speed = parseFloat(card.dataset.speed);
+                    const yStart = 400 * speed;
+                    const yEnd = -600 * speed;
+                    const yPosition = yStart + (progress * (yEnd - yStart));
+                    card.style.transform = `translateY(${yPosition}px)`;
+                });
+            }
+
+            isAnimating = false;
+        }
+
+        // Escuchar scroll
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleScroll, { passive: true });
+
+        // Inicialización
+        updateParallax();
+    </script>
+</body>
+
+</html>

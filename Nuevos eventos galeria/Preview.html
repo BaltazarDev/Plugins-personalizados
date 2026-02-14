@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behind The Agency - Eventos</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP para animaciones -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #ffffff;
+            color: #000;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .bodoni-title {
+            font-family: 'Bodoni Moda', serif;
+            letter-spacing: -0.03em;
+            line-height: 0.85;
+        }
+
+        .open-sans-text {
+            font-family: 'Open Sans', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        .parallax-column {
+            will-change: transform;
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .img-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Asegurar que el sticky funcione correctamente */
+        .sticky-text {
+            position: sticky;
+            top: 120px;
+            align-self: flex-start;
+        }
+
+        @media (max-width: 1023px) {
+            .sticky-text {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sección Principal con Texto Sticky y Galería Parallax -->
+    <section id="gallery-section" class="min-h-screen py-20 px-6 lg:px-20">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+
+                <!-- TEXTO STICKY A LA IZQUIERDA -->
+                <div class="lg:col-span-4 sticky-text">
+                    <h1 class="bodoni-title text-6xl lg:text-8xl font-bold mb-8">
+                        BEHIND<br>
+                        THE<br>
+                        AGENCY
+                    </h1>
+
+                    <div class="w-20 h-1 bg-black mb-6"></div>
+
+                    <p class="open-sans-text text-gray-600 text-sm lg:text-base uppercase font-light">
+                        Conoce los eventos que hemos cubierto
+                    </p>
+                </div>
+
+                <!-- GALERÍA DE IMÁGENES CON PARALLAX -->
+                <div class="lg:col-span-8">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+
+                        <!-- Columna 1 - Movimiento hacia arriba -->
+                        <div id="col-1" class="parallax-column flex flex-col gap-4 lg:gap-6">
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Teleton_2.jpeg"
+                                    alt="Evento Teletón" loading="lazy">
+                            </div>
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/TEDX_2.jpeg"
+                                    alt="TEDX Event" loading="lazy">
+                            </div>
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Stella_3.jpeg"
+                                    alt="Stella Event" loading="lazy">
+                            </div>
+                        </div>
+
+                        <!-- Columna 2 - Movimiento hacia abajo -->
+                        <div id="col-2" class="parallax-column flex flex-col gap-4 lg:gap-6 mt-0 lg:mt-[-150px]">
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Stella_5.jpeg"
+                                    alt="Evento Stella" loading="lazy">
+                            </div>
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Otros_7.jpeg"
+                                    alt="Otro Evento" loading="lazy">
+                            </div>
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Otros_5.jpeg"
+                                    alt="Evento Cobertura" loading="lazy">
+                            </div>
+                        </div>
+
+                        <!-- Columna 3 - Movimiento hacia arriba (solo desktop) -->
+                        <div id="col-3" class="parallax-column hidden lg:flex flex-col gap-4 lg:gap-6">
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Farid_1.jpeg"
+                                    alt="Evento Farid" loading="lazy">
+                            </div>
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Farid_4.jpeg"
+                                    alt="Farid Cobertura" loading="lazy">
+                            </div>
+                            <div class="img-container">
+                                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/Marco_4.jpeg"
+                                    alt="Marco Event" loading="lazy">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Registrar ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Detectar si es móvil
+        const isMobile = window.innerWidth < 768;
+        const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+
+        // Configuración específica por dispositivo
+        const config = {
+            mobile: {
+                col1Y: -100,
+                col2Start: -50,
+                col2Y: 150,
+                col3Y: -150,
+                scrub: 0.5,
+                start: "top 80%",
+                end: "bottom 20%"
+            },
+            tablet: {
+                col1Y: -150,
+                col2Start: -75,
+                col2Y: 200,
+                col3Y: -200,
+                scrub: 0.8,
+                start: "top 70%",
+                end: "bottom 30%"
+            },
+            desktop: {
+                col1Y: -250,
+                col2Start: -100,
+                col2Y: 300,
+                col3Y: -350,
+                scrub: 1,
+                start: "top bottom",
+                end: "bottom top"
+            }
+        };
+
+        // Seleccionar configuración según dispositivo
+        const settings = isMobile ? config.mobile : (isTablet ? config.tablet : config.desktop);
+
+        // Animación Columna 1 (Sube suavemente)
+        gsap.to("#col-1", {
+            y: settings.col1Y,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#gallery-section",
+                start: settings.start,
+                end: settings.end,
+                scrub: settings.scrub
+            }
+        });
+
+        // Animación Columna 2 (Baja desde arriba)
+        gsap.fromTo("#col-2",
+            { y: settings.col2Start },
+            {
+                y: settings.col2Y,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#gallery-section",
+                    start: settings.start,
+                    end: settings.end,
+                    scrub: settings.scrub * 1.2
+                }
+            }
+        );
+
+        // Animación Columna 3 (Sube más rápido - solo desktop)
+        if (!isMobile) {
+            gsap.to("#col-3", {
+                y: settings.col3Y,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#gallery-section",
+                    start: settings.start,
+                    end: settings.end,
+                    scrub: settings.scrub * 1.1
+                }
+            });
+        }
+
+        // Refrescar ScrollTrigger al cambiar tamaño de ventana
+        window.addEventListener('resize', () => {
+            ScrollTrigger.refresh();
+        });
+    </script>
+</body>
+
+</html>

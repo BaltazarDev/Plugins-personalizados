@@ -1,0 +1,387 @@
+<!-- 
+    HORIZONTAL CAROUSEL - VERSIÓN LIMPIA
+    Copia todo este código en un bloque HTML de Elementor
+-->
+
+<style>
+    /* Carousel Section Container */
+    .carousel-section {
+        height: 400vh;
+        /* Ajusta este valor: más alto = scroll más lento */
+        position: relative;
+    }
+
+    .sticky-wrapper {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        background-color: #000;
+    }
+
+    .horizontal-track {
+        display: flex;
+        width: max-content;
+        height: 100%;
+        will-change: transform;
+    }
+
+    /* Slide Styles */
+    .slide {
+        width: 100vw;
+        height: 100vh;
+        flex-shrink: 0;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .slide img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        filter: brightness(0.6) contrast(1.1);
+        transition: transform 0.7s ease;
+    }
+
+    .slide:hover img {
+        transform: scale(1.05);
+    }
+
+    .slide-content {
+        position: absolute;
+        bottom: 2rem;
+        left: 2rem;
+        z-index: 2;
+        color: white;
+        padding: 2rem;
+        max-width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    /* Typography */
+    .slide-title {
+        font-family: 'Didot', 'Playfair Display', serif;
+        font-size: 5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        line-height: 0.9;
+        margin-bottom: 2rem;
+        letter-spacing: -0.02em;
+        color: #ffffff;
+    }
+
+    .consultar-btn {
+        font-family: 'Montserrat', sans-serif;
+        color: white;
+        text-decoration: none;
+        font-size: 0.8rem;
+        letter-spacing: 0.2rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        padding-bottom: 5px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .consultar-btn:hover {
+        border-bottom-color: white;
+        letter-spacing: 0.25rem;
+    }
+
+    /* Navigation Arrows */
+    .nav-arrows {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        z-index: 10;
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-arrow {
+        width: 50px;
+        height: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-arrow:hover {
+        background: white;
+        color: black;
+        border-color: white;
+    }
+
+    .nav-arrow svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .carousel-section {
+            height: 300vh;
+            /* Más rápido en tablet */
+        }
+
+        .slide-title {
+            font-size: 4rem;
+        }
+
+        .slide-content {
+            padding: 1.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .carousel-section {
+            height: 250vh;
+            /* Más rápido en móvil */
+        }
+
+        .slide-title {
+            font-size: 3rem;
+        }
+
+        .slide-content {
+            padding: 1rem;
+            bottom: 1rem;
+            left: 1rem;
+        }
+
+        .nav-arrows {
+            top: 20px;
+            right: 20px;
+        }
+
+        .nav-arrow {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .carousel-section {
+            height: 200vh;
+            /* Muy rápido en móvil pequeño */
+        }
+
+        .slide-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<!-- CAROUSEL HTML -->
+<div class="carousel-section" id="carousel-section">
+    <div class="sticky-wrapper">
+        <!-- Navigation Arrows -->
+        <div class="nav-arrows">
+            <div class="nav-arrow" id="prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </div>
+            <div class="nav-arrow" id="next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Horizontal Track with Slides -->
+        <div class="horizontal-track" id="track">
+            <!-- Slide 1 - EDITA LAS IMÁGENES Y TEXTOS AQUÍ -->
+            <div class="slide">
+                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/04-Relaciones-publicas.png"
+                    alt="Public Relations" loading="lazy">
+                <div class="slide-content">
+                    <h2 class="slide-title">Public <br>Relations</h2>
+                    <a href="/servicios/#publicr" class="consultar-btn">Consultar <span>→</span></a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/02-Representacion-de-talento.png"
+                    alt="⁠Talent management" loading="lazy">
+                <div class="slide-content">
+                    <h2 class="slide-title">⁠Talent <br>management</h2>
+                    <a href="/servicios/#talentm" class="consultar-btn">Consultar <span>→</span></a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/06-Estrategias-de-visibilidad.png"
+                    alt="Strategic Brand Positioning" loading="lazy">
+                <div class="slide-content">
+                    <h2 class="slide-title">Strategic <br>Brand Positioning</h2>
+                    <a href="/servicios/#strategicb" class="consultar-btn">Consultar <span>→</span></a>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide">
+                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/07-Networking-y-vinculacion.png"
+                    alt="Networking & Strategic Alliances" loading="lazy">
+                <div class="slide-content">
+                    <h2 class="slide-title">Networking & Strategic <br>Alliances</h2>
+                    <a href="/servicios/#networking" class="consultar-btn">Consultar <span>→</span></a>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="slide">
+                <img src="https://test.baltazarg.xyz/wp-content/uploads/2026/02/01-Patrocinios.png"
+                    alt="⁠Sponsorships & Business development" loading="lazy">
+                <div class="slide-content">
+                    <h2 class="slide-title">⁠Sponsorships & Business <br>development</h2>
+                    <a href="/servicios/#sponsor" class="consultar-btn">Consultar <span>→</span></a>
+                </div>
+            </div>
+
+            <!-- AGREGAR MÁS SLIDES: Copia desde aquí -->
+            <!--
+            <div class="slide">
+                <img src="TU_IMAGEN_URL" alt="Descripción">
+                <div class="slide-content">
+                    <h2 class="slide-title">Tu<br>Título</h2>
+                    <a href="#" class="consultar-btn">Consultar <span>→</span></a>
+                </div>
+            </div>
+            -->
+            <!-- hasta aquí, y pégalo antes de este comentario -->
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT (NECESARIO) -->
+<script>
+    (function () {
+        'use strict';
+
+        // Inicializar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        function init() {
+            const section = document.getElementById('carousel-section');
+            const track = document.getElementById('track');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            if (!section || !track) {
+                console.error('Carousel elements not found');
+                return;
+            }
+
+            let isAnimating = false;
+
+            // Manejar scroll
+            function handleScroll() {
+                if (isAnimating) return;
+
+                isAnimating = true;
+                requestAnimationFrame(function () {
+                    updateCarousel();
+                    isAnimating = false;
+                });
+            }
+
+            function updateCarousel() {
+                // Obtener posición de la sección relativa al viewport
+                const rect = section.getBoundingClientRect();
+                const sectionHeight = section.offsetHeight;
+                const viewportHeight = window.innerHeight;
+
+                const sectionTop = rect.top;
+                const sectionBottom = rect.bottom;
+
+                // Calcular progreso del scroll
+                const scrollStart = -sectionTop;
+                const scrollEnd = sectionHeight - viewportHeight;
+
+                // Solo animar cuando la sección está en el viewport
+                if (sectionBottom > 0 && sectionTop < viewportHeight) {
+                    // Calcular progreso (0 a 1)
+                    let progress = scrollStart / scrollEnd;
+                    progress = Math.max(0, Math.min(1, progress));
+
+                    // Calcular traducción horizontal
+                    const trackWidth = track.scrollWidth;
+                    const maxTranslate = trackWidth - window.innerWidth;
+                    const translateX = progress * maxTranslate;
+
+                    // Aplicar transformación
+                    track.style.transform = 'translateX(-' + translateX + 'px)';
+                } else if (sectionTop >= viewportHeight) {
+                    // Sección debajo del viewport - resetear al inicio
+                    track.style.transform = 'translateX(0px)';
+                } else if (sectionBottom <= 0) {
+                    // Sección arriba del viewport - ir al final
+                    const trackWidth = track.scrollWidth;
+                    const maxTranslate = trackWidth - window.innerWidth;
+                    track.style.transform = 'translateX(-' + maxTranslate + 'px)';
+                }
+            }
+
+            // Navegación con botones
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function () {
+                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    window.scrollTo({
+                        top: currentScroll - window.innerHeight * 0.8,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function () {
+                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    window.scrollTo({
+                        top: currentScroll + window.innerHeight * 0.8,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Escuchar eventos de scroll
+            window.addEventListener('scroll', handleScroll, {
+                passive: true
+            });
+            window.addEventListener('resize', handleScroll, {
+                passive: true
+            });
+
+            // Cálculo inicial
+            handleScroll();
+        }
+    })();
+</script>

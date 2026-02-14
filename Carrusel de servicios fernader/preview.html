@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Carrusel Responsive</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Simulation of Elementor Section/Container */
+        .page-container {
+            width: 100%;
+            max-width: 1200px;
+            background: #fff;
+            padding: 40px;
+            box-sizing: border-box;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Plugin Styles Start --- */
+        .sc-carrusel-container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            /* Fixes "spilling out" issue */
+        }
+
+        .sc-carrusel {
+            width: 100%;
+            padding-top: 60px;
+            /* Space for top navigation */
+            padding-bottom: 30px;
+            /* Space for bottom shadow clipping */
+        }
+
+        .sc-slide {
+            height: auto;
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        /* Card */
+        .sc-card {
+            background: #ffffff;
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .sc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(160, 185, 229, 0.05) 0%, rgba(160, 185, 229, 0) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sc-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+            border-color: #e8e8e8;
+        }
+
+        .sc-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Image */
+        .sc-card-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sc-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease, transform 0.5s ease;
+        }
+
+        .sc-card-hover .sc-image,
+        .sc-card:hover .sc-image {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        /* Content */
+        .sc-card-content {
+            padding: 30px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sc-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #000;
+            margin: 0 0 15px 0;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sc-card:hover .sc-card-title {
+            letter-spacing: 1.5px;
+            color: #1a1a1a;
+        }
+
+        .sc-card-excerpt {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            flex-grow: 1;
+            font-weight: 300;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sc-card:hover .sc-card-excerpt {
+            color: #555;
+        }
+
+        /* Footer */
+        .sc-card-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #f9f9f9;
+            /* Subtle separation */
+            padding-top: 15px;
+        }
+
+        /* Button */
+        .sc-card-button {
+            display: inline-block;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sc-card:hover .sc-card-button {
+            color: #000;
+            letter-spacing: 2.5px;
+            transform: translateX(5px);
+        }
+
+        /* Line */
+        .sc-card-line {
+            width: 50px;
+            height: 2px;
+            background-color: #a0b9e5;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            z-index: 2;
+        }
+
+        .sc-card:hover .sc-card-line {
+            width: 80px;
+            background-color: #7a9dd5;
+        }
+
+        /* Custom Navigation */
+        .sc-nav-buttons {
+            position: absolute;
+            top: 0;
+            right: 0;
+            /* Align to right edge */
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .sc-nav-btn {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: serif;
+            font-size: 1.2rem;
+            background: #fff;
+            color: #333;
+        }
+
+        .sc-nav-btn:hover {
+            border-color: #333;
+            color: #000;
+            background: #f9f9f9;
+        }
+
+        .sc-nav-btn.swiper-button-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* --- Plugin Styles End --- */
+    </style>
+</head>
+
+<body>
+
+    <div class="page-container">
+        <!-- 
+            Simulated Shortcode Output 
+            data-slides-desktop="3" means 3 slides on large screens
+            data-slides-tablet="2" means 2 slides on tablets
+            data-slides-mobile="1" means 1 slide on mobile
+        -->
+        <div class="sc-carrusel-container" data-slides-desktop="3.5" data-slides-tablet="2.5" data-slides-mobile="1.5">
+
+            <!-- Custom Nav -->
+            <div class="sc-nav-buttons">
+                <div class="sc-nav-btn swiper-prev-custom">&lt;</div>
+                <div class="sc-nav-btn swiper-next-custom">&gt;</div>
+            </div>
+
+            <div class="swiper sc-carrusel">
+                <div class="swiper-wrapper">
+                    <!-- Cards replicated for carousel effect -->
+                    <div class="swiper-slide sc-slide">
+                        <div class="sc-card">
+                            <div class="sc-card-image"><img src="https://picsum.photos/id/10/400/300" class="sc-image">
+                            </div>
+                            <div class="sc-card-content">
+                                <h3 class="sc-card-title">Patrocinios</h3>
+                                <div class="sc-card-excerpt">
+                                    <p>Vinculación estratégica entre marcas líderes.</p>
+                                </div>
+                                <div class="sc-card-footer">
+                                    <span class="sc-card-button">CONSULTAR &rarr;</span>
+                                    <div class="sc-card-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide sc-slide">
+                        <div class="sc-card">
+                            <div class="sc-card-image"><img src="https://picsum.photos/id/20/400/300" class="sc-image">
+                            </div>
+                            <div class="sc-card-content">
+                                <h3 class="sc-card-title">Talento</h3>
+                                <div class="sc-card-excerpt">
+                                    <p>Gestión profesional de perfiles públicos.</p>
+                                </div>
+                                <div class="sc-card-footer">
+                                    <span class="sc-card-button">CONSULTAR &rarr;</span>
+                                    <div class="sc-card-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide sc-slide">
+                        <div class="sc-card">
+                            <div class="sc-card-image"><img src="https://picsum.photos/id/30/400/300" class="sc-image">
+                            </div>
+                            <div class="sc-card-content">
+                                <h3 class="sc-card-title">Marca</h3>
+                                <div class="sc-card-excerpt">
+                                    <p>Expansión de imagen corporativa digital.</p>
+                                </div>
+                                <div class="sc-card-footer">
+                                    <span class="sc-card-button">CONSULTAR &rarr;</span>
+                                    <div class="sc-card-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide sc-slide">
+                        <div class="sc-card">
+                            <div class="sc-card-image"><img src="https://picsum.photos/id/40/400/300" class="sc-image">
+                            </div>
+                            <div class="sc-card-content">
+                                <h3 class="sc-card-title">Consultoría</h3>
+                                <div class="sc-card-excerpt">
+                                    <p>Estrategias integrales para el crecimiento.</p>
+                                </div>
+                                <div class="sc-card-footer">
+                                    <span class="sc-card-button">CONSULTAR &rarr;</span>
+                                    <div class="sc-card-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.querySelector('.sc-carrusel-container');
+
+            // Allow these to be defined by shortcode (data attributes)
+            const slidesDesktop = parseFloat(container.getAttribute('data-slides-desktop')) || 3;
+            const slidesTablet = parseFloat(container.getAttribute('data-slides-tablet')) || 2;
+            const slidesMobile = parseFloat(container.getAttribute('data-slides-mobile')) || 1;
+
+            const swiper = new Swiper('.sc-carrusel', {
+                loop: true,
+                spaceBetween: 30,
+                navigation: {
+                    nextEl: '.swiper-next-custom',
+                    prevEl: '.swiper-prev-custom',
+                },
+                breakpoints: {
+                    // Mobile (Default)
+                    0: {
+                        slidesPerView: slidesMobile,
+                        spaceBetween: 20
+                    },
+                    // Tablet
+                    768: {
+                        slidesPerView: slidesTablet,
+                        spaceBetween: 30
+                    },
+                    // Desktop
+                    1024: {
+                        slidesPerView: slidesDesktop,
+                        spaceBetween: 30
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

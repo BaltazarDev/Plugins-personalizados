@@ -1,0 +1,321 @@
+<!-- 
+  ARCHIVO LISTO PARA WORDPRESS / ELEMENTOR
+  
+  Instrucciones:
+  1. Copia todo el contenido de este archivo.
+  2. Pégalo en un bloque "HTML Personalizado" en Elementor o úsalo como base para tu plugin.
+  3. Puedes modificar las imágenes y textos directamente en la sección HTML de abajo.
+-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Importar fuente Inter (necesario para el estilo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS CSS --- */
+
+        /* Contenedor principal: Define la altura del scroll (250vh = 2.5 veces la altura de pantalla) */
+        #wp-marquee-root {
+            position: relative;
+            height: 250vh;
+            background-color: transparent;
+            color: black;
+            font-family: 'Inter', sans-serif;
+            overflow: visible;
+            /* Importante para que el sticky funcione */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sticky Wrapper: Mantiene el contenido visible mientras se hace scroll en el contenedor padre */
+        .wp-sticky-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Texto Marquesina (Horizontal) */
+        .wp-marquee-text {
+            position: absolute;
+            white-space: nowrap;
+            z-index: 20;
+            pointer-events: none;
+            /* Permite clickear lo que esté detrás si fuera necesario */
+            will-change: transform;
+            /* Centrado inicial */
+            left: 50%;
+            transform: translateX(0%);
+            /* Se modificará con JS */
+        }
+
+        .wp-marquee-h1 {
+            font-size: 20vw;
+            /* Tamaño responsivo grande */
+            font-weight: 900;
+            text-transform: uppercase;
+            color: black;
+            margin: 0;
+            line-height: 1;
+            mix-blend-mode: difference;
+            /* Efecto de mezcla de colores */
+            letter-spacing: -0.05em;
+        }
+
+        @media (min-width: 768px) {
+            .wp-marquee-h1 {
+                font-size: 25vw;
+            }
+        }
+
+        /* Contenedor de las imágenes parallax */
+        .wp-images-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            pointer-events: none;
+        }
+
+        /* Cada item individual (tarjeta) */
+        .wp-parallax-item {
+            position: absolute;
+            top: 0;
+            /* Se moverán con transform translateY en JS */
+            width: 40vw;
+            /* Ancho en móvil */
+            aspect-ratio: 3/4;
+            will-change: transform;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .wp-parallax-item {
+                width: 20vw;
+            }
+
+            /* Ancho en escritorio */
+        }
+
+        .wp-parallax-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            background-color: #222;
+        }
+
+        .wp-parallax-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+
+        /* Efecto al pasar el mouse (opcional, requiere pointer-events: auto en el item) */
+        .wp-parallax-inner:hover img {
+            filter: grayscale(0%);
+        }
+
+        /* Etiquetas (Badges) */
+        .wp-badge {
+            position: absolute;
+            bottom: 20px;
+            right: -10px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            border-top-left-radius: 99px;
+            border-bottom-left-radius: 99px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            font-family: sans-serif;
+        }
+
+        /* Clases de utilidad para colores */
+        .wp-bg-blue {
+            background-color: #2563eb;
+        }
+
+        .wp-bg-pink {
+            background-color: #db2777;
+        }
+
+        .wp-bg-orange {
+            background-color: #f97316;
+        }
+
+        .wp-bg-purple {
+            background-color: #9333ea;
+        }
+
+        .wp-bg-green {
+            background-color: #16a34a;
+        }
+
+        .wp-bg-yellow {
+            background-color: #eab308;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- --- ESTRUCTURA HTML --- -->
+    <!-- Puedes editar los textos, URLs de imágenes y posiciones aquí directamente -->
+
+    <div id="wp-marquee-root">
+        <div class="wp-sticky-wrapper">
+
+            <!-- 1. TEXTO MARQUESINA -->
+            <div class="wp-marquee-text" id="marquee-target">
+                <h1 class="wp-marquee-h1">ROSTER</h1>
+            </div>
+
+            <!-- 2. IMÁGENES PARALLAX -->
+            <!-- 
+       data-start: Qué tan abajo empieza (0 = arriba, 200 = muy abajo)
+       data-speed: Velocidad relativa (1.0 es normal)
+       style="left: ...": Posición horizontal
+       style="z-index: ...": Capa (encima o debajo del texto)
+    -->
+            <div class="wp-images-container">
+
+                <!-- LIAM -->
+                <div class="wp-parallax-item" data-start="10" style="left: 3%; z-index: 30;">
+                    <div class="wp-parallax-inner">
+                        <img src="https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/talent1.png" alt="Liam" />
+                        <div class="wp-badge wp-bg-blue">Talento 1</div>
+                    </div>
+                </div>
+
+                <!-- MAYA -->
+                <div class="wp-parallax-item" data-start="70" style="left: 53%; z-index: 10;">
+                    <div class="wp-parallax-inner">
+                        <img src="https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/talent1.png" alt="Maya" />
+                        <div class="wp-badge wp-bg-pink">Talento 2</div>
+                    </div>
+                </div>
+
+                <!-- JOHN -->
+                <div class="wp-parallax-item" data-start="130" style="left: 28%; z-index: 10;">
+                    <div class="wp-parallax-inner">
+                        <img src="https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/talent1.png" alt="John" />
+                        <div class="wp-badge wp-bg-orange">Talento 3</div>
+                    </div>
+                </div>
+
+                <!-- ELENA -->
+                <div class="wp-parallax-item" data-start="40" style="left: 78%; z-index: 30;">
+                    <div class="wp-parallax-inner">
+                        <img src="https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/talent1.png" alt="Elena" />
+                        <div class="wp-badge wp-bg-purple">Talento 4</div>
+                    </div>
+                </div>
+
+                <!-- DAVID -->
+                <div class="wp-parallax-item" data-start="100" style="left: 28%; z-index: 30;">
+                    <div class="wp-parallax-inner">
+                        <img src="https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/talent1.png" alt="David" />
+                        <div class="wp-badge wp-bg-green">Talento 5</div>
+                    </div>
+                </div>
+
+                <!-- SARAH -->
+                <div class="wp-parallax-item" data-start="85" style="left: 78%; z-index: 10;">
+                    <div class="wp-parallax-inner">
+                        <img src="https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/talent1.png" alt="Sarah" />
+                        <div class="wp-badge wp-bg-yellow">Talento 6</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- --- LÓGICA JAVASCRIPT --- -->
+    <script>
+        (function () {
+            // Selectores
+            const root = document.getElementById('wp-marquee-root');
+            const text = document.getElementById('marquee-target');
+            const items = document.querySelectorAll('.wp-parallax-item');
+
+            // Función principal de animación
+            function onScroll() {
+                if (!root) return;
+
+                const rect = root.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+
+                // Calculamos el progreso (0 a 1)
+                // 0 = El inicio de la sección toca el top del viewport
+                // 1 = El final de la sección toca el top del viewport (aproximadamente)
+                const scrollableDistance = root.offsetHeight - viewportHeight;
+                const scrolled = -rect.top;
+
+                // Normalizamos el progreso entre 0 y 1
+                let progress = 0;
+                if (scrollableDistance > 0) {
+                    progress = scrolled / scrollableDistance;
+                }
+
+                // Limitamos (Clamp) el progreso para que no se anime fuera de rango
+                // Permitimos un pequeño margen negativo/positivo para suavidad
+                if (progress < 0) progress = 0;
+                if (progress > 1) progress = 1;
+
+                // --- ANIMACIÓN 1: TEXTO MARQUESINA ---
+                // Mueve el texto de derecha a izquierda
+                // Ajustar los valores numéricos para cambiar donde empieza/termina
+                const startX = 20;  // Empieza más cerca del centro (20%)
+                const endX = -120;  // Termina fuera a la izquierda (-120%)
+                const currentX = startX + (progress * (endX - startX));
+
+                text.style.transform = `translateX(${currentX}%)`;
+
+                // --- ANIMACIÓN 2: IMÁGENES PARALLAX ---
+                items.forEach(item => {
+                    // Leemos la configuración de cada item desde el HTML
+                    const startOffset = parseFloat(item.getAttribute('data-start')) || 0;
+
+                    // Lógica Parallax:
+                    // StartY: Empieza abajo (80% + su offset personal)
+                    // EndY: Termina arriba (negativo)
+
+                    const startY = 120 + startOffset;
+                    const endY = -(60 + startOffset + 20); // Ajustado para mejor separación
+
+                    const currentY = startY + (progress * (endY - startY));
+
+                    item.style.transform = `translateY(${currentY}%)`;
+                });
+            }
+
+            // Listeners
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+
+            // Inicialización inmediata
+            onScroll();
+        })();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roster Creative Collective | Premium Scroll</title>
+  
+  <!-- Estilos y Fuentes -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #000;
+      --text-color: #fff;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Smooth Scroll (Lenis) styles */
+    html.lenis {
+      height: auto;
+    }
+    .lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis-stopped {
+      overflow: hidden;
+    }
+
+    /* Roster Section */
+    #roster-section {
+      position: relative;
+      height: 2500vh; /* Altura para máxima separación */
+      background-color: #000;
+    }
+
+    .sticky-wrapper {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .marquee-container {
+      position: absolute;
+      white-space: nowrap;
+      z-index: 20;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    .marquee-h1 {
+      font-size: 60vw;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      opacity: 0.8;
+      mix-blend-mode: difference;
+    }
+
+    .images-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: 2000px;
+      margin: 0 auto;
+      pointer-events: none;
+    }
+
+    .parallax-card {
+      position: absolute;
+      top: 0;
+      width: 48vw;
+      aspect-ratio: 3/4;
+      will-change: transform, opacity;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    @media (min-width: 768px) {
+      .parallax-card { width: 24vw; }
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px -20px rgba(0,0,0,1);
+      background-color: #111;
+      pointer-events: auto; /* Permite hover */
+    }
+
+    .card-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%) brightness(0.5);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .parallax-card:hover .card-inner img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.1);
+    }
+
+    .card-badge {
+      position: absolute;
+      bottom: 10%;
+      right: -10px;
+      padding: 12px 30px;
+      color: white;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: clamp(14px, 1.5vw, 24px);
+      border-top-left-radius: 99px;
+      border-bottom-left-radius: 99px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Colores de badges */
+    .bg-blue { background: #2563eb; }
+    .bg-pink { background: #db2777; }
+    .bg-orange { background: #f97316; }
+    .bg-purple { background: #9333ea; }
+    .bg-green { background: #16a34a; }
+    .bg-yellow { background: #eab308; }
+
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "framer-motion": "https://esm.sh/framer-motion@^12.34.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "lenis/": "https://esm.sh/lenis@^1.3.17/"
+  }
+}
+</script>
+</head>
+<body>
+
+  <!-- 1. HERO SECTION -->
+  <section class="h-screen w-full flex flex-col justify-center items-center bg-neutral-950 text-white border-b border-neutral-900 px-6">
+    <div class="text-center">
+      <h2 class="text-xs md:text-sm font-bold tracking-[0.6em] text-neutral-500 mb-8 uppercase">
+        Digital Experience Agency
+      </h2>
+      <h1 class="text-6xl md:text-[10rem] font-black mb-10 tracking-tighter leading-none">
+        ROSTER<br />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
+          DESIGN
+        </span>
+      </h1>
+      <p class="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto mb-12">
+        Desliza para explorar nuestro talento. Una experiencia inmersiva que mezcla tipografía horizontal con profundidad vertical.
+      </p>
+      <div class="flex items-center justify-center gap-4 animate-bounce opacity-50">
+        <span class="text-sm font-bold uppercase tracking-widest">Scroll Down</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ROSTER SECTION (The Core) -->
+  <section id="roster-section">
+    <div class="sticky-wrapper">
+      
+      <!-- Texto Horizontal -->
+      <div class="marquee-container" id="marquee-text">
+        <h1 class="marquee-h1">ROSTER</h1>
+      </div>
+
+      <!-- Capa de Imágenes -->
+      <div class="images-layer" id="cards-container">
+        <!-- Generado por JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. FOOTER SECTION -->
+  <section class="h-screen w-full flex flex-col justify-center items-center bg-white text-black relative z-50">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-6xl md:text-8xl font-black mb-10 tracking-tighter">
+        READY TO<br/>EVOLVE?
+      </h2>
+      <p class="text-xl text-neutral-600 mb-12 max-w-xl mx-auto">
+        El viaje de scroll ha terminado, pero nuestra colaboración apenas comienza. ¿Hablamos?
+      </p>
+      <div class="flex flex-wrap gap-6 justify-center">
+        <button class="px-12 py-5 bg-black text-white text-lg font-bold rounded-full hover:scale-105 transition-all shadow-xl">
+          Contactar Ahora
+        </button>
+        <button class="px-12 py-5 border-2 border-black text-lg font-bold rounded-full hover:bg-neutral-100 transition-all">
+          Ver Portafolio
+        </button>
+      </div>
+    </div>
+    <footer class="absolute bottom-10 w-full text-center text-neutral-400 font-medium text-sm">
+      © 2025 CREATIVE COLLECTIVE. STANDALONE HTML VERSION.
+    </footer>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+  
+  <script>
+    // 1. Configurar Lenis para Smooth Scroll Premium
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // 2. Generar Datos del Roster
+    const container = document.getElementById('cards-container');
+    const marquee = document.getElementById('marquee-text');
+    const rosterSection = document.getElementById('roster-section');
+    
+    const colors = ["bg-blue", "bg-pink", "bg-orange", "bg-purple", "bg-green", "bg-yellow"];
+    const columns = [5, 30, 55, 80];
+    const talentImg = "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/talent1.png";
+
+    // Creamos las 21 tarjetas
+    for(let i=1; i<=21; i++) {
+      const card = document.createElement('div');
+      card.className = 'parallax-card';
+      
+      // Seed de posición para el efecto staggered
+      const startPos = (i-1) * 160; 
+      card.setAttribute('data-start', startPos);
+      
+      // Posicionamiento horizontal con un poco de aleatoriedad orgánica
+      const baseLeft = columns[(i-1) % 4];
+      const offset = Math.sin(i) * 10;
+      card.style.left = (baseLeft + offset) + "%";
+      
+      // Z-Index alternado para cruzar delante/detrás del texto
+      card.style.zIndex = (i % 3 === 0) ? "30" : "10";
+      
+      // Rotación sutil
+      card.style.transform = `rotate(${(i % 3 - 1) * 4}deg)`;
+      
+      const flip = (i % 2 === 0) ? 'style="transform: scaleX(-1)"' : '';
+      
+      card.innerHTML = `
+        <div class="card-inner">
+          <img src="${talentImg}" alt="Talento ${i}" ${flip} />
+          <div class="card-badge ${colors[(i-1) % 6]}">TALENTO ${i}</div>
+        </div>
+      `;
+      container.appendChild(card);
+    }
+
+    const cards = document.querySelectorAll('.parallax-card');
+
+    // 3. Lógica de Scroll y Animación
+    function updateAnimations() {
+      const rect = rosterSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const scrollableHeight = rosterSection.offsetHeight - viewportHeight;
+      
+      // Progreso del 0 al 1 dentro de la sección Roster
+      let progress = (-rect.top) / scrollableHeight;
+      progress = Math.max(0, Math.min(1, progress));
+
+      // Animación del Texto (Horizontal)
+      // Viaja de 150% (fuera a la derecha) a -1100% (lejos a la izquierda)
+      const xTranslate = 150 - (progress * 1250);
+      marquee.style.transform = `translateX(${xTranslate}%)`;
+
+      // Animación de las Tarjetas (Vertical + Opacidad)
+      cards.forEach(card => {
+        const startOffset = parseFloat(card.getAttribute('data-start'));
+        
+        // Calculamos la posición vertical
+        // Empiezan a 150% (abajo) y terminan muy arriba
+        const startY = 150 + startOffset;
+        const endY = -(150 + startOffset + 250);
+        const currentY = startY + (progress * (endY - startY));
+
+        card.style.transform = `translateY(${currentY}%) rotate(${(parseFloat(card.getAttribute('data-start')) % 3 - 1) * 4}deg)`;
+
+        // Lógica de Opacidad Estable (Evita acumulación arriba)
+        // 1. La tarjeta es invisible si está por debajo de la pantalla (y > 150)
+        // 2. Es visible en el centro (y entre -150 y 100)
+        // 3. Se desvanece si sube demasiado (y < -150)
+        let op = 0;
+        if (currentY <= 200 && currentY >= -250) {
+          if (currentY > 100) {
+            // Entrando desde abajo
+            op = (200 - currentY) / 100;
+          } else if (currentY < -150) {
+            // Saliendo por arriba (Fade Out)
+            op = (currentY + 250) / 100;
+          } else {
+            // Plena visibilidad en el centro
+            op = 1;
+          }
+        }
+        
+        card.style.opacity = Math.max(0, Math.min(1, op));
+      });
+    }
+
+    // Escuchar el scroll de Lenis o el nativo
+    window.addEventListener('scroll', updateAnimations, { passive: true });
+    window.addEventListener('resize', updateAnimations);
+    
+    // Ejecución inicial
+    updateAnimations();
+
+  </script>
+</body>
+</html>

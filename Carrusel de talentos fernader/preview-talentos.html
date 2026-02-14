@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Carrusel Talentos</title>
+    <!-- Elementor-like reset -->
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #f9f9f9;
+            padding: 50px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+    <!-- Swiper CSS (CDN) -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/talentos-style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Structure matching shortcode output -->
+    <div class="tc-carrusel-container" data-slides-desktop="3" data-slides-tablet="2" data-slides-mobile="1">
+
+        <!-- Custom Nav -->
+        <div class="tc-nav-buttons">
+            <div class="tc-nav-btn swiper-prev-custom">&lt;</div>
+            <div class="tc-nav-btn swiper-next-custom">&gt;</div>
+        </div>
+
+        <div class="swiper tc-carrusel">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide tc-slide">
+                    <div class="tc-card">
+                        <div class="tc-card-image">
+                            <img src="https://via.placeholder.com/400x500" class="tc-image" alt="Talento 1">
+                        </div>
+                        <div class="tc-card-content">
+                            <h3 class="tc-card-title">Marco Antonio Regil</h3>
+                            <div class="tc-card-excerpt">
+                                <p>BIENESTAR | PODCAST | SPEAKER</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="swiper-slide tc-slide">
+                    <div class="tc-card">
+                        <div class="tc-card-image">
+                            <img src="https://via.placeholder.com/400x500" class="tc-image" alt="Talento 2">
+                        </div>
+                        <div class="tc-card-content">
+                            <h3 class="tc-card-title">Mara Patricia</h3>
+                            <div class="tc-card-excerpt">
+                                <p>PERIODISTA | CREADORA DIGITAL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="swiper-slide tc-slide">
+                    <div class="tc-card">
+                        <div class="tc-card-image">
+                            <img src="https://via.placeholder.com/400x500" class="tc-image" alt="Talento 3">
+                        </div>
+                        <div class="tc-card-content">
+                            <h3 class="tc-card-title">Silvia Olmedo</h3>
+                            <div class="tc-card-excerpt">
+                                <p>PSICÓLOGA | AUTORA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 4 -->
+                <div class="swiper-slide tc-slide">
+                    <div class="tc-card">
+                        <div class="tc-card-image">
+                            <img src="https://via.placeholder.com/400x500" class="tc-image" alt="Talento 4">
+                        </div>
+                        <div class="tc-card-content">
+                            <h3 class="tc-card-title">Otro Talento</h3>
+                            <div class="tc-card-excerpt">
+                                <p>ACTOR | COMEDIANTE</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- jQuery (required for our script) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Swiper JS (CDN) -->
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/talentos-script.js"></script>
+
+</body>
+
+</html>

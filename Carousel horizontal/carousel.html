@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Scroll Carousel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            overflow-x: hidden;
+        }
+
+        /* 
+           The container is tall enough to allow for scrolling "time".
+           Higher value = slower scroll.
+        */
+        .carousel-section {
+            height: 400vh;
+            position: relative;
+        }
+
+        .sticky-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            background-color: #000;
+        }
+
+        .horizontal-track {
+            display: flex;
+            width: max-content;
+            height: 100%;
+            will-change: transform;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .slide img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.6) contrast(1.1);
+            /* Match the polished aesthetic */
+            transition: transform 0.7s ease;
+        }
+
+        .slide:hover img {
+            transform: scale(1.05);
+            /* Subtle zoom effect on hover */
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 2rem;
+            max-width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            /* Align text to left like design */
+            text-align: left;
+        }
+
+        /* Typography matching the uploaded image */
+        .slide-title {
+            font-family: 'Didot', 'Playfair Display', serif;
+            /* Fallback to serif for elegance */
+            font-size: 5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .consultar-btn {
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding-bottom: 5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .consultar-btn:hover {
+            border-bottom-color: white;
+            letter-spacing: 0.25rem;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrows {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-arrow:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel-section" id="carousel-section">
+        <div class="sticky-wrapper"> <!-- Navigation UI -->
+            <div class="nav-arrows">
+                <div class="nav-arrow" id="prev-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
+                </div>
+                <div class="nav-arrow" id="next-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </div>
+            </div>
+            <div class="horizontal-track" id="track"> <!-- Slide 1 -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        alt="Public Relations">
+                    <div class="slide-content mb-8 ml-8 absolute bottom-0 left-0">
+                        <h2 class="slide-title">Public<br>Relations</h2>
+                        <a href="#" class="consultar-btn">Consultar <span class="text-lg">→</span></a>
+                    </div>
+                </div> <!-- Slide 2 -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        alt="Strategy">
+                    <div class="slide-content mb-8 ml-8 absolute bottom-0 left-0">
+                        <h2 class="slide-title">Digital<br>Strategy</h2>
+                        <a href="#" class="consultar-btn">Consultar <span class="text-lg">→</span></a>
+                    </div>
+                </div> <!-- Slide 3 -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        alt="Team">
+                    <div class="slide-content mb-8 ml-8 absolute bottom-0 left-0">
+                        <h2 class="slide-title">Brand<br>Identity</h2>
+                        <a href="#" class="consultar-btn">Consultar <span class="text-lg">→</span></a>
+                    </div>
+                </div> <!-- Slide 4 -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        alt="Design">
+                    <div class="slide-content mb-8 ml-8 absolute bottom-0 left-0">
+                        <h2 class="slide-title">Creative<br>Design</h2>
+                        <a href="#" class="consultar-btn">Consultar <span class="text-lg">→</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const section = document.getElementById('carousel-section');
+            const track = document.getElementById('track');            // Buttons just for programmed scrolling if needed, 
+            // but the main interaction is scroll-based.
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn'); function handleScroll() {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const viewportHeight = window.innerHeight;
+                const scrollY = window.scrollY; const start = sectionTop;
+                const end = sectionTop + sectionHeight - viewportHeight;
+                const scrollDistance = sectionHeight - viewportHeight; if (scrollY >= start && scrollY <= end) {
+                    const progress = (scrollY - start) / scrollDistance;
+                    const trackWidth = track.scrollWidth;
+                    const maxTranslate = trackWidth - window.innerWidth;
+                    const translateX = progress * maxTranslate; track.style.transform = `translateX(-${translateX}px)`;
+                } else if (scrollY < start) {
+                    track.style.transform = `translateX(0px)`;
+                } else if (scrollY > end) {
+                    const trackWidth = track.scrollWidth;
+                    const maxTranslate = trackWidth - window.innerWidth;
+                    track.style.transform = `translateX(-${maxTranslate}px)`;
+                }
+            }            // Add smooth scrolling logic for buttons
+            // They will just scroll the window to the appropriate position
+            nextBtn.addEventListener('click', () => {
+                const currentScroll = window.scrollY;
+                const sectionTop = section.offsetTop;
+                // Move down by a chunk
+                window.scrollTo({
+                    top: currentScroll + window.innerHeight,
+                    behavior: 'smooth'
+                });
+            }); prevBtn.addEventListener('click', () => {
+                const currentScroll = window.scrollY;
+                window.scrollTo({
+                    top: currentScroll - window.innerHeight,
+                    behavior: 'smooth'
+                });
+            }); window.addEventListener('scroll', () => requestAnimationFrame(handleScroll));
+            window.addEventListener('resize', handleScroll);
+            handleScroll();
+        });
+    </script>
+</body>
+
+</html>
