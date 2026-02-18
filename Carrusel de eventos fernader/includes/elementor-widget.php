@@ -108,6 +108,19 @@ function ec_register_elementor_widget($widgets_manager) {
                 ]
             );
             
+            $this->add_control(
+                'mostrar_todos',
+                [
+                    'label' => __('Mostrar Todos los Eventos', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::SWITCHER,
+                    'label_on' => __('Sí', 'eventos-carrusel'),
+                    'label_off' => __('No', 'eventos-carrusel'),
+                    'return_value' => 'yes',
+                    'default' => '',
+                    'description' => __('Activar para mostrar todos los eventos sin filtrar por fecha (incluye eventos pasados).', 'eventos-carrusel'),
+                ]
+            );
+            
 
             
             $this->end_controls_section();
@@ -446,6 +459,10 @@ function ec_register_elementor_widget($widgets_manager) {
             
             $shortcode_atts[] = 'orderby="' . esc_attr($settings['orderby']) . '"';
             $shortcode_atts[] = 'order="' . esc_attr($settings['order']) . '"';
+            
+            if ($settings['mostrar_todos'] === 'yes') {
+                $shortcode_atts[] = 'mostrar_todos="yes"';
+            }
             
             $shortcode = '[carrusel_eventos ' . implode(' ', $shortcode_atts) . ']';
             

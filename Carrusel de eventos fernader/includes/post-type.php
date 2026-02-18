@@ -35,7 +35,7 @@ function ec_register_post_type() {
         'show_in_admin_bar' => true,
         'menu_position' => 5,
         'menu_icon' => 'dashicons-calendar-alt',
-        'supports' => array('title', 'editor', 'thumbnail'),
+        'supports' => array('title', 'editor', 'thumbnail', 'custom-fields'),
         'rewrite' => array('slug' => 'eventos'),
         'capability_type' => 'post',
     );
@@ -72,3 +72,56 @@ function ec_register_taxonomy() {
     register_taxonomy('ubicacion_evento', array('eventos'), $args);
 }
 add_action('init', 'ec_register_taxonomy');
+
+// Agregar Metabox para Fecha del Evento
+function ec_add_evento_fecha_metabox() {
+    add_meta_box(
+        'ec_evento_fecha',
+        __('Fecha del Evento', 'eventos-carrusel'),
+        'ec_evento_fecha_callback',
+        'eventos',
+        'side',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'ec_add_evento_fecha_metabox');
+
+// Callback del Metabox
+function ec_evento_fecha_callback($post) {
+    wp_nonce_field('ec_save_evento_fecha', 'ec_evento_fecha_nonce');
+    $fecha = get_post_meta($post->ID, '_evento_fecha', true);
+    ?>
+    <p>
+        <label for="evento_fecha"><?php _e('Fecha del evento:', 'eventos-carrusel'); ?></label><br>
+        <input type="date" id="evento_fecha" name="evento_fecha" value="<?php echo esc_attr($fecha); ?>" style="width: 100%;">
+    </p>
+    <p class="description">
+        <?php _e('Selecciona la fecha en que se realizará o se realizó el evento.', 'eventos-carrusel'); ?>
+    </p>
+    <?php
+}
+
+// Guardar la Fecha del Evento
+function ec_save_evento_fecha($post_id) {
+    // Verificar nonce
+    if (!isset($_POST['ec_evento_fecha_nonce']) || !wp_verify_nonce($_POST['ec_evento_fecha_nonce'], 'ec_save_evento_fecha')) {
+        return;
+    }
+
+    // Verificar autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Verificar permisos
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Guardar la fecha
+    if (isset($_POST['evento_fecha'])) {
+        update_post_meta($post_id, '_evento_fecha', sanitize_text_field($_POST['evento_fecha']));
+    }
+}
+add_action('save_post_eventos', 'ec_save_evento_fecha');
+

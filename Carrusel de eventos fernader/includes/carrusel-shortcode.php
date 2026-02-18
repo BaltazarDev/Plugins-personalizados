@@ -10,6 +10,7 @@ function ec_carrusel_eventos_shortcode($atts) {
         'posts_per_page' => 6,
         'orderby' => 'date',
         'order' => 'DESC',
+        'mostrar_todos' => '',
     ), $atts, 'carrusel_eventos');
     
     // Argumentos de la consulta
@@ -29,6 +30,25 @@ function ec_carrusel_eventos_shortcode($atts) {
                 'terms' => $atts['ubicacion'],
             ),
         );
+    }
+    
+    // Filtrar solo eventos futuros (incluyendo hoy) SI NO está activado "mostrar_todos"
+    if ($atts['mostrar_todos'] !== 'yes') {
+        $args['meta_query'] = array(
+            array(
+                'key' => '_evento_fecha',
+                'value' => date('Y-m-d'), // Fecha de hoy
+                'compare' => '>=',
+                'type' => 'DATE'
+            )
+        );
+        
+        // Ordenar por fecha del evento si orderby es 'date'
+        if ($atts['orderby'] === 'date') {
+            $args['meta_key'] = '_evento_fecha';
+            $args['orderby'] = 'meta_value';
+            $args['order'] = 'ASC'; // Eventos más próximos primero
+        }
     }
     
     // Ejecutar la consulta
