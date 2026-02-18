@@ -121,6 +121,57 @@ function ec_register_elementor_widget($widgets_manager) {
                 ]
             );
             
+            $this->add_control(
+                'hr_button',
+                [
+                    'type' => \Elementor\Controls_Manager::DIVIDER,
+                ]
+            );
+
+            $this->add_control(
+                'button_text',
+                [
+                    'label' => __('Texto del Botón', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::TEXT,
+                    'default' => __('RSVP', 'eventos-carrusel'),
+                    'placeholder' => __('RSVP', 'eventos-carrusel'),
+                ]
+            );
+
+            $this->add_control(
+                'link_type',
+                [
+                    'label' => __('Enlace del Botón', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::SELECT,
+                    'default' => 'custom',
+                    'options' => [
+                        'permalink' => __('Detalle del Evento', 'eventos-carrusel'),
+                        'custom' => __('Personalizado / Popup', 'eventos-carrusel'),
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'button_link',
+                [
+                    'label' => __('Enlace', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::URL,
+                    'placeholder' => __('https://tursitio.com', 'eventos-carrusel'),
+                    'show_external' => true,
+                    'default' => [
+                        'url' => '#',
+                        'is_external' => false,
+                        'nofollow' => false,
+                    ],
+                    'condition' => [
+                        'link_type' => 'custom',
+                    ],
+                    'dynamic' => [
+                        'active' => true,
+                    ],
+                ]
+            );
+            
 
             
             $this->end_controls_section();
@@ -297,6 +348,52 @@ function ec_register_elementor_widget($widgets_manager) {
                 ]
             );
             
+            $this->add_control(
+                'button_width_type',
+                [
+                    'label' => __('Ancho del Botón', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::SELECT,
+                    'default' => '100%',
+                    'options' => [
+                        '100%' => __('Ancho Completo', 'eventos-carrusel'),
+                        'auto' => __('Auto (Inline)', 'eventos-carrusel'),
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .ec-rsvp-btn' => 'width: {{VALUE}};',
+                    ],
+                ]
+            );
+
+            $this->add_responsive_control(
+                'button_align',
+                [
+                    'label' => __('Alineación', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::CHOOSE,
+                    'options' => [
+                        'left' => [
+                            'title' => __('Izquierda', 'eventos-carrusel'),
+                            'icon' => 'eicon-text-align-left',
+                        ],
+                        'center' => [
+                            'title' => __('Centro', 'eventos-carrusel'),
+                            'icon' => 'eicon-text-align-center',
+                        ],
+                        'right' => [
+                            'title' => __('Derecha', 'eventos-carrusel'),
+                            'icon' => 'eicon-text-align-right',
+                        ],
+                    ],
+                    'default' => 'center',
+                    'condition' => [
+                        'button_width_type' => 'auto',
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .ec-rsvp-container' => 'text-align: {{VALUE}};',
+                    ],
+                ]
+            );
+
+            
             $this->start_controls_tabs('button_style_tabs');
             
             // Tab: Normal
@@ -462,6 +559,17 @@ function ec_register_elementor_widget($widgets_manager) {
             
             if ($settings['mostrar_todos'] === 'yes') {
                 $shortcode_atts[] = 'mostrar_todos="yes"';
+            }
+            
+            // Atributos del botón
+            $shortcode_atts[] = 'button_text="' . esc_attr($settings['button_text']) . '"';
+            $shortcode_atts[] = 'link_type="' . esc_attr($settings['link_type']) . '"';
+            
+            if ($settings['link_type'] === 'custom' && !empty($settings['button_link']['url'])) {
+                $this->add_link_attributes('button_custom_link', $settings['button_link']);
+                // Encodificar atributos para pasarlos seguros por shortcode
+                $link_attrs = base64_encode($this->get_render_attribute_string('button_custom_link'));
+                $shortcode_atts[] = 'link_attrs="' . $link_attrs . '"';
             }
             
             $shortcode = '[carrusel_eventos ' . implode(' ', $shortcode_atts) . ']';

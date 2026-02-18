@@ -11,6 +11,9 @@ function ec_carrusel_eventos_shortcode($atts) {
         'orderby' => 'date',
         'order' => 'DESC',
         'mostrar_todos' => '',
+        'button_text' => 'RSVP',
+        'link_type' => 'custom',
+        'link_attrs' => '',
     ), $atts, 'carrusel_eventos');
     
     // Argumentos de la consulta
@@ -111,7 +114,21 @@ function ec_carrusel_eventos_shortcode($atts) {
                         
                         <!-- RSVP Button -->
                         <div class="ec-rsvp-container">
-                            <button class="ec-rsvp-btn">RSVP</button>
+                            <?php
+                            $link_attributes = '';
+                            if ($atts['link_type'] === 'permalink') {
+                                $link_attributes = 'href="' . esc_url(get_permalink()) . '"';
+                            } else {
+                                if (!empty($atts['link_attrs'])) {
+                                    $link_attributes = base64_decode($atts['link_attrs']);
+                                } else {
+                                    $link_attributes = 'href="#"';
+                                }
+                            }
+                            ?>
+                            <a class="ec-rsvp-btn" <?php echo $link_attributes; ?>>
+                                <?php echo esc_html($atts['button_text']); ?>
+                            </a>
                         </div>
                     </div>
                     
