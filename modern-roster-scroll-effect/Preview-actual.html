@@ -1,0 +1,418 @@
+<!-- 
+    MODERN ROSTER SCROLL EFFECT - ESCALADO MÓVIL TIPO STORY
+    Copia todo este código en un bloque HTML de Elementor
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&family=Inter:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<style>
+    .roster-scroll-effect * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .roster-scroll-effect {
+        font-family: 'Inter', sans-serif;
+        background: transparent;
+        color: #000;
+    }
+
+    .bodoni-moda {
+        font-family: 'Bodoni Moda', serif;
+    }
+
+    /* ──────────────────────────────────────────
+       Roster Section - Altura
+    ────────────────────────────────────────── */
+    .roster-section {
+        height: 450vh;
+        position: relative;
+        background: transparent;
+    }
+
+    @media (max-width: 768px) {
+
+        /* En móvil necesitamos menos scroll porque las tarjetas ya casi llenan la pantalla */
+        .roster-section {
+            height: 350vh;
+        }
+    }
+
+    /* ──────────────────────────────────────────
+       Sticky viewport
+    ────────────────────────────────────────── */
+    .roster-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        max-height: 800px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        /* Hardware acc */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+
+    @media (max-width: 768px) {
+        .roster-sticky {
+            height: 100svh;
+            max-height: none;
+            align-items: flex-start;
+            /* Alinear arriba en móvil */
+            padding-top: 15vh;
+            /* Espacio para el título */
+        }
+    }
+
+    /* ──────────────────────────────────────────
+       Texto Marquesina
+    ────────────────────────────────────────── */
+    .marquee-text {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+        z-index: 10;
+        will-change: transform;
+    }
+
+    .marquee-text h2 {
+        font-size: 37vw;
+        line-height: 0.8;
+        letter-spacing: -0.05em;
+        text-transform: uppercase;
+        color: #000;
+        opacity: 0.3;
+    }
+
+    @media (max-width: 768px) {
+        .marquee-text {
+            top: 10%;
+            /* Título más arriba en móvil */
+            transform: none;
+        }
+
+        .marquee-text h2 {
+            font-size: 18vw;
+            /* Más pequeño para que no tape todo */
+            opacity: 1;
+            /* Más visible */
+        }
+    }
+
+    /* ──────────────────────────────────────────
+       Contenedor de Tarjetas
+    ────────────────────────────────────────── */
+    .cards-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        max-width: 1920px;
+        margin: 0 auto;
+        pointer-events: none;
+    }
+
+    /* ──────────────────────────────────────────
+       Tarjeta de Persona (Desktop = Absolute)
+    ────────────────────────────────────────── */
+    .person-card {
+        position: absolute;
+        pointer-events: auto;
+        width: 16vw;
+        will-change: transform;
+    }
+
+    /* ──────────────────────────────────────────
+       MÓVIL: Grid Layout (Story Style)
+    ────────────────────────────────────────── */
+    @media (max-width: 768px) {
+        .cards-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* 2 Columnas */
+            gap: 15px;
+            padding: 0 15px;
+            align-content: start;
+            /* Empiezan arriba */
+            height: auto;
+            /* Altura automática */
+            width: 100%;
+        }
+
+        .person-card {
+            position: relative !important;
+            /* Grid controla la posición */
+            left: auto !important;
+            top: auto !important;
+            width: 100% !important;
+            /* Llenar la celda */
+            min-width: 0 !important;
+        }
+
+        /* Escalonado: columna derecha baja un poco */
+        .person-card:nth-child(even) {
+            transform: translateY(40px);
+        }
+    }
+
+    .card-inner {
+        position: relative;
+    }
+
+    .card-image-wrapper {
+        overflow: hidden;
+        border-radius: 4px;
+        background: #18181b;
+        box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+        transition: transform 0.5s ease;
+    }
+
+    /* ──────────────────────────────────────────
+       Imagen
+    ────────────────────────────────────────── */
+    .card-image {
+        width: 100%;
+        height: auto;
+        /* Default Desktop: 3/4 */
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* MÓVIL: Aspecto Story (9/16) */
+    @media (max-width: 768px) {
+        .card-image {
+            aspect-ratio: 9/16;
+            /* Formato Story */
+        }
+    }
+
+    /* Desktop Hover Effects (Solo mouse) */
+    @media (hover: hover) and (pointer: fine) {
+        .card-image {
+            filter: grayscale(100%);
+            transition: filter 0.8s ease;
+        }
+
+        .person-card:hover .card-image {
+            filter: grayscale(0%);
+        }
+
+        .person-card:hover .card-image-wrapper {
+            transform: scale(1.04);
+        }
+    }
+
+    /* ──────────────────────────────────────────
+       Etiqueta de nombre
+    ────────────────────────────────────────── */
+    .card-label {
+        position: absolute;
+        bottom: -1rem;
+        left: -1rem;
+        padding: 0.5rem 1.5rem;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .card-label {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            padding: 4px 8px;
+            font-size: 9px;
+            letter-spacing: 0.05em;
+            background: rgba(0, 0, 0, 0.7) !important;
+            /* Semi-transparente estilo Story */
+            color: white !important;
+            backdrop-filter: blur(4px);
+            border-radius: 4px;
+            box-shadow: none;
+            width: auto;
+            max-width: calc(100% - 20px);
+        }
+    }
+
+    .card-label-front {
+        background: white;
+        color: black;
+    }
+
+    .card-label-back {
+        background: #27272a;
+        color: white;
+    }
+</style>
+
+<!-- HTML -->
+<div class="roster-scroll-effect">
+    <section class="roster-section" id="roster-section-elementor">
+        <div class="roster-sticky">
+            <!-- Texto Marquesina -->
+            <div class="marquee-text" id="marquee-elementor">
+                <h2 class="bodoni-moda">ROSTER</h2>
+            </div>
+
+            <!-- Contenedor -->
+            <div class="cards-container" id="cards-container-elementor">
+                <!-- JS inserta aquí -->
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- JavaScript -->
+<script>
+    (function () {
+        'use strict';
+
+        const ROSTER = [
+            { id: 1, name: "JUVE 3D", img: "https://test.baltazarg.xyz/wp-content/uploads/2026/02/10-Juve-3D-Studio.jpg", x: "8%", y: "15%", speed: 1.4, z: 20 },
+            { id: 2, name: "ADELA MICHA", img: "https://test.baltazarg.xyz/wp-content/uploads/2026/02/4-Adela-Micha.jpg", x: "32%", y: "42%", speed: 0.7, z: 5 },
+            { id: 3, name: "RAFA JAIME", img: "https://test.baltazarg.xyz/wp-content/uploads/2026/02/15.1-Rafa-Jaime.jpg", x: "56%", y: "18%", speed: 1.2, z: 20 },
+            { id: 4, name: "PATRICIA GUERRA", img: "https://test.baltazarg.xyz/wp-content/uploads/2026/02/14-Patricia-Guerra.jpg", x: "14%", y: "60%", speed: 1.0, z: 5 },
+            { id: 5, name: "DR. NIRDOSH KOHRA", img: "https://test.baltazarg.xyz/wp-content/uploads/2026/02/18-Dr-Nirdosh-Kohra.jpg", x: "74%", y: "55%", speed: 1.8, z: 20 },
+            { id: 6, name: "FERNANDA ALVAREZ", img: "https://test.baltazarg.xyz/wp-content/uploads/2026/02/20-Fernanda-Alvarez.jpg", x: "76%", y: "18%", speed: 0.5, z: 5 },
+            { id: 7, name: "Paola Rojas", img: "https://test.baltazarg.xyz/wp-content/uploads/2026/02/7-Paola-Rojas.jpeg", x: "55%", y: "75%", speed: 0.6, z: 2 }
+        ];
+
+        const cardsContainer = document.getElementById('cards-container-elementor');
+        if (!cardsContainer) return;
+
+        ROSTER.forEach(person => {
+            const card = document.createElement('div');
+            card.className = 'person-card';
+
+            // Solo aplicamos posiciones absolutas si es desktop (>768px)
+            // En móvil, el CSS Grid se encarga
+            if (window.innerWidth > 768) {
+                card.style.left = person.x;
+                card.style.top = person.y;
+            }
+
+            card.style.zIndex = person.z;
+            card.dataset.speed = person.speed;
+
+            const labelClass = person.z > 10 ? 'card-label-front' : 'card-label-back';
+
+            card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-image-wrapper">
+                    <img src="${person.img}" alt="${person.name}" class="card-image" loading="lazy" decoding="async">
+                </div>
+                <!-- Label dentro del wrapper en móvil para estilo story -->
+                <div class="card-label ${labelClass}">
+                    ${person.name}
+                </div>
+            </div>
+            `;
+            cardsContainer.appendChild(card);
+        });
+
+        // ──────────────────────────────────────────────────
+        // Scroll Logic
+        // ──────────────────────────────────────────────────
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+        const rosterSection = document.getElementById('roster-section-elementor');
+        const marquee = document.getElementById('marquee-elementor');
+        const personCards = document.querySelectorAll('.person-card');
+
+        let currentMarqueeX = 110;
+        let targetMarqueeX = 110;
+        let ticking = false;
+        let lastProgress = -1;
+
+        function updateParallax() {
+            const rect = rosterSection.getBoundingClientRect();
+            const sectionHeight = rosterSection.offsetHeight;
+            const viewportHeight = window.innerHeight;
+            const sectionTop = rect.top;
+
+            const scrollStart = -sectionTop;
+            const scrollEnd = sectionHeight - viewportHeight;
+            let progress = scrollEnd > 0 ? scrollStart / scrollEnd : 0;
+            progress = Math.max(0, Math.min(1, progress));
+
+            if (Math.abs(progress - lastProgress) < 0.0005) {
+                ticking = false;
+                return;
+            }
+            lastProgress = progress;
+
+            // Animar solo si estamos en view
+            if (rect.bottom > 0 && rect.top < viewportHeight) {
+
+                // Marquee Lerp
+                targetMarqueeX = 110 - (progress * 220);
+                const lerpFactor = isIOS ? 0.06 : 0.12;
+                currentMarqueeX += (targetMarqueeX - currentMarqueeX) * lerpFactor;
+                marquee.style.transform = `translate3d(${currentMarqueeX.toFixed(2)}vw, 0, 0)`;
+
+                // Parallax Cards
+                const isMobile = window.innerWidth <= 768;
+
+                personCards.forEach((card, index) => {
+                    const speed = parseFloat(card.dataset.speed);
+
+                    if (isMobile) {
+                        // En móvil hacemos un parallax simple de "subida"
+                        // El grid ya las posiciona, solo las desplazamos verticalmente
+                        // un poco distinto según speed para el efecto profundidad
+                        const yMove = -150 * progress * speed;
+
+                        // Escalonado extra para columnas pares
+                        const stagger = (index % 2 === 0) ? 0 : 40;
+
+                        card.style.transform = `translate3d(0, ${yMove + stagger}px, 0)`;
+
+                    } else {
+                        // Desktop: Algoritmo original complejo
+                        const yStart = 350 * speed;
+                        const yEnd = -500 * speed;
+                        const yPos = yStart + (progress * (yEnd - yStart));
+                        card.style.transform = `translate3d(0, ${yPos.toFixed(1)}px, 0)`;
+                    }
+                });
+            }
+            ticking = false;
+        }
+
+        function onScroll() {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(updateParallax);
+            }
+        }
+
+        if (isIOS) {
+            (function iosLoop() {
+                updateParallax();
+                requestAnimationFrame(iosLoop);
+            })();
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', () => {
+            // Recargar página si cambia orientación drásticamente para resetear Grid vs Absolute
+            // onScroll();
+        }, { passive: true });
+
+        requestAnimationFrame(updateParallax);
+    })();
+</script>

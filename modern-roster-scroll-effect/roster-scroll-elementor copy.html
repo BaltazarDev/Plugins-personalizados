@@ -1,0 +1,483 @@
+<!-- 
+    MODERN ROSTER SCROLL EFFECT - VERSIÓN ORIGINAL OPTIMIZADA
+    Copia todo este código en un bloque HTML de Elementor
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&family=Inter:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<style>
+    .roster-scroll-effect * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .roster-scroll-effect {
+        font-family: 'Inter', sans-serif;
+        background: transparent;
+        color: #000;
+    }
+
+    .bodoni-moda {
+        font-family: 'Bodoni Moda', serif;
+    }
+
+    /* Roster Section - ALTURA AJUSTABLE */
+    .roster-section {
+        height: 500vh;
+        /* Desktop: scroll más lento */
+        position: relative;
+        background: transparent;
+    }
+
+    /* Ajustar altura en tablet y móvil */
+    @media (max-width: 1024px) {
+        .roster-section {
+            height: 350vh;
+            /* Tablet: scroll medio */
+        }
+    }
+
+    @media (max-width: 768px) {
+        .roster-section {
+            height: 300vh;
+            /* Móvil: scroll más rápido */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .roster-section {
+            height: 250vh;
+            /* Móvil pequeño: scroll muy rápido */
+        }
+    }
+
+
+    .roster-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        /* Fuerza GPU Layer */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        perspective: 1000px;
+    }
+
+    /* Texto Marquesina */
+    .marquee-text {
+        position: absolute;
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+        z-index: 10;
+        will-change: transform;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+
+    .marquee-text h2 {
+        font-size: 42vw;
+        line-height: 0.8;
+        letter-spacing: -0.05em;
+        text-transform: uppercase;
+        color: #000;
+        opacity: 0.3;
+    }
+
+    /* Contenedor de Tarjetas */
+    .cards-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        max-width: 1920px;
+        margin: 0 auto;
+        pointer-events: none;
+    }
+
+    /* Tarjeta de Persona */
+    .person-card {
+        position: absolute;
+        pointer-events: auto;
+        width: 18vw;
+        min-width: 200px;
+        will-change: transform;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+
+    .card-inner {
+        position: relative;
+    }
+
+    .card-image-wrapper {
+        overflow: hidden;
+        border-radius: 2px;
+        background: #18181b;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        transition: transform 0.7s ease-out;
+    }
+
+    /* Hover solo en desktop */
+    @media (hover: hover) and (pointer: fine) {
+        .person-card:hover .card-image-wrapper {
+            transform: scale(1.05);
+        }
+    }
+
+    .card-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        display: block;
+        /* Default a color para móvil (rendimiento) */
+        filter: none;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+
+    /* Grayscale solo en desktop */
+    @media (hover: hover) and (pointer: fine) {
+        .card-image {
+            filter: grayscale(100%);
+            transition: filter 1s ease;
+        }
+
+        .person-card:hover .card-image {
+            filter: grayscale(0%);
+        }
+    }
+
+    .card-label {
+        position: absolute;
+        bottom: -1rem;
+        left: -1rem;
+        padding: 0.5rem 1.5rem;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .card-label {
+            transition: transform 0.3s ease;
+        }
+
+        .person-card:hover .card-label {
+            transform: translateY(-0.5rem);
+        }
+    }
+
+    .card-label-front {
+        background: white;
+        color: black;
+    }
+
+    .card-label-back {
+        background: #27272a;
+        color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .person-card {
+            width: 25vw;
+            min-width: 180px;
+        }
+
+        .marquee-text h2 {
+            font-size: 50vw;
+        }
+
+        .card-label {
+            font-size: 8px;
+            padding: 0.4rem 1rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .roster-sticky {
+            height: 100svh;
+            /* Fix iOS address bar */
+        }
+
+        .person-card {
+            width: 35vw;
+            min-width: 140px;
+        }
+
+        .marquee-text h2 {
+            font-size: 65vw;
+        }
+
+        .card-label {
+            font-size: 7px;
+            padding: 0.3rem 0.8rem;
+            letter-spacing: 0.15em;
+        }
+
+        /* Reposicionar tarjetas para tablet */
+        .person-card:nth-child(1) {
+            left: 5% !important;
+            top: 10% !important;
+        }
+
+        .person-card:nth-child(2) {
+            left: 60% !important;
+            top: 35% !important;
+        }
+
+        .person-card:nth-child(3) {
+            left: 10% !important;
+            top: 55% !important;
+        }
+
+        .person-card:nth-child(4) {
+            left: 65% !important;
+            top: 15% !important;
+        }
+
+        .person-card:nth-child(5) {
+            left: 5% !important;
+            top: 75% !important;
+        }
+
+        .person-card:nth-child(6) {
+            left: 60% !important;
+            top: 65% !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .person-card {
+            width: 40vw;
+            min-width: 120px;
+        }
+
+        .marquee-text h2 {
+            font-size: 80vw;
+            letter-spacing: -0.08em;
+        }
+
+        .card-label {
+            font-size: 6px;
+            padding: 0.25rem 0.6rem;
+            letter-spacing: 0.1em;
+            bottom: -0.75rem;
+            left: -0.75rem;
+        }
+
+        .card-image-wrapper {
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Reposicionar tarjetas en móvil - disposición vertical */
+        .person-card:nth-child(1) {
+            left: 5% !important;
+            top: 5% !important;
+        }
+
+        .person-card:nth-child(2) {
+            left: 55% !important;
+            top: 20% !important;
+        }
+
+        .person-card:nth-child(3) {
+            left: 10% !important;
+            top: 40% !important;
+        }
+
+        .person-card:nth-child(4) {
+            left: 50% !important;
+            top: 55% !important;
+        }
+
+        .person-card:nth-child(5) {
+            left: 5% !important;
+            top: 75% !important;
+        }
+
+        .person-card:nth-child(6) {
+            left: 55% !important;
+            top: 85% !important;
+        }
+    }
+</style>
+
+<!-- HTML del efecto -->
+<div class="roster-scroll-effect">
+    <section class="roster-section" id="roster-section-elementor">
+        <div class="roster-sticky">
+            <!-- Texto Marquesina -->
+            <div class="marquee-text" id="marquee-elementor">
+                <h2 class="bodoni-moda">ROSTER | TALENTOS Y FIGURAS PÚBLICAS</h2>
+            </div>
+
+            <!-- Contenedor de Tarjetas -->
+            <div class="cards-container" id="cards-container-elementor">
+                <!-- Las tarjetas se generan con JavaScript -->
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- JavaScript (NECESARIO) -->
+<script>
+    (function () {
+        'use strict';
+
+        // EDITA AQUÍ: Datos de tu equipo
+        const ROSTER = [
+            { id: 1, name: "JUVE 3D", img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/10-Juve-3D-Studio.jpg", x: "8%", y: "15%", speed: 1.6, z: 20 },
+            { id: 2, name: "ADELA MICHA", img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/4-Adela-Micha.jpg", x: "36%", y: "45%", speed: 0.8, z: 5 },
+            { id: 3, name: "RAFA JAIME", img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/15.1-Rafa-Jaime.jpg", x: "58%", y: "20%", speed: 1.4, z: 20 },
+            { id: 4, name: "PATRICIA GUERRA", img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/14-Patricia-Guerra.jpg", x: "12%", y: "65%", speed: 1.1, z: 5 },
+            { id: 5, name: "DR. NIRDOSH KOHRA", img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/18-Dr-Nirdosh-Kohra.jpg", x: "78%", y: "60%", speed: 2.2, z: 20 },
+            { id: 6, name: "FERNANDA ALVAREZ", img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/20-Fernanda-Alvarez.jpg", x: "80%", y: "20%", speed: 0.5, z: 5 },
+            { id: 7, name: "otro", img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/3-Silvia-Navarro.jpg", x: "20%", y: "80%", speed: 0.5, z: 2 }
+        ];
+
+        // Crear tarjetas
+        const cardsContainer = document.getElementById('cards-container-elementor');
+        if (!cardsContainer) {
+            console.error('Cards container not found');
+            return;
+        }
+
+        ROSTER.forEach(person => {
+            const card = document.createElement('div');
+            card.className = 'person-card';
+            card.style.left = person.x;
+            card.style.top = person.y;
+            card.style.zIndex = person.z;
+            card.dataset.speed = person.speed;
+
+            const labelClass = person.z > 10 ? 'card-label-front' : 'card-label-back';
+
+            // Decoding async evita bloqueos en iOS al cargar
+            card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-image-wrapper">
+                    <img src="${person.img}" alt="${person.name}" class="card-image" loading="lazy" decoding="async">
+                </div>
+                <div class="card-label ${labelClass}">
+                    ${person.name}
+                </div>
+            </div>
+            `;
+            cardsContainer.appendChild(card);
+        });
+
+        // Variables de scroll
+        const rosterSection = document.getElementById('roster-section-elementor');
+        const marquee = document.getElementById('marquee-elementor');
+        const personCards = document.querySelectorAll('.person-card');
+
+        // Detección iOS para ajustes finos
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+        let ticking = false;
+        let lastProgress = -1;
+        let currentMarqueeX = 80;
+        let targetMarqueeX = 80;
+
+        function updateParallax() {
+            // Obtener posición de la sección
+            const rect = rosterSection.getBoundingClientRect();
+            const sectionHeight = rosterSection.offsetHeight;
+            const viewportHeight = window.innerHeight;
+
+            const sectionTop = rect.top;
+            const sectionBottom = rect.bottom;
+
+            // Calcular progreso (0 a 1)
+            const scrollStart = -sectionTop;
+            const scrollEnd = sectionHeight - viewportHeight;
+            let progress = scrollEnd > 0 ? scrollStart / scrollEnd : 0;
+            progress = Math.max(0, Math.min(1, progress));
+
+            // Optimización: si no cambió casi nada, skippear
+            if (Math.abs(progress - lastProgress) < 0.0005) {
+                ticking = false;
+                return;
+            }
+            lastProgress = progress;
+
+            // Solo animar cuando la sección está visible
+            if (sectionBottom > 0 && sectionTop < viewportHeight) {
+
+                // 1. Marquesina con LERP (Suavizado)
+                // Va de 80% a -180% (rango total 260)
+                targetMarqueeX = 80 + (progress * -260);
+
+                // En móvil usamos más inercia (0.08) para disimular saltos
+                const lerpFactor = isIOS ? 0.08 : 0.15;
+                currentMarqueeX += (targetMarqueeX - currentMarqueeX) * lerpFactor;
+
+                marquee.style.transform = `translate3d(${currentMarqueeX.toFixed(2)}%, 0, 0)`;
+
+                // 2. Parallax de Tarjetas
+                const w = window.innerWidth;
+
+                personCards.forEach(card => {
+                    const speed = parseFloat(card.dataset.speed);
+
+                    let yStart, yEnd;
+
+                    if (w <= 768) {
+                        // MÓVIL/TABLET: Rango REDUCIDO para fluidez
+                        // Antes era 400 a -600 (1000px viaje). Ahora es ~150px
+                        yStart = 50 * speed;
+                        yEnd = -100 * speed;
+                    } else {
+                        // DESKTOP: Rango original intenso
+                        yStart = 400 * speed;
+                        yEnd = -600 * speed;
+                    }
+
+                    const yPosition = yStart + (progress * (yEnd - yStart));
+                    // translate3d activa mejor la GPU
+                    card.style.transform = `translate3d(0, ${yPosition.toFixed(1)}px, 0)`;
+                });
+            }
+
+            ticking = false;
+        }
+
+        function onScroll() {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(updateParallax);
+            }
+        }
+
+        // Loop continuo para iOS (Mantiene el lerp vivo durante inercia)
+        if (isIOS) {
+            (function loop() {
+                updateParallax();
+                requestAnimationFrame(loop);
+            })();
+        }
+
+        // Escuchar scroll
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+
+        // Inicialización
+        requestAnimationFrame(updateParallax);
+    })();
+</script>
