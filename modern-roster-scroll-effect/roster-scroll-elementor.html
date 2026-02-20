@@ -29,7 +29,6 @@
     /* Roster Section - ALTURA AJUSTABLE */
     .roster-section {
         height: 500vh;
-        /* Desktop: scroll más lento */
         position: relative;
         background: transparent;
     }
@@ -38,26 +37,24 @@
     @media (max-width: 1024px) {
         .roster-section {
             height: 350vh;
-            /* Tablet: scroll medio */
         }
     }
 
     @media (max-width: 768px) {
         .roster-section {
-            height: 280vh;
-            /* Móvil: scroll más rápido */
+            height: 300vh;
         }
     }
 
     @media (max-width: 480px) {
         .roster-section {
-            height: 220vh;
-            /* Móvil pequeño: scroll muy rápido */
+            height: 260vh;
         }
     }
 
-
+    /* iOS Safari: position:sticky necesita -webkit-sticky */
     .roster-sticky {
+        position: -webkit-sticky;
         position: sticky;
         top: 0;
         height: 100vh;
@@ -66,6 +63,9 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        /* Forzar GPU layer propio para evitar repaints */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
     }
 
     /* Texto Marquesina */
@@ -75,7 +75,7 @@
         pointer-events: none;
         user-select: none;
         z-index: 10;
-        will-change: transform;
+        /* will-change solo en desktop (ver media query) */
     }
 
     .marquee-text h2 {
@@ -85,6 +85,15 @@
         text-transform: uppercase;
         color: #000;
         opacity: 0.3;
+    }
+
+    /* will-change solo cuando hay mouse (desktop) */
+    @media (min-width: 769px) and (hover: hover) {
+
+        .marquee-text,
+        .person-card {
+            will-change: transform;
+        }
     }
 
     /* Contenedor de Tarjetas */
@@ -103,7 +112,8 @@
         pointer-events: auto;
         width: 18vw;
         min-width: 200px;
-        will-change: transform;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
     }
 
     .card-inner {
@@ -115,11 +125,20 @@
         border-radius: 2px;
         background: #18181b;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        transition: transform 0.7s ease-out;
+        /* Capa GPU propia para cada imagen */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
     }
 
-    .person-card:hover .card-image-wrapper {
-        transform: scale(1.05);
+    /* Hover/zoom solo en dispositivos con mouse real */
+    @media (hover: hover) and (pointer: fine) {
+        .card-image-wrapper {
+            transition: transform 0.7s ease-out;
+        }
+
+        .person-card:hover .card-image-wrapper {
+            transform: scale(1.05);
+        }
     }
 
     .card-image {
@@ -129,11 +148,18 @@
         object-fit: cover;
         display: block;
         filter: grayscale(100%);
-        transition: filter 1s ease;
+        /* Sin transitions en touch (rendimiento) */
     }
 
-    .person-card:hover .card-image {
-        filter: grayscale(0%);
+    /* Color al hover solo con mouse */
+    @media (hover: hover) and (pointer: fine) {
+        .card-image {
+            transition: filter 1s ease;
+        }
+
+        .person-card:hover .card-image {
+            filter: grayscale(0%);
+        }
     }
 
     .card-label {
@@ -146,11 +172,16 @@
         letter-spacing: 0.2em;
         text-transform: uppercase;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        transition: transform 0.3s ease;
     }
 
-    .person-card:hover .card-label {
-        transform: translateY(-0.5rem);
+    @media (hover: hover) and (pointer: fine) {
+        .card-label {
+            transition: transform 0.3s ease;
+        }
+
+        .person-card:hover .card-label {
+            transform: translateY(-0.5rem);
+        }
     }
 
     .card-label-front {
@@ -163,7 +194,7 @@
         color: white;
     }
 
-    /* Responsive */
+    /* Responsive - Tablet */
     @media (max-width: 1024px) {
         .person-card {
             width: 25vw;
@@ -180,15 +211,11 @@
         }
     }
 
+    /* Responsive - Móvil: 2 columnas, 42vw cada tarjeta */
     @media (max-width: 768px) {
-        .roster-section {
-            height: 400vh;
-            /* Scroll más rápido en tablet */
-        }
-
         .person-card {
-            width: 35vw;
-            min-width: 140px;
+            width: 42vw !important;
+            min-width: 0;
         }
 
         .marquee-text h2 {
@@ -201,49 +228,12 @@
             letter-spacing: 0.15em;
         }
 
-        /* Reposicionar tarjetas para tablet */
-        .person-card:nth-child(1) {
-            left: 5% !important;
-            top: 10% !important;
-        }
-
-        .person-card:nth-child(2) {
-            left: 60% !important;
-            top: 35% !important;
-        }
-
-        .person-card:nth-child(3) {
-            left: 10% !important;
-            top: 55% !important;
-        }
-
-        .person-card:nth-child(4) {
-            left: 65% !important;
-            top: 15% !important;
-        }
-
-        .person-card:nth-child(5) {
-            left: 5% !important;
-            top: 75% !important;
-        }
-
-        .person-card:nth-child(6) {
-            left: 60% !important;
-            top: 65% !important;
+        .card-image-wrapper {
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
         }
     }
 
     @media (max-width: 480px) {
-        .roster-section {
-            height: 300vh;
-            /* Scroll más rápido en móvil */
-        }
-
-        .person-card {
-            width: 40vw;
-            min-width: 120px;
-        }
-
         .marquee-text h2 {
             font-size: 80vw;
             letter-spacing: -0.08em;
@@ -256,41 +246,6 @@
             bottom: -0.75rem;
             left: -0.75rem;
         }
-
-        .card-image-wrapper {
-            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Reposicionar tarjetas en móvil - disposición vertical */
-        .person-card:nth-child(1) {
-            left: 5% !important;
-            top: 5% !important;
-        }
-
-        .person-card:nth-child(2) {
-            left: 55% !important;
-            top: 20% !important;
-        }
-
-        .person-card:nth-child(3) {
-            left: 10% !important;
-            top: 40% !important;
-        }
-
-        .person-card:nth-child(4) {
-            left: 50% !important;
-            top: 55% !important;
-        }
-
-        .person-card:nth-child(5) {
-            left: 5% !important;
-            top: 75% !important;
-        }
-
-        .person-card:nth-child(6) {
-            left: 55% !important;
-            top: 85% !important;
-        }
     }
 </style>
 
@@ -300,7 +255,7 @@
         <div class="roster-sticky">
             <!-- Texto Marquesina -->
             <div class="marquee-text" id="marquee-elementor">
-                <h2 class="bodoni-moda">ROSTER | TALENTOS Y FIGURAS PÚBLICAS</h2>
+                <h2 class="bodoni-moda">ROSTER</h2>
             </div>
 
             <!-- Contenedor de Tarjetas -->
@@ -316,158 +271,227 @@
     (function () {
         'use strict';
 
-        // EDITA AQUÍ: Datos de tu equipo
+        // ─── Detección de iOS Safari ────────────────────────────────────────
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        const isIOSSafari = isIOS || (isSafari && 'ontouchstart' in window);
+
+        // En iOS: intensidad reducida para evitar jank
+        const PARALLAX_INTENSITY = isIOSSafari ? 0.5 : 1.0;
+
+        // Factor lerp: más suave en iOS, más reactivo en desktop
+        const LERP_FACTOR = isIOSSafari ? 0.07 : 0.12;
+
+        // ─── Datos del Roster ────────────────────────────────────────────────
+        // x / y = posición en DESKTOP
+        // xMobile = posición en MÓVIL (2 columnas: ~5% izq / ~55% der)
+        // Posiciones desktop: cuadrícula escalonada en 3 zonas horizontales (izq/centro/der)
+        // Posiciones mobile: 2 columnas alternadas (5% izq | 55% der)
+        // speed: todos normalizados entre 0.6 y 1.2 para scroll parejo y elegante
         const ROSTER = [
             {
                 id: 1,
                 name: "JUVE 3D",
                 img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/10-Juve-3D-Studio.jpg",
-                x: "8%",
-                y: "15%",
-                speed: 1.6,
+                x: "5%", xMobile: "5%",
+                y: "10%",
+                speed: 0.8,
                 z: 20
             },
             {
                 id: 2,
                 name: "ADELA MICHA",
                 img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/4-Adela-Micha.jpg",
-                x: "36%",
-                y: "45%",
-                speed: 0.8,
-                z: 5
+                x: "75%", xMobile: "55%",
+                y: "5%",
+                speed: 1.0,
+                z: 10
             },
             {
                 id: 3,
                 name: "RAFA JAIME",
                 img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/15.1-Rafa-Jaime.jpg",
-                x: "58%",
-                y: "20%",
-                speed: 1.4,
-                z: 20
+                x: "38%", xMobile: "5%",
+                y: "50%",
+                speed: 0.6,
+                z: 5
             },
             {
                 id: 4,
                 name: "PATRICIA GUERRA",
                 img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/14-Patricia-Guerra.jpg",
-                x: "12%",
+                x: "8%", xMobile: "55%",
                 y: "65%",
                 speed: 1.1,
-                z: 5
+                z: 15
             },
             {
                 id: 5,
                 name: "DR. NIRDOSH KOHRA",
                 img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/18-Dr-Nirdosh-Kohra.jpg",
-                x: "78%",
-                y: "60%",
-                speed: 2.2,
+                x: "68%", xMobile: "5%",
+                y: "55%",
+                speed: 1.2,
                 z: 20
             },
             {
                 id: 6,
                 name: "FERNANDA ALVAREZ",
                 img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/20-Fernanda-Alvarez.jpg",
-                x: "80%",
-                y: "20%",
-                speed: 0.5,
-                z: 5
+                x: "42%", xMobile: "55%",
+                y: "15%",
+                speed: 0.7,
+                z: 8
             },
             {
                 id: 7,
-                name: "otro",
+                name: "OTRO",
                 img: "https://fernader.baltazarg.xyz/wp-content/uploads/2026/02/3-Silvia-Navarro.jpg",
-                x: "20%",
-                y: "80%",
-                speed: 0.5,
-                z: 2
+                x: "82%", xMobile: "5%",
+                y: "70%",
+                speed: 0.9,
+                z: 12
             }
         ];
 
-        // Crear tarjetas
+        // ─── Crear tarjetas ─────────────────────────────────────────────────
         const cardsContainer = document.getElementById('cards-container-elementor');
-
         if (!cardsContainer) {
             console.error('Cards container not found');
             return;
         }
 
-        ROSTER.forEach(person => {
+        ROSTER.forEach(function (person) {
             const card = document.createElement('div');
             card.className = 'person-card';
-            card.style.left = person.x;
+            card.dataset.xDesktop = person.x;
+            card.dataset.xMobile = person.xMobile;
+            card.dataset.speed = person.speed;
             card.style.top = person.y;
             card.style.zIndex = person.z;
-            card.dataset.speed = person.speed;
 
             const labelClass = person.z > 10 ? 'card-label-front' : 'card-label-back';
 
-            card.innerHTML = `
-            <div class="card-inner">
-                <div class="card-image-wrapper">
-                    <img src="${person.img}" alt="${person.name}" class="card-image" loading="lazy">
-                </div>
-                <div class="card-label ${labelClass}">
-                    ${person.name}
-                </div>
-            </div>
-        `;
+            card.innerHTML =
+                '<div class="card-inner">' +
+                '<div class="card-image-wrapper">' +
+                '<img src="' + person.img + '" alt="' + person.name + '" class="card-image" loading="lazy">' +
+                '</div>' +
+                '<div class="card-label ' + labelClass + '">' +
+                person.name +
+                '</div>' +
+                '</div>';
 
             cardsContainer.appendChild(card);
         });
 
-        // Variables de scroll
+        // ─── Referencias DOM ────────────────────────────────────────────────
         const rosterSection = document.getElementById('roster-section-elementor');
         const marquee = document.getElementById('marquee-elementor');
         const personCards = document.querySelectorAll('.person-card');
 
-        let isAnimating = false;
-
-        function handleScroll() {
-            if (isAnimating) return;
-
-            isAnimating = true;
-            requestAnimationFrame(updateParallax);
+        // ─── Distribución por breakpoint ────────────────────────────────────
+        function applyResponsivePositions() {
+            const isMobile = window.innerWidth <= 768;
+            personCards.forEach(function (card) {
+                card.style.left = isMobile
+                    ? card.dataset.xMobile
+                    : card.dataset.xDesktop;
+            });
         }
 
-        function updateParallax() {
-            // Obtener posición de la sección
+        applyResponsivePositions();
+
+        // ─── Estado del parallax ─────────────────────────────────────────────
+        let currentProgress = 0;
+        let targetProgress = 0;
+        let rafId = null;
+        let lastProgress = -1;
+
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+
+        function getScrollProgress() {
             const rect = rosterSection.getBoundingClientRect();
-            const sectionHeight = rosterSection.offsetHeight;
-            const viewportHeight = window.innerHeight;
+            const sectionH = rosterSection.offsetHeight;
+            const viewportH = window.innerHeight;
+            const scrollEnd = sectionH - viewportH;
+            if (scrollEnd <= 0) return 0;
+            const scrollStart = -rect.top;
+            return Math.max(0, Math.min(1, scrollStart / scrollEnd));
+        }
 
-            const sectionTop = rect.top;
-            const sectionBottom = rect.bottom;
-
-            // Calcular progreso (0 a 1)
-            const scrollStart = -sectionTop;
-            const scrollEnd = sectionHeight - viewportHeight;
-            let progress = scrollStart / scrollEnd;
-            progress = Math.max(0, Math.min(1, progress));
+        function applyParallax(progress) {
+            const isMobile = window.innerWidth <= 768;
+            const sectionTop = rosterSection.getBoundingClientRect().top;
+            const sectionBottom = rosterSection.getBoundingClientRect().bottom;
 
             // Solo animar cuando la sección está visible
-            if (sectionBottom > 0 && sectionTop < viewportHeight) {
-                // Movimiento horizontal del texto (de derecha a izquierda)
-                const xMarquee = 80 + (progress * -260); // Va de 80% a -180%
-                marquee.style.transform = `translateX(${xMarquee}%)`;
+            if (sectionBottom <= 0 || sectionTop >= window.innerHeight) return;
 
-                // Movimiento vertical de las tarjetas (parallax)
-                personCards.forEach(card => {
-                    const speed = parseFloat(card.dataset.speed);
-                    const yStart = 400 * speed;
-                    const yEnd = -600 * speed;
-                    const yPosition = yStart + (progress * (yEnd - yStart));
-                    card.style.transform = `translateY(${yPosition}px)`;
-                });
-            }
+            // Marquesina: de derecha a izquierda — rango reducido para movimiento más lento
+            const xMarquee = 40 + (progress * -160);
+            marquee.style.transform = 'translateX(' + xMarquee + '%)';
+            marquee.style.webkitTransform = 'translateX(' + xMarquee + '%)';
 
-            isAnimating = false;
+            // Imágenes: parallax vertical — multiplicadores más bajos para scroll más elegante
+            personCards.forEach(function (card) {
+                const speed = parseFloat(card.dataset.speed) || 1;
+
+                // En móvil: rango reducido para que las tarjetas no se salgan
+                const rangeFactor = isMobile ? 0.5 : 1.0;
+
+                const yStart = 220 * speed * rangeFactor * PARALLAX_INTENSITY;
+                const yEnd = -280 * speed * rangeFactor * PARALLAX_INTENSITY;
+                const yPos = yStart + (progress * (yEnd - yStart));
+
+                card.style.transform = 'translateY(' + yPos + 'px)';
+                card.style.webkitTransform = 'translateY(' + yPos + 'px)';
+            });
         }
 
-        // Escuchar scroll
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('resize', handleScroll, { passive: true });
+        // ─── Loop rAF con lerp ───────────────────────────────────────────────
+        function animationLoop() {
+            currentProgress = lerp(currentProgress, targetProgress, LERP_FACTOR);
 
-        // Inicialización
-        updateParallax();
+            const delta = Math.abs(currentProgress - lastProgress);
+            if (delta > 0.0001) {
+                applyParallax(currentProgress);
+                lastProgress = currentProgress;
+            }
+
+            // Detener el loop cuando ya convergió
+            if (delta < 0.00005) {
+                rafId = null;
+                return;
+            }
+
+            rafId = requestAnimationFrame(animationLoop);
+        }
+
+        function onScroll() {
+            targetProgress = getScrollProgress();
+            if (!rafId) {
+                rafId = requestAnimationFrame(animationLoop);
+            }
+        }
+
+        function onResize() {
+            applyResponsivePositions();
+            targetProgress = getScrollProgress();
+            currentProgress = targetProgress; // sin lerp en resize
+            applyParallax(currentProgress);
+        }
+
+        // ─── Listeners ──────────────────────────────────────────────────────
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onResize, { passive: true });
+
+        // Estado inicial (sin lerp)
+        currentProgress = getScrollProgress();
+        targetProgress = currentProgress;
+        applyParallax(currentProgress);
+
     })();
 </script>

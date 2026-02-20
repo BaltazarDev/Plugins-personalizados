@@ -172,8 +172,68 @@ function ec_register_elementor_widget($widgets_manager) {
                 ]
             );
             
+            $this->end_controls_section();
 
-            
+            // ========================================
+            // SECCIÓN: SLIDES POR VISTA
+            // ========================================
+
+            $this->start_controls_section(
+                'slides_per_view_section',
+                [
+                    'label' => __('Slides por Vista', 'eventos-carrusel'),
+                    'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+                ]
+            );
+
+            $this->add_control(
+                'slides_desktop',
+                [
+                    'label'   => __('Slides en Desktop (≥1024px)', 'eventos-carrusel'),
+                    'type'    => \Elementor\Controls_Manager::NUMBER,
+                    'default' => 3,
+                    'min'     => 1,
+                    'max'     => 6,
+                    'step'    => 1,
+                ]
+            );
+
+            $this->add_control(
+                'slides_tablet',
+                [
+                    'label'   => __('Slides en Tablet (≥768px)', 'eventos-carrusel'),
+                    'type'    => \Elementor\Controls_Manager::NUMBER,
+                    'default' => 2,
+                    'min'     => 1,
+                    'max'     => 4,
+                    'step'    => 1,
+                ]
+            );
+
+            $this->add_control(
+                'slides_mobile',
+                [
+                    'label'   => __('Slides en Móvil (<768px)', 'eventos-carrusel'),
+                    'type'    => \Elementor\Controls_Manager::NUMBER,
+                    'default' => 1,
+                    'min'     => 1,
+                    'max'     => 3,
+                    'step'    => 1,
+                ]
+            );
+
+            $this->add_control(
+                'space_between',
+                [
+                    'label'   => __('Espacio entre Slides (px)', 'eventos-carrusel'),
+                    'type'    => \Elementor\Controls_Manager::NUMBER,
+                    'default' => 24,
+                    'min'     => 0,
+                    'max'     => 80,
+                    'step'    => 2,
+                ]
+            );
+
             $this->end_controls_section();
             
             // ========================================
@@ -325,6 +385,89 @@ function ec_register_elementor_widget($widgets_manager) {
                     ],
                 ]
             );
+
+            $this->add_responsive_control(
+                'title_font_size',
+                [
+                    'label'          => __('Tamaño de Texto', 'eventos-carrusel'),
+                    'type'           => \Elementor\Controls_Manager::SLIDER,
+                    'size_units'     => [ 'px', 'em', 'rem', 'vw' ],
+                    'range'          => [
+                        'px'  => [ 'min' => 12, 'max' => 120, 'step' => 1 ],
+                        'em'  => [ 'min' => 0.5, 'max' => 8,  'step' => 0.1 ],
+                        'rem' => [ 'min' => 0.5, 'max' => 8,  'step' => 0.1 ],
+                        'vw'  => [ 'min' => 1,   'max' => 15, 'step' => 0.1 ],
+                    ],
+                    'default'        => [ 'unit' => 'px', 'size' => 40 ],
+                    'tablet_default' => [ 'unit' => 'px', 'size' => 30 ],
+                    'mobile_default' => [ 'unit' => 'px', 'size' => 24 ],
+                    'selectors'      => [
+                        '{{WRAPPER}} .ec-title' => 'font-size: {{SIZE}}{{UNIT}};',
+                    ],
+                ]
+            );
+
+            $this->add_responsive_control(
+                'title_align',
+                [
+                    'label' => __('Alineación', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::CHOOSE,
+                    'options' => [
+                        'left'   => [ 'title' => __('Izquierda', 'eventos-carrusel'), 'icon' => 'eicon-text-align-left' ],
+                        'center' => [ 'title' => __('Centro', 'eventos-carrusel'),    'icon' => 'eicon-text-align-center' ],
+                        'right'  => [ 'title' => __('Derecha', 'eventos-carrusel'),   'icon' => 'eicon-text-align-right' ],
+                    ],
+                    'default' => 'left',
+                    'selectors' => [
+                        '{{WRAPPER}} .ec-title' => 'text-align: {{VALUE}};',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'title_text_shadow_toggle',
+                [
+                    'label'        => __('Sombra de Texto', 'eventos-carrusel'),
+                    'type'         => \Elementor\Controls_Manager::SWITCHER,
+                    'label_on'     => __('Sí', 'eventos-carrusel'),
+                    'label_off'    => __('No', 'eventos-carrusel'),
+                    'return_value' => 'yes',
+                    'default'      => 'yes',
+                ]
+            );
+
+            $this->add_group_control(
+                \Elementor\Group_Control_Text_Shadow::get_type(),
+                [
+                    'name'      => 'title_text_shadow',
+                    'selector'  => '{{WRAPPER}} .ec-title',
+                    'condition' => [ 'title_text_shadow_toggle' => 'yes' ],
+                ]
+            );
+
+            $this->add_responsive_control(
+                'title_padding',
+                [
+                    'label'      => __('Padding', 'eventos-carrusel'),
+                    'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                    'size_units' => [ 'px', 'em', '%' ],
+                    'selectors'  => [
+                        '{{WRAPPER}} .ec-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    ],
+                ]
+            );
+
+            $this->add_responsive_control(
+                'title_margin',
+                [
+                    'label'      => __('Margen', 'eventos-carrusel'),
+                    'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                    'size_units' => [ 'px', 'em', '%' ],
+                    'selectors'  => [
+                        '{{WRAPPER}} .ec-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    ],
+                ]
+            );
             
             $this->end_controls_section();
             
@@ -345,6 +488,26 @@ function ec_register_elementor_widget($widgets_manager) {
                 [
                     'name' => 'button_typography',
                     'selector' => '{{WRAPPER}} .ec-rsvp-btn',
+                ]
+            );
+
+            $this->add_responsive_control(
+                'button_font_size',
+                [
+                    'label'          => __('Tamaño de Texto', 'eventos-carrusel'),
+                    'type'           => \Elementor\Controls_Manager::SLIDER,
+                    'size_units'     => [ 'px', 'em', 'rem' ],
+                    'range'          => [
+                        'px'  => [ 'min' => 8,  'max' => 48, 'step' => 1 ],
+                        'em'  => [ 'min' => 0.5, 'max' => 3, 'step' => 0.05 ],
+                        'rem' => [ 'min' => 0.5, 'max' => 3, 'step' => 0.05 ],
+                    ],
+                    'default'        => [ 'unit' => 'px', 'size' => 10 ],
+                    'tablet_default' => [ 'unit' => 'px', 'size' => 12 ],
+                    'mobile_default' => [ 'unit' => 'px', 'size' => 10 ],
+                    'selectors'      => [
+                        '{{WRAPPER}} .ec-rsvp-btn' => 'font-size: {{SIZE}}{{UNIT}};',
+                    ],
                 ]
             );
             
@@ -536,6 +699,18 @@ function ec_register_elementor_widget($widgets_manager) {
                     ],
                 ]
             );
+
+            $this->add_responsive_control(
+                'button_margin',
+                [
+                    'label'      => __('Margen', 'eventos-carrusel'),
+                    'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                    'size_units' => [ 'px', 'em', '%' ],
+                    'selectors'  => [
+                        '{{WRAPPER}} .ec-rsvp-btn' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    ],
+                ]
+            );
             
             $this->end_controls_section();
         }
@@ -571,6 +746,17 @@ function ec_register_elementor_widget($widgets_manager) {
                 $link_attrs = base64_encode($this->get_render_attribute_string('button_custom_link'));
                 $shortcode_atts[] = 'link_attrs="' . $link_attrs . '"';
             }
+
+            // Slides por vista (responsive)
+            $slides_desktop = !empty($settings['slides_desktop']) ? intval($settings['slides_desktop']) : 3;
+            $slides_tablet  = !empty($settings['slides_tablet'])  ? intval($settings['slides_tablet'])  : 2;
+            $slides_mobile  = !empty($settings['slides_mobile'])  ? intval($settings['slides_mobile'])  : 1;
+            $space_between  = isset($settings['space_between'])   ? intval($settings['space_between'])  : 24;
+
+            $shortcode_atts[] = 'slides_desktop="' . $slides_desktop . '"';
+            $shortcode_atts[] = 'slides_tablet="'  . $slides_tablet  . '"';
+            $shortcode_atts[] = 'slides_mobile="'  . $slides_mobile  . '"';
+            $shortcode_atts[] = 'space_between="'  . $space_between  . '"';
             
             $shortcode = '[carrusel_eventos ' . implode(' ', $shortcode_atts) . ']';
             

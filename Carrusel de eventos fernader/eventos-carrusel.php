@@ -3,8 +3,8 @@
  * Plugin Name: Carrusel de Eventos
  * Plugin URI: 
  * Description: Plugin para mostrar eventos en un carrusel con Swiper y Elementor
- * Version: 1.0.3
- * Author: BGDEVSOFT
+ * Version: 1.0.5
+ * Author: Baltazar Dev
  * Text Domain: eventos-carrusel
  */
 
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 // Definir constantes
 define('EC_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('EC_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('EC_VERSION', '1.0.3');
+define('EC_VERSION', '1.0.5');
 
 // Incluir archivos necesarios
 require_once EC_PLUGIN_PATH . 'includes/post-type.php';

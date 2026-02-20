@@ -6,14 +6,18 @@ add_shortcode('carrusel_eventos', 'ec_carrusel_eventos_shortcode');
 function ec_carrusel_eventos_shortcode($atts) {
     // Atributos del shortcode
     $atts = shortcode_atts(array(
-        'ubicacion' => '',
+        'ubicacion'      => '',
         'posts_per_page' => 6,
-        'orderby' => 'date',
-        'order' => 'DESC',
-        'mostrar_todos' => '',
-        'button_text' => 'RSVP',
-        'link_type' => 'custom',
-        'link_attrs' => '',
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'mostrar_todos'  => '',
+        'button_text'    => 'RSVP',
+        'link_type'      => 'custom',
+        'link_attrs'     => '',
+        'slides_desktop' => 3,
+        'slides_tablet'  => 2,
+        'slides_mobile'  => 1,
+        'space_between'  => 24,
     ), $atts, 'carrusel_eventos');
     
     // Argumentos de la consulta
@@ -64,22 +68,29 @@ function ec_carrusel_eventos_shortcode($atts) {
     
     // Iniciar el buffer de salida
     ob_start();
+    // ID único para esta instancia del carrusel
+    $instance_id = 'ec-carrusel-' . uniqid();
     ?>
     
-    <div class="ec-carrusel-container">
+    <div id="<?php echo esc_attr($instance_id); ?>"
+         class="ec-carrusel-container swiper"
+         data-slides-desktop="<?php echo intval($atts['slides_desktop']); ?>"
+         data-slides-tablet="<?php echo intval($atts['slides_tablet']); ?>"
+         data-slides-mobile="<?php echo intval($atts['slides_mobile']); ?>"
+         data-space-between="<?php echo intval($atts['space_between']); ?>">
         
         <!-- Custom Nav -->
         <div class="ec-nav-buttons">
-            <div class="ec-nav-btn swiper-prev-custom">&lt;</div>
-            <div class="ec-nav-btn swiper-next-custom">&gt;</div>
+            <div class="ec-nav-btn" id="<?php echo esc_attr($instance_id); ?>-prev">&lt;</div>
+            <div class="ec-nav-btn" id="<?php echo esc_attr($instance_id); ?>-next">&gt;</div>
         </div>
         
         <!-- Scroll Container -->
-        <div class="ec-scroll-container">
+        <div class="ec-scroll-container swiper-wrapper">
             
             <?php while ($eventos_query->have_posts()) : $eventos_query->the_post(); ?>
                 
-                <div class="ec-card">
+                <div class="ec-card swiper-slide">
                     
                     <!-- Background Image -->
                     <?php if (has_post_thumbnail()) : ?>
