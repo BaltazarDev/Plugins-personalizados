@@ -4,7 +4,7 @@
  * Plugin URI: 
  * Description: Carrusel dinámico para mostrar posts de talentos y figuras
  * Version: 1.0.9
- * Author: BGDEVSOFT
+ * Author: Baltazar Dev
  * License: GPL v2 or later
  * Text Domain: talentos-carrusel
  */

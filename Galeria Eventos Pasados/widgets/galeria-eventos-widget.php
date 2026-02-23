@@ -288,7 +288,7 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
             .img-container {
                 position: relative;
                 overflow: hidden;
-                border-radius: 1rem;
+                border-radius: 0rem;
                 box-shadow: 0 10px 20px -5px rgb(0 0 0 / 0.1);
             }
 

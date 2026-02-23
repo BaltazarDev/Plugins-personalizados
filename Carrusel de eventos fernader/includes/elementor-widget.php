@@ -309,6 +309,27 @@ function ec_register_elementor_widget($widgets_manager) {
                 ]
             );
             
+            // objeto-fit de la imagen (cover, contain, etc.)
+            $this->add_control(
+                'image_fit',
+                [
+                    'label' => __('Ajuste de Imagen', 'eventos-carrusel'),
+                    'type' => \Elementor\Controls_Manager::SELECT,
+                    'options' => [
+                        'cover' => __('Cover', 'eventos-carrusel'),
+                        'contain' => __('Contain', 'eventos-carrusel'),
+                        'fill' => __('Fill', 'eventos-carrusel'),
+                        'none' => __('None', 'eventos-carrusel'),
+                        'scale-down' => __('Scale Down', 'eventos-carrusel'),
+                        'auto' => __('Auto', 'eventos-carrusel'),
+                    ],
+                    'default' => 'cover',
+                    'selectors' => [
+                        '{{WRAPPER}} .ec-bg-image' => 'object-fit: {{VALUE}};',
+                    ],
+                ]
+            );
+            
             $this->end_controls_section();
             
             // ========================================
@@ -757,6 +778,11 @@ function ec_register_elementor_widget($widgets_manager) {
             $shortcode_atts[] = 'slides_tablet="'  . $slides_tablet  . '"';
             $shortcode_atts[] = 'slides_mobile="'  . $slides_mobile  . '"';
             $shortcode_atts[] = 'space_between="'  . $space_between  . '"';
+
+            // image fit
+            if (!empty($settings['image_fit'])) {
+                $shortcode_atts[] = 'image_fit="' . esc_attr($settings['image_fit']) . '"';
+            }
             
             $shortcode = '[carrusel_eventos ' . implode(' ', $shortcode_atts) . ']';
             

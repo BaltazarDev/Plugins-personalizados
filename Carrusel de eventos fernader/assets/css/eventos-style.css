@@ -3,6 +3,14 @@
 /* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap');
 
+/* Wrapper around the container (used for positioning nav buttons) */
+.ec-carrusel-wrapper {
+    position: relative;
+    max-width: 100%;
+    /* ensure nav buttons are not clipped */
+    overflow: visible;
+}
+
 /* Container */
 .ec-carrusel-container {
     position: relative;
@@ -10,15 +18,15 @@
     margin: 0 auto;
     padding: 0 24px;
     width: 100%;
-    overflow: hidden;
+    overflow: hidden; /* required by Swiper and helps GPU compositing */
     /* Important for Swiper */
     /* Force GPU layer to prevent Safari repaint flicker */
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
 }
 
-/* Navigation Buttons */
-.ec-nav-buttons {
+/* Navigation Buttons (positioned relative to wrapper) */
+.ec-carrusel-wrapper .ec-nav-buttons {
     position: absolute;
     top: -48px;
     right: 24px;

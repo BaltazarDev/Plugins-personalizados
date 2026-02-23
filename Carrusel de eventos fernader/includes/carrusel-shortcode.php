@@ -18,6 +18,7 @@ function ec_carrusel_eventos_shortcode($atts) {
         'slides_tablet'  => 2,
         'slides_mobile'  => 1,
         'space_between'  => 24,
+        'image_fit'      => 'cover',
     ), $atts, 'carrusel_eventos');
     
     // Argumentos de la consulta
@@ -71,41 +72,52 @@ function ec_carrusel_eventos_shortcode($atts) {
     // ID único para esta instancia del carrusel
     $instance_id = 'ec-carrusel-' . uniqid();
     ?>
-    
-    <div id="<?php echo esc_attr($instance_id); ?>"
-         class="ec-carrusel-container swiper"
-         data-slides-desktop="<?php echo intval($atts['slides_desktop']); ?>"
-         data-slides-tablet="<?php echo intval($atts['slides_tablet']); ?>"
-         data-slides-mobile="<?php echo intval($atts['slides_mobile']); ?>"
-         data-space-between="<?php echo intval($atts['space_between']); ?>">
-        
-        <!-- Custom Nav -->
+
+    <div class="ec-carrusel-wrapper" id="wrapper-<?php echo esc_attr($instance_id); ?>">
+        <!-- Custom Nav (moved outside container so overflow:hidden doesn't clip) -->
         <div class="ec-nav-buttons">
             <div class="ec-nav-btn" id="<?php echo esc_attr($instance_id); ?>-prev">&lt;</div>
             <div class="ec-nav-btn" id="<?php echo esc_attr($instance_id); ?>-next">&gt;</div>
         </div>
-        
-        <!-- Scroll Container -->
-        <div class="ec-scroll-container swiper-wrapper">
-            
-            <?php while ($eventos_query->have_posts()) : $eventos_query->the_post(); ?>
-                
-                <div class="ec-card swiper-slide">
-                    
-                    <!-- Background Image -->
-                    <?php if (has_post_thumbnail()) : ?>
-                        <?php the_post_thumbnail('large', array('class' => 'ec-bg-image')); ?>
-                    <?php else : ?>
-                        <img src="<?php echo EC_PLUGIN_URL; ?>assets/images/placeholder.jpg" alt="<?php the_title_attribute(); ?>" class="ec-bg-image">
-                    <?php endif; ?>
-                    
-                    <!-- Overlay -->
-                    <div class="ec-overlay"></div>
-                    
-                    <!-- Content -->
-                    <div class="ec-content">
-                        <div class="ec-content-inner">
-                            <!-- Location -->
+
+        <div id="<?php echo esc_attr($instance_id); ?>"
+             class="ec-carrusel-container swiper"
+             data-slides-desktop="<?php echo intval($atts['slides_desktop']); ?>"
+             data-slides-tablet="<?php echo intval($atts['slides_tablet']); ?>"
+             data-slides-mobile="<?php echo intval($atts['slides_mobile']); ?>"
+             data-space-between="<?php echo intval($atts['space_between']); ?>">
+
+            <!-- Scroll Container -->
+            <div class="ec-scroll-container swiper-wrapper">
+
+                <?php while ($eventos_query->have_posts()) : $eventos_query->the_post(); ?>
+
+                    <div class="ec-card swiper-slide">
+
+                        <!-- Background Image -->
+                        <?php if (has_post_thumbnail()) : ?>
+                            <?php
+                            $fit = esc_attr($atts['image_fit']);
+                            $img_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
+                            $alt_text = get_the_title();
+                            ?>
+                            <img
+                                src="<?php echo esc_url($img_url); ?>"
+                                alt="<?php echo esc_attr($alt_text); ?>"
+                                class="ec-bg-image"
+                                style="object-fit: <?php echo $fit; ?>;"
+                            />
+                        <?php else : ?>
+                            <img src="<?php echo EC_PLUGIN_URL; ?>assets/images/placeholder.jpg" alt="<?php the_title_attribute(); ?>" class="ec-bg-image" style="object-fit: <?php echo esc_attr($atts['image_fit']); ?>;">
+                        <?php endif; ?>
+
+                        <!-- Overlay -->
+                        <div class="ec-overlay"></div>
+
+                        <!-- Content -->
+                        <div class="ec-content">
+                            <div class="ec-content-inner">
+                                <!-- Location -->
                             <?php
                             $ubicaciones = get_the_terms(get_the_ID(), 'ubicacion_evento');
                             if ($ubicaciones && !is_wp_error($ubicaciones)) :
@@ -147,8 +159,8 @@ function ec_carrusel_eventos_shortcode($atts) {
                 
             <?php endwhile; ?>
             
-        </div>
-    </div>
+        </div> <!-- .ec-carrusel-container -->
+    </div> <!-- .ec-carrusel-wrapper -->
     
     <?php
     wp_reset_postdata();
