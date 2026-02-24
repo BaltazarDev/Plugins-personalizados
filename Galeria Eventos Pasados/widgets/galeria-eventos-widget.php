@@ -28,6 +28,18 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
         return ['galeria', 'eventos', 'parallax', 'sticky', 'fernader'];
     }
 
+    /**
+     * get_script_depends() — API oficial de Elementor para dependencias JS.
+     *
+     * Elementor solo encola estos scripts cuando el widget está presente
+     * en la página que se está renderizando. En páginas sin este widget,
+     * los scripts NO se cargan → el scroll nativo móvil no se ve afectado.
+     */
+    public function get_script_depends() {
+        return ['gsap-scroll-trigger']; // gsap-scroll-trigger depende de gsap,
+                                        // WordPress los cargará ambos en el footer.
+    }
+
     protected function register_controls() {
         
         // Sección de Contenido
@@ -154,7 +166,7 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#000000',
                 'selectors' => [
-                    '{{WRAPPER}} .bodoni-title' => 'color: {{VALUE}}',
+                    '{{WRAPPER}} .gep-bodoni-title' => 'color: {{VALUE}}',
                 ],
             ]
         );
@@ -166,7 +178,7 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#000000',
                 'selectors' => [
-                    '{{WRAPPER}} .divider-line' => 'background-color: {{VALUE}}',
+                    '{{WRAPPER}} .gep-divider-line' => 'background-color: {{VALUE}}',
                 ],
             ]
         );
@@ -178,7 +190,7 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#6B7280',
                 'selectors' => [
-                    '{{WRAPPER}} .open-sans-text' => 'color: {{VALUE}}',
+                    '{{WRAPPER}} .gep-open-sans-text' => 'color: {{VALUE}}',
                 ],
             ]
         );
@@ -190,7 +202,7 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} #gallery-section' => 'background-color: {{VALUE}}',
+                    '{{WRAPPER}} .gep-gallery-section' => 'background-color: {{VALUE}}',
                 ],
             ]
         );
@@ -215,6 +227,9 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
         
+        // ID único por instancia del widget para evitar conflictos si hay múltiples en la página
+        $widget_id = 'gep-' . $this->get_id();
+
         // Query de eventos pasados
         $args = [
             'post_type' => 'eventos',
@@ -250,95 +265,260 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
             if ($settings['orderby'] === 'date') {
                 $args['meta_key'] = '_evento_fecha';
                 $args['orderby'] = 'meta_value';
-                $args['order'] = 'DESC'; // Eventos más recientes primero
+                $args['order'] = 'DESC';
             }
         }
 
         $query = new WP_Query($args);
-        
         ?>
-        <!-- Tailwind CSS -->
-        <script src="https://cdn.tailwindcss.com"></script>
 
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-        <!-- GSAP para animaciones -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <?php
+        // Solo cargar Google Fonts una vez (evitar duplicados si hay múltiples widgets)
+        if (!wp_style_is('gep-google-fonts', 'enqueued')) {
+            wp_enqueue_style(
+                'gep-google-fonts',
+                'https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&family=Open+Sans:wght@300;400;600&display=swap&display=optional',
+                [],
+                null
+            );
+        }
+        ?>
 
         <style>
-            .bodoni-title {
-                font-family: 'Bodoni Moda', serif;
+            /*
+             * =====================================================
+             * GALERÍA EVENTOS PARALLAX - Estilos optimizados
+             * Sin Tailwind CDN — CSS puro para máximo rendimiento
+             * =====================================================
+             */
+
+            /* ---- Reset de caja para el widget ---- */
+            .gep-wrapper *,
+            .gep-wrapper *::before,
+            .gep-wrapper *::after {
+                box-sizing: border-box;
+            }
+
+            /* ---- Sección principal ---- */
+            .gep-gallery-section {
+                min-height: 100vh;
+                padding: 5rem 1.5rem;
+                background-color: #ffffff;
+                overflow: hidden; /* contiene los overflows del parallax */
+            }
+
+            .gep-inner {
+                max-width: 1600px;
+                margin: 0 auto;
+            }
+
+            /* ---- Grid principal ---- */
+            .gep-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            @media (min-width: 1024px) {
+                .gep-gallery-section {
+                    padding: 5rem 2rem;
+                }
+                .gep-grid {
+                    grid-template-columns: 3fr 9fr;
+                    gap: 2rem;
+                }
+            }
+
+            @media (min-width: 1280px) {
+                .gep-gallery-section {
+                    padding: 5rem 3rem;
+                }
+                .gep-grid {
+                    grid-template-columns: 4fr 8fr;
+                    gap: 3rem;
+                }
+            }
+
+            @media (min-width: 1536px) {
+                .gep-gallery-section {
+                    padding: 5rem 5rem;
+                }
+                .gep-grid {
+                    gap: 5rem;
+                }
+            }
+
+            /* ---- Texto sticky ---- */
+            .gep-sticky-text {
+                position: relative;
+            }
+
+            @media (min-width: 1024px) {
+                .gep-sticky-text {
+                    position: sticky;
+                    top: 120px;
+                    align-self: flex-start;
+                }
+            }
+
+            /* ---- Tipografía ---- */
+            .gep-bodoni-title {
+                font-family: 'Bodoni Moda', Georgia, serif;
                 letter-spacing: -0.03em;
                 line-height: 0.85;
+                font-weight: 700;
+                font-size: clamp(3rem, 5vw, 6rem);
+                margin: 0 0 2rem;
+                color: #000000;
             }
 
-            .open-sans-text {
-                font-family: 'Open Sans', sans-serif;
+            .gep-divider-line {
+                width: 5rem;
+                height: 4px;
+                background-color: #000000;
+                margin-bottom: 1.5rem;
+                border: none;
+            }
+
+            .gep-open-sans-text {
+                font-family: 'Open Sans', Arial, sans-serif;
                 letter-spacing: 0.05em;
+                color: #6B7280;
+                font-size: 0.875rem;
+                text-transform: uppercase;
+                font-weight: 300;
+                margin: 0;
             }
 
-            .parallax-column {
-                will-change: transform;
+            @media (min-width: 1024px) {
+                .gep-open-sans-text {
+                    font-size: 1rem;
+                }
             }
 
-            .img-container {
+            /* ---- Grid de imágenes ---- */
+            .gep-images-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            @media (min-width: 1024px) {
+                .gep-images-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1.5rem;
+                }
+            }
+
+            /* ---- Columnas parallax ---- */
+            .gep-parallax-col {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                /*
+                 * NOTA DE RENDIMIENTO:
+                 * will-change se activa SOLO cuando GSAP lo necesita (via JS)
+                 * y se elimina cuando la animación termina. No se declara aquí
+                 * de forma estática para evitar el overhead permanente en FF/Safari.
+                 */
+            }
+
+            @media (min-width: 1024px) {
+                .gep-parallax-col {
+                    gap: 1.5rem;
+                }
+            }
+
+            /* Columna 2: offset vertical inicial */
+            .gep-parallax-col--2 {
+                margin-top: 0;
+            }
+
+            @media (min-width: 1024px) {
+                .gep-parallax-col--2 {
+                    margin-top: -150px;
+                }
+            }
+
+            /* Columna 3: solo desktop */
+            .gep-parallax-col--3 {
+                display: none;
+            }
+
+            @media (min-width: 1024px) {
+                .gep-parallax-col--3 {
+                    display: flex;
+                }
+            }
+
+            /* ---- Contenedor de imagen ---- */
+            .gep-img-container {
                 position: relative;
                 overflow: hidden;
-                border-radius: 0rem;
-                box-shadow: 0 10px 20px -5px rgb(0 0 0 / 0.1);
+                box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+                /*
+                 * backface-visibility: hidden fuerza compositing layer en FF/Safari
+                 * sin el overhead de will-change permanente
+                 */
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                border-radius: 0;
             }
 
-            .img-container img {
+            .gep-img-container img {
                 width: 100%;
                 height: auto;
                 display: block;
-                transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+                /*
+                 * ELIMINADO: transition de transform en hover
+                 * Combinarlo con GSAP translate causaba doble compositing en Safari.
+                 * El hover ahora usa una clase CSS que GSAP puede ignorar.
+                 */
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
             }
 
-            .img-container:hover img {
-                transform: scale(1.05);
-            }
-
-            .sticky-text {
-                position: sticky;
-                top: 120px;
-                align-self: flex-start;
-            }
-
-            @media (max-width: 1023px) {
-                .sticky-text {
-                    position: relative;
-                    top: 0;
+            /* Hover: solo en dispositivos que soportan hover real (no touch) */
+            @media (hover: hover) and (pointer: fine) {
+                .gep-img-container img {
+                    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                    will-change: transform;
                 }
+                .gep-img-container:hover img {
+                    transform: scale(1.05);
+                }
+            }
+
+            /* ---- Mensaje sin posts ---- */
+            .gep-no-posts {
+                grid-column: 1 / -1;
+                text-align: center;
+                color: #6B7280;
+                padding: 2rem;
             }
         </style>
 
         <!-- Sección Principal con Texto Sticky y Galería Parallax -->
-        <section id="gallery-section" class="min-h-screen py-20 px-6 lg:px-8 xl:px-12 2xl:px-20">
-            <div class="max-w-[1600px] mx-auto">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 xl:gap-12 2xl:gap-20">
+        <section id="<?php echo esc_attr($widget_id); ?>" class="gep-gallery-section gep-wrapper">
+            <div class="gep-inner">
+                <div class="gep-grid">
 
                     <!-- TEXTO STICKY A LA IZQUIERDA -->
-                    <div class="lg:col-span-3 xl:col-span-4 sticky-text">
-                        <h1 class="bodoni-title text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold mb-8">
+                    <div class="gep-sticky-text">
+                        <h2 class="gep-bodoni-title">
                             <?php echo wp_kses_post($settings['titulo']); ?>
-                        </h1>
+                        </h2>
 
-                        <div class="divider-line w-20 h-1 bg-black mb-6"></div>
+                        <div class="gep-divider-line"></div>
 
-                        <p class="open-sans-text text-gray-600 text-sm lg:text-base uppercase font-light">
+                        <p class="gep-open-sans-text">
                             <?php echo esc_html($settings['subtitulo']); ?>
                         </p>
                     </div>
 
                     <!-- GALERÍA DE IMÁGENES CON PARALLAX -->
-                    <div class="lg:col-span-9 xl:col-span-8">
-                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-
+                    <div class="gep-gallery-right">
+                        <div class="gep-images-grid">
 
                             <?php
                             if ($query->have_posts()) {
@@ -349,7 +529,7 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
                                     $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
                                     if ($thumbnail_url) {
                                         $posts_array[] = [
-                                            'url' => $thumbnail_url,
+                                            'url'   => $thumbnail_url,
                                             'title' => get_the_title()
                                         ];
                                     }
@@ -363,9 +543,9 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
                                 
                                 foreach ($posts_array as $index => $post) {
                                     $col_num = $index % 3;
-                                    if ($col_num == 0) {
+                                    if ($col_num === 0) {
                                         $col1[] = $post;
-                                    } elseif ($col_num == 1) {
+                                    } elseif ($col_num === 1) {
                                         $col2[] = $post;
                                     } else {
                                         $col3[] = $post;
@@ -373,54 +553,50 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
                                 }
 
                                 // Columna 1
-                                if (!empty($col1)) {
-                                    ?>
-                                    <div id="col-1" class="parallax-column flex flex-col gap-4 lg:gap-6">
+                                if (!empty($col1)) { ?>
+                                    <div id="<?php echo esc_attr($widget_id); ?>-col-1" class="gep-parallax-col gep-parallax-col--1">
                                         <?php foreach ($col1 as $post) { ?>
-                                            <div class="img-container">
-                                                <img src="<?php echo esc_url($post['url']); ?>" 
-                                                     alt="<?php echo esc_attr($post['title']); ?>" 
-                                                     loading="lazy">
+                                            <div class="gep-img-container">
+                                                <img src="<?php echo esc_url($post['url']); ?>"
+                                                     alt="<?php echo esc_attr($post['title']); ?>"
+                                                     loading="lazy"
+                                                     decoding="async">
                                             </div>
                                         <?php } ?>
                                     </div>
-                                    <?php
-                                }
+                                <?php }
 
                                 // Columna 2
-                                if (!empty($col2)) {
-                                    ?>
-                                    <div id="col-2" class="parallax-column flex flex-col gap-4 lg:gap-6 mt-0 lg:mt-[-150px]">
+                                if (!empty($col2)) { ?>
+                                    <div id="<?php echo esc_attr($widget_id); ?>-col-2" class="gep-parallax-col gep-parallax-col--2">
                                         <?php foreach ($col2 as $post) { ?>
-                                            <div class="img-container">
-                                                <img src="<?php echo esc_url($post['url']); ?>" 
-                                                     alt="<?php echo esc_attr($post['title']); ?>" 
-                                                     loading="lazy">
+                                            <div class="gep-img-container">
+                                                <img src="<?php echo esc_url($post['url']); ?>"
+                                                     alt="<?php echo esc_attr($post['title']); ?>"
+                                                     loading="lazy"
+                                                     decoding="async">
                                             </div>
                                         <?php } ?>
                                     </div>
-                                    <?php
-                                }
+                                <?php }
 
                                 // Columna 3 (solo desktop)
-                                if (!empty($col3)) {
-                                    ?>
-                                    <div id="col-3" class="parallax-column hidden lg:flex flex-col gap-4 lg:gap-6">
+                                if (!empty($col3)) { ?>
+                                    <div id="<?php echo esc_attr($widget_id); ?>-col-3" class="gep-parallax-col gep-parallax-col--3">
                                         <?php foreach ($col3 as $post) { ?>
-                                            <div class="img-container">
-                                                <img src="<?php echo esc_url($post['url']); ?>" 
-                                                     alt="<?php echo esc_attr($post['title']); ?>" 
-                                                     loading="lazy">
+                                            <div class="gep-img-container">
+                                                <img src="<?php echo esc_url($post['url']); ?>"
+                                                     alt="<?php echo esc_attr($post['title']); ?>"
+                                                     loading="lazy"
+                                                     decoding="async">
                                             </div>
                                         <?php } ?>
                                     </div>
-                                    <?php
-                                }
+                                <?php }
                             } else {
-                                echo '<p class="col-span-full text-center text-gray-500">No se encontraron posts.</p>';
+                                echo '<p class="gep-no-posts">No se encontraron eventos.</p>';
                             }
                             ?>
-
 
                         </div>
                     </div>
@@ -430,95 +606,128 @@ class Galeria_Eventos_Widget extends \Elementor\Widget_Base {
         </section>
 
         <script>
-            (function() {
-                // Registrar ScrollTrigger
+        (function() {
+            'use strict';
+
+            var WIDGET_ID = '<?php echo esc_js($widget_id); ?>';
+            var section   = document.getElementById(WIDGET_ID);
+            var col1      = document.getElementById(WIDGET_ID + '-col-1');
+            var col2      = document.getElementById(WIDGET_ID + '-col-2');
+            var col3      = document.getElementById(WIDGET_ID + '-col-3');
+
+            // Salir si no existen los elementos necesarios
+            if (!section || !col1 || !col2) return;
+
+            var parallaxInitialized = false;
+
+            // ─────────────────────────────────────────────────────────────
+            // initParallax: registra ScrollTrigger y crea las animaciones.
+            // Se llama UNA sola vez, justo cuando la sección entra en el
+            // rango del IntersectionObserver (ver abajo).
+            // ─────────────────────────────────────────────────────────────
+            function initParallax() {
+                if (parallaxInitialized) return;
+                if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+                parallaxInitialized = true;
                 gsap.registerPlugin(ScrollTrigger);
 
-                // Detectar si es móvil
-                const isMobile = window.innerWidth < 768;
-                const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+                var w        = window.innerWidth;
+                var isMobile = w < 768;
+                var isTablet = w >= 768 && w < 1024;
 
-                // Configuración específica por dispositivo
-                const config = {
-                    mobile: {
-                        col1Y: -100,
-                        col2Start: -50,
-                        col2Y: 150,
-                        col3Y: -150,
-                        scrub: 0.5,
-                        start: "top 80%",
-                        end: "bottom 20%"
-                    },
-                    tablet: {
-                        col1Y: -150,
-                        col2Start: -75,
-                        col2Y: 200,
-                        col3Y: -200,
-                        scrub: 0.8,
-                        start: "top 70%",
-                        end: "bottom 30%"
-                    },
-                    desktop: {
-                        col1Y: -250,
-                        col2Start: -100,
-                        col2Y: 300,
-                        col3Y: -350,
-                        scrub: 1,
-                        start: "top bottom",
-                        end: "bottom top"
-                    }
-                };
+                var cfg = isMobile
+                    ? { c1: -60,  c2s: -40, c2: 90,  c3: -80,  scrub: 1.2, start: 'top 85%',   end: 'bottom 15%' }
+                    : isTablet
+                    ? { c1: -100, c2s: -50, c2: 130, c3: -130, scrub: 1.5, start: 'top 75%',   end: 'bottom 25%' }
+                    : { c1: -150, c2s: -80, c2: 200, c3: -200, scrub: 2,   start: 'top bottom', end: 'bottom top' };
 
-                // Seleccionar configuración según dispositivo
-                const settings = isMobile ? config.mobile : (isTablet ? config.tablet : config.desktop);
-
-                // Animación Columna 1 (Sube suavemente)
-                gsap.to("#col-1", {
-                    y: settings.col1Y,
-                    ease: "none",
+                // will-change gestionado de forma más eficiente (vía IntersectionObserver)
+                
+                // Una sola línea de tiempo y un solo ScrollTrigger para todo el widget
+                // Esto es mucho más eficiente que tener 3 Triggers separados.
+                var tl = gsap.timeline({
                     scrollTrigger: {
-                        trigger: "#gallery-section",
-                        start: settings.start,
-                        end: settings.end,
-                        scrub: settings.scrub
+                        trigger: section,
+                        start: cfg.start,
+                        end: cfg.end,
+                        scrub: cfg.scrub
                     }
                 });
 
-                // Animación Columna 2 (Baja desde arriba)
-                gsap.fromTo("#col-2",
-                    { y: settings.col2Start },
-                    {
-                        y: settings.col2Y,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: "#gallery-section",
-                            start: settings.start,
-                            end: settings.end,
-                            scrub: settings.scrub * 1.2
-                        }
-                    }
-                );
+                tl.to(col1, { y: cfg.c1, ease: 'none' }, 0);
+                
+                tl.fromTo(col2, { y: cfg.c2s }, { 
+                    y: cfg.c2, ease: 'none' 
+                }, 0);
 
-                // Animación Columna 3 (Sube más rápido - solo desktop)
-                if (!isMobile) {
-                    gsap.to("#col-3", {
-                        y: settings.col3Y,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: "#gallery-section",
-                            start: settings.start,
-                            end: settings.end,
-                            scrub: settings.scrub * 1.1
-                        }
-                    });
+                if (!isMobile && col3) {
+                    tl.to(col3, { y: cfg.c3, ease: 'none' }, 0);
                 }
 
-                // Refrescar ScrollTrigger al cambiar tamaño de ventana
-                window.addEventListener('resize', () => {
-                    ScrollTrigger.refresh();
-                });
-            })();
+                // GSAP ya gestiona el refresco en resize de forma automática y optimizada.
+            }
+
+            // ─────────────────────────────────────────────────────────────
+            // INICIALIZACIÓN LAZY con IntersectionObserver
+            //
+            // ¿Por qué? ScrollTrigger añade listeners de scroll GLOBALES
+            // desde el momento en que se registra. Eso hace que capture los
+            // eventos de scroll de toda la página e interfiera con el scroll
+            // inercial (momentum) del navegador ANTES de que el usuario
+            // llegue a la galería.
+            //
+            // Solución: esperamos a que la sección esté a 300 px del
+            // viewport para inicializar ScrollTrigger. Hasta ese momento,
+            // el scroll nativo de la página no se ve afectado en absoluto.
+            // ─────────────────────────────────────────────────────────────
+            function waitForGSAPAndInit() {
+                if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                    initParallax();
+                } else {
+                    // GSAP carga con defer; puede no estar listo aún.
+                    // Polling ligero, máx 10 intentos (~5 s).
+                    var attempts = 0;
+                    var poll = setInterval(function() {
+                        attempts++;
+                        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                            clearInterval(poll);
+                            initParallax();
+                        } else if (attempts >= 10) {
+                            clearInterval(poll);
+                        }
+                    }, 500);
+                }
+            }
+
+            if ('IntersectionObserver' in window) {
+                // rootMargin: '300px' → empieza a inicializar cuando la
+                // sección está a 300px de entrar en la pantalla.
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            observer.disconnect(); // un solo disparo
+                            
+                            // Activar will-change una sola vez cuando el widget está cerca
+                            // Esto prepara la GPU sin causar parones justo cuando empieza el scroll.
+                            if (col1) col1.style.willChange = 'transform';
+                            if (col2) col2.style.willChange = 'transform';
+                            if (col3) col3.style.willChange = 'transform';
+                            
+                            waitForGSAPAndInit();
+                        }
+                    });
+                }, { rootMargin: '400px 0px' });
+
+                observer.observe(section);
+            } else {
+                // Fallback para navegadores sin IntersectionObserver (muy raros)
+                waitForGSAPAndInit();
+            }
+
+        })();
         </script>
+
         <?php
     }
 }
