@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 480" width="220" height="480">
+  <rect width="220" height="480" fill="#fdf4f7" rx="8"/>
+  <ellipse cx="110" cy="44" rx="25" ry="30" fill="#e9c4cf"/>
+  <rect x="101" y="72" width="18" height="19" rx="4" fill="#e9c4cf"/>
+  <path d="M58 94 Q78 86 110 90 Q142 86 162 94 L156 162 L64 162 Z" fill="#f0d4dd"/>
+  <rect x="66" y="94" width="88" height="68" rx="6" fill="#f0d4dd"/>
+  <ellipse cx="90" cy="132" rx="18" ry="14" fill="#e2bdc8"/>
+  <ellipse cx="130" cy="132" rx="18" ry="14" fill="#e2bdc8"/>
+  <rect x="104" y="94" width="12" height="68" rx="4" fill="#e2bdc8"/>
+  <rect x="34" y="96" width="24" height="76" rx="12" fill="#f0d4dd"/>
+  <rect x="162" y="96" width="24" height="76" rx="12" fill="#f0d4dd"/>
+  <rect x="32" y="174" width="22" height="64" rx="11" fill="#e9c4cf"/>
+  <rect x="166" y="174" width="22" height="64" rx="11" fill="#e9c4cf"/>
+  <ellipse cx="43" cy="248" rx="12" ry="15" fill="#f0d4dd"/>
+  <ellipse cx="177" cy="248" rx="12" ry="15" fill="#f0d4dd"/>
+  <ellipse cx="110" cy="186" rx="50" ry="22" fill="#e8c2cc"/>
+  <rect x="66" y="204" width="32" height="92" rx="16" fill="#f0d4dd"/>
+  <rect x="122" y="204" width="32" height="92" rx="16" fill="#f0d4dd"/>
+  <rect x="68" y="298" width="30" height="84" rx="15" fill="#e9c4cf"/>
+  <rect x="122" y="298" width="30" height="84" rx="15" fill="#e9c4cf"/>
+  <ellipse cx="83" cy="392" rx="17" ry="11" fill="#f0d4dd"/>
+  <ellipse cx="137" cy="392" rx="17" ry="11" fill="#f0d4dd"/>
+  <text x="110" y="450" text-anchor="middle" fill="#c084a0" font-family="system-ui,sans-serif" font-size="10" font-weight="500">Sube tu imagen en Admin → Imágenes</text>
+</svg>

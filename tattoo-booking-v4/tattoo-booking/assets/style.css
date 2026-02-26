@@ -1,0 +1,427 @@
+/* ════════════════════════════════════════════════════
+   TATTOO BOOKING — Frontend CSS v4.0
+   Minimalista · Fondo transparente · Adaptable
+   ════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* ── RESET SCOPED ── */
+.tbw-wrap,
+.tbw-wrap * {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+.tbw-wrap { all: initial; display: block; }
+.tbw-wrap input,
+.tbw-wrap select,
+.tbw-wrap textarea,
+.tbw-wrap button { font-family: inherit; }
+
+/* ── CONTENEDOR PRINCIPAL ── */
+.tbw-wrap {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 15px;
+    color: #1a1a1a;
+    background: transparent;
+    width: 100%;
+}
+
+/* ══════════════════════════════════════════
+   BARRA DE DOLOR — idéntica a la captura
+   ══════════════════════════════════════════ */
+.tbw-pain-header {
+    width: 100%;
+}
+
+.tbw-pain-bar {
+    height: 12px;
+    background: linear-gradient(
+        to right,
+        #4ade80 0%,    #4ade80 25%,
+        #facc15 25%,   #facc15 50%,
+        #fb923c 50%,   #fb923c 75%,
+        #ef4444 75%,   #ef4444 100%
+    );
+}
+
+.tbw-pain-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0 8px;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.tbw-pain-cursor-row {
+    padding: 0 0 4px;
+}
+.tbw-pain-cursor-track {
+    position: relative;
+    height: 4px;
+    background: transparent;
+}
+.tbw-pain-cursor {
+    position: absolute;
+    top: -3px;
+    width: 3px;
+    height: 10px;
+    background: #1a1a1a;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: left .5s cubic-bezier(.4,0,.2,1);
+}
+
+/* ══════════════════════════════════════════
+   LAYOUT — dos columnas fluidas
+   ══════════════════════════════════════════ */
+.tbw-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .tbw-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+/* ══════════════════════════════════════════
+   COLUMNA FORMULARIO
+   ══════════════════════════════════════════ */
+.tbw-col-form {
+    padding: 32px 0;
+}
+
+.tbw-form-top {
+    margin-bottom: 24px;
+}
+
+.tbw-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+}
+
+.tbw-subtitle {
+    font-size: .82rem;
+    color: #9ca3af;
+    margin: 0;
+    letter-spacing: .02em;
+}
+
+/* Sucursal badge */
+.tbw-branch-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .78rem;
+    font-weight: 500;
+    color: #374151;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin-bottom: 16px;
+}
+.tbw-branch-tag svg {
+    width: 13px;
+    height: 13px;
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+/* Mensajes */
+.tbw-msg {
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: .85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.tbw-msg p { margin: 0; }
+.tbw-msg svg { width: 18px; height: 18px; flex-shrink: 0; }
+.tbw-msg-ok  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+.tbw-msg-err { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+.tbw-no-branches { color: #9ca3af; font-size: .85rem; margin: 0 0 12px; }
+
+/* ── CAMPOS ── */
+.tbw-row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+@media (max-width: 480px) { .tbw-row2 { grid-template-columns: 1fr; } }
+
+.tbw-field {
+    margin-bottom: 14px;
+}
+
+.tbw-label {
+    display: block;
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #6b7280;
+    margin-bottom: 5px;
+}
+
+.tbw-control {
+    display: block;
+    width: 100%;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    color: #111827;
+    padding: 9px 13px;
+    font-size: .88rem;
+    font-family: inherit;
+    transition: border-color .15s, box-shadow .15s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.tbw-control:focus {
+    outline: none;
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17,24,39,.07);
+    background: #fff;
+}
+.tbw-control::placeholder { color: #c4c9d4; }
+.tbw-control option { background: #fff; color: #111; }
+textarea.tbw-control { resize: vertical; min-height: 76px; line-height: 1.5; }
+
+/* ── GÉNERO PILLS ── */
+.tbw-gender {
+    display: flex;
+    height: 40px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9fafb;
+}
+.tbw-gender-pill {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    font-family: inherit;
+    font-size: .83rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s;
+    padding: 0;
+}
+.tbw-gender-pill.active {
+    background: #111827;
+    color: #fff;
+    font-weight: 600;
+}
+.tbw-gender-pill:not(.active):hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+/* ── BOTÓN SUBMIT — estilo de la captura ── */
+.tbw-submit-row {
+    margin-top: 6px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+.tbw-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #111827;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 20px;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+    letter-spacing: .01em;
+}
+.tbw-submit:hover { background: #374151; transform: translateY(-1px); }
+.tbw-submit:active { transform: translateY(0); }
+.tbw-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.tbw-btn-icon { font-size: .95rem; }
+
+/* ══════════════════════════════════════════
+   COLUMNA IMAGEN / CUERPO
+   ══════════════════════════════════════════ */
+.tbw-col-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 32px 0;
+    background: transparent;
+    position: relative;
+    min-height: 400px;
+}
+
+/* Estado inactivo */
+.tbw-idle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 300px;
+    width: 100%;
+    color: #d1d5db;
+}
+.tbw-idle-hint {
+    text-align: center;
+}
+.tbw-idle-hint svg {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 10px;
+    opacity: .4;
+}
+.tbw-idle-hint p {
+    font-size: .83rem;
+    color: #d1d5db;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Viewer */
+.tbw-viewer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Contenedor imagen + canvas */
+.tbw-img-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+}
+
+.tb-body-photo {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+/* Canvas superpuesto */
+.tbw-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Callout flotante — estilo de la captura: línea + caja */
+.tbw-zone-callout {
+    position: absolute;
+    pointer-events: none;
+}
+.tbw-callout-box {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,.95);
+    border: 1.5px solid currentColor;
+    border-radius: 4px;
+    padding: 4px 8px;
+    min-width: 80px;
+    backdrop-filter: blur(4px);
+}
+.tbw-callout-name {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #111827;
+    line-height: 1.3;
+}
+.tbw-callout-pain {
+    font-size: .65rem;
+    font-weight: 600;
+    margin-top: 1px;
+}
+
+/* Panel de nivel de dolor */
+.tbw-pain-panel {
+    width: 100%;
+    max-width: 340px;
+}
+.tbw-pain-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+.tbw-pain-zone {
+    font-size: .78rem;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+.tbw-pain-num {
+    font-size: 1rem;
+    font-weight: 700;
+}
+.tbw-pain-track {
+    height: 5px;
+    background: #f3f4f6;
+    border-radius: 99px;
+    overflow: hidden;
+}
+.tbw-pain-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width .5s cubic-bezier(.4,0,.2,1), background .5s;
+}
+
+/* Leyenda */
+.tbw-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 4px;
+}
+.tbw-legend span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: .68rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+.tbw-legend i {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    display: inline-block;
+    flex-shrink: 0;
+}
