@@ -1,10 +1,11 @@
 <?php
 /**
  * Plugin Name: Carrusel de Eventos
- * Plugin URI: 
+ * Plugin URI: https://baltazarg.xyz
  * Description: Plugin para mostrar eventos en un carrusel con Swiper y Elementor
  * Version: 1.0.6
  * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: eventos-carrusel
  */
 

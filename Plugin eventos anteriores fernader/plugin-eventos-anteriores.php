@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: Plugin Eventos Anteriores
+ * Plugin URI: https://baltazarg.xyz
  * Description: Muestra una lista de eventos anteriores utilizando un widget de Elementor.
  * Version: 1.0.0
- * Author: Antigravity
+ * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: plugin-eventos-anteriores
  */
 

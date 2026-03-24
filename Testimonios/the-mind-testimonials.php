@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: The Mind Testimonials
+ * Plugin URI: https://baltazarg.xyz
  * Description: Custom Elementor widget for testimonials with a specific design and submission form integration.
  * Version: 1.0.0
- * Author: The Mind
+ * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: the-mind-testimonials
  */
 

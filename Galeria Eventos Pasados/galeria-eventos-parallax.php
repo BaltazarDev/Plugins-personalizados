@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Galería Eventos Pasados
- * Plugin URI: 
+ * Plugin URI: https://baltazarg.xyz
  * Description: Widget de Elementor con galería parallax sticky para mostrar eventos pasados. Se integra con el plugin "Carrusel de Eventos" usando el mismo CPT.
  * Version: 1.0.0
  * Author: Baltazar Dev
- * Author URI: https://baltazarg.xyz/plugins
+ * Author URI: https://baltazarg.xyz
  * Text Domain: galeria-eventos-pasados
  */
 

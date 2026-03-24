@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: Plugin Roster Scroll
+ * Plugin URI: https://baltazarg.xyz
  * Description: Widget de Elementor con efecto parallax scroll. Gestiona imágenes, nombres, tipografía, colores y estilos directamente desde el editor de Elementor.
  * Version: 2.0.0
- * Author: Antigravity
+ * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: plugin-roster-scroll
  */
 

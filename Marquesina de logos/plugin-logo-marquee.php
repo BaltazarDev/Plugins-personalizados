@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: Plugin Logo Marquee
+ * Plugin URI: https://baltazarg.xyz
  * Description: Widget de Elementor que muestra logos en una marquesina infinita personalizable.
  * Version: 1.0.0
- * Author: Antigravity
+ * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: plugin-logo-marquee
  */
 

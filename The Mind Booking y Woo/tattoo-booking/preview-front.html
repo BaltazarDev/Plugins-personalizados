@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview Front - Tattoo Booking</title>
+  <link rel="stylesheet" href="./assets/style.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #e5e5e5;
+      font-family: Arial, sans-serif;
+    }
+    .preview-shell {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      padding: 20px 24px 26px;
+    }
+    .tbw-col-body { display: none !important; }
+    .tbw-layout { grid-template-columns: 1fr !important; }
+    .tbw-control {
+      background: #000000 !important;
+      color: #ffffff !important;
+      border-color: #000000 !important;
+      border-radius: 0 !important;
+    }
+    .tbw-control::placeholder { color: #d1d5db !important; }
+    .tbw-gender {
+      border-radius: 0 !important;
+      background: #ffffff !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-shell">
+    <div class="tbw-wrap" id="tb-preview" data-uid="tb-preview">
+      <div class="tbw-layout">
+        <div class="tbw-col-form">
+          <div class="tbw-form-head">
+            <h2 class="tbw-title">Agenda tu Cita</h2>
+            <p class="tbw-subtitle">Reserva en linea · Sin esperas</p>
+          </div>
+
+          <form class="tbw-form" novalidate>
+            <div class="tbw-field">
+              <label class="tbw-label">Sucursal</label>
+              <select name="branch_id" class="tbw-control" required>
+                <option value="">— Selecciona tu sucursal —</option>
+              </select>
+            </div>
+
+            <div class="tbw-row2">
+              <div class="tbw-field">
+                <label class="tbw-label">Nombre *</label>
+                <input type="text" name="name" class="tbw-control" placeholder="Tu nombre completo" required>
+              </div>
+              <div class="tbw-field">
+                <label class="tbw-label">Email</label>
+                <input type="email" name="email" class="tbw-control" placeholder="tu@email.com">
+              </div>
+            </div>
+
+            <div class="tbw-row2">
+              <div class="tbw-field">
+                <label class="tbw-label">Telefono</label>
+                <input type="tel" name="phone" class="tbw-control" placeholder="+52 555 000 0000">
+              </div>
+              <div class="tbw-field">
+                <label class="tbw-label">Genero</label>
+                <div class="tbw-gender">
+                  <button type="button" class="tbw-gender-pill active">♂ Masculino</button>
+                  <button type="button" class="tbw-gender-pill">♀ Femenino</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tbw-field">
+              <label class="tbw-label">Zona del Tatuaje *</label>
+              <select name="zone" class="tbw-control" required>
+                <option value="">— Selecciona la zona —</option>
+              </select>
+            </div>
+
+            <div class="tbw-row2">
+              <div class="tbw-field">
+                <label class="tbw-label">Fecha *</label>
+                <input type="date" name="date" class="tbw-control" required>
+              </div>
+              <div class="tbw-field">
+                <label class="tbw-label">Hora *</label>
+                <select name="time" class="tbw-control" required>
+                  <option value="">— Hora —</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tbw-field">
+              <label class="tbw-label">Notas / Idea del diseno</label>
+              <textarea name="notes" class="tbw-control" rows="3" placeholder="Describe tu idea, tamano, colores, referencias..."></textarea>
+            </div>
+
+            <div class="tbw-submit-row tbw-btn-pos-right">
+              <div class="tbw-submit-group">
+                <button type="button" class="tbw-submit tbw-submit-main" id="tb-preview-btn">
+                  <span class="tbw-btn-label">
+                    <span class="tbw-btn-text">Agendar Ahora</span>
+                  </span>
+                </button>
+                <button type="button" class="tbw-submit tbw-submit-icon-only" aria-label="Agendar Ahora">
+                  <span class="tbw-btn-icon" aria-hidden="true">↗</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

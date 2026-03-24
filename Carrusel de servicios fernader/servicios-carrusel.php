@@ -1,10 +1,11 @@
 <?php
 /**
  * Plugin Name: Carrusel de Servicios
- * Plugin URI: 
+ * Plugin URI: https://baltazarg.xyz
  * Description: Carrusel dinámico para mostrar posts de servicios
  * Version: 1.0.9
  * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * License: GPL v2 or later
  * Text Domain: servicios-carrusel
  */

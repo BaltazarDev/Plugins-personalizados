@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: Tattoo Booking & CRM
+ * Plugin URI: https://baltazarg.xyz
  * Description: Sistema de reservaciones con widget de Elementor, mapa corporal de dolor, sucursales y CRM.
  * Version: 4.0.0
- * Author: Tu Estudio
+ * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: tattoo-booking
  */
 

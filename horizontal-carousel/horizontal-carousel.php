@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Horizontal Carousel
- * Plugin URI: https://tu-sitio.com
+ * Plugin URI: https://baltazarg.xyz
  * Description: Carrusel horizontal con scroll para Elementor con Custom Post Type "Servicios"
  * Version: 1.0.1
- * Author: Tu Nombre
- * Author URI: https://tu-sitio.com
+ * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: horizontal-carousel
  * Domain Path: /languages
  * Elementor tested up to: 3.20.0

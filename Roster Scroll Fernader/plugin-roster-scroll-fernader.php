@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: Roster Scroll Fernader
+ * Plugin URI: https://baltazarg.xyz
  * Description: Widget de Elementor con efecto parallax scroll para roster de talentos. Imágenes y nombres configurables directamente desde el editor, con controles de tipografía, colores, tamaños y estilos completos.
  * Version: 1.0.0
  * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: roster-scroll-fernader
  */
 

@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: The Mind Events Slider
+ * Plugin URI: https://baltazarg.xyz
  * Description: Custom Event Slider with CPT integration and Elementor widget.
  * Version: 1.0.1
- * Author: The Mind
+ * Author: Baltazar Dev
+ * Author URI: https://baltazarg.xyz
  * Text Domain: the-mind-events
  */
 

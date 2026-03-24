@@ -1,0 +1,422 @@
+/* ══════════════════════════════════════════════════════
+   TATTOO BOOKING — Frontend CSS v4.2
+   · Barra de dolor 100% ancho + zona activa grande
+   · Callout contenido, nunca desborda
+   · Móvil corregido
+   ══════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* ── RESET SCOPED ── */
+.tbw-wrap, .tbw-wrap *, .tbw-wrap *::before, .tbw-wrap *::after {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+.tbw-wrap { all: initial; display: block; }
+.tbw-wrap input, .tbw-wrap select, .tbw-wrap textarea, .tbw-wrap button { font-family: inherit; }
+
+/* ── RAÍZ ── */
+.tbw-wrap {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 15px;
+    color: #1a1a1a;
+    background: transparent;
+    width: 100%;
+    display: block;
+}
+.tbw-wrap.tbw-boxed .tbw-col-form {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 32px !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   BARRA DE DOLOR
+   ══════════════════════════════════════════════════════ */
+.tbw-pain-header {
+    width: 100%;
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* Barra de colores — ancho completo */
+.tbw-pain-bar {
+    width: 100%;
+    height: 12px;
+    background: linear-gradient(
+        to right,
+        #4ade80 0%,  #4ade80 25%,
+        #facc15 25%, #facc15 50%,
+        #fb923c 50%, #fb923c 75%,
+        #ef4444 75%, #ef4444 100%
+    );
+    display: block;
+    position: relative;
+}
+
+/* ── ZONA ACTIVA DESTACADA en la barra ─────────────────
+   Un bloque grande que cubre el segmento activo,
+   con el nombre + número encima. Reemplaza el palito.
+   ─────────────────────────────────────────────────────── */
+.tbw-pain-active-zone {
+    display: none; /* visible solo cuando hay zona seleccionada */
+    margin-top: 6px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1.5px solid;
+    transition: border-color .4s;
+}
+.tbw-pain-active-zone.visible {
+    display: flex;
+    align-items: stretch;
+}
+
+/* Segmento de color grande (izquierda) */
+.tbw-paz-bar {
+    width: 6px;
+    flex-shrink: 0;
+    transition: background .4s;
+}
+
+/* Info (derecha) */
+.tbw-paz-info {
+    flex: 1;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #fff;
+}
+.tbw-paz-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.tbw-paz-zone {
+    font-size: .73rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #111827;
+}
+.tbw-paz-desc {
+    font-size: .72rem;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+/* Número de dolor — grande y prominente */
+.tbw-paz-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+}
+.tbw-paz-num {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    transition: color .4s;
+}
+.tbw-paz-of10 {
+    font-size: .6rem;
+    font-weight: 500;
+    color: #9ca3af;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+/* Mini barra de progreso dentro */
+.tbw-paz-track {
+    width: 100%;
+    height: 3px;
+    background: #f3f4f6;
+    border-radius: 99px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+.tbw-paz-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width .5s cubic-bezier(.4,0,.2,1), background .5s;
+}
+
+.tbw-pain-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0 8px;
+    font-size: .63rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+/* ══════════════════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════════════════ */
+.tbw-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    width: 100%;
+}
+@media (max-width: 768px) {
+    .tbw-layout { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* ══════════════════════════════════════════════════════
+   FORMULARIO
+   ══════════════════════════════════════════════════════ */
+.tbw-col-form { padding: 28px 0; }
+
+.tbw-form-head { margin-bottom: 22px; }
+.tbw-title {
+    font-size: 1.55rem; font-weight: 700; color: #111827;
+    margin: 0 0 5px; line-height: 1.2; letter-spacing: -.02em;
+}
+.tbw-subtitle { font-size: .8rem; color: #9ca3af; margin: 0; }
+
+.tbw-branch-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: .78rem; font-weight: 500; color: #374151;
+    background: #f3f4f6; border: 1px solid #e5e7eb;
+    border-radius: 6px; padding: 5px 10px; margin-bottom: 16px;
+}
+.tbw-branch-pill svg { width: 12px; height: 12px; flex-shrink: 0; color: #9ca3af; }
+
+.tbw-alert {
+    display: flex; align-items: center; gap: 8px;
+    border-radius: 8px; padding: 9px 14px; margin-bottom: 14px; font-size: .83rem;
+}
+.tbw-alert svg { width: 16px; height: 16px; flex-shrink: 0; }
+.tbw-alert-ok  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+.tbw-alert-err { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+
+.tbw-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .tbw-row2 { grid-template-columns: 1fr; } }
+
+.tbw-field { margin-bottom: 14px; }
+.tbw-label {
+    display: block; font-size: .68rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .09em;
+    color: #6b7280; margin-bottom: 5px;
+}
+.tbw-control {
+    display: block; width: 100%;
+    background-color: #f9fafb; border: 1px solid #e5e7eb;
+    border-radius: 8px; color: #111827; padding: 10px 14px;
+    font-size: .88rem; font-family: inherit; line-height: 1.4;
+    transition: border-color .15s, box-shadow .15s, background-color .15s;
+    appearance: none; -webkit-appearance: none;
+}
+.tbw-control:focus {
+    outline: none; border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17,24,39,.06); background-color: #fff;
+}
+.tbw-control::placeholder { color: #c1c8d4; }
+.tbw-control option { background: #fff; color: #111; }
+textarea.tbw-control { resize: vertical; min-height: 74px; }
+
+.tbw-gender {
+    display: flex; height: 40px; border: 1px solid #e5e7eb;
+    border-radius: 8px; overflow: hidden; background: #f9fafb;
+}
+.tbw-gender-pill {
+    flex: 1; border: none; background: transparent; color: #9ca3af;
+    font-family: inherit; font-size: .83rem; font-weight: 500;
+    cursor: pointer; transition: background .15s, color .15s; padding: 0;
+}
+.tbw-gender-pill.active { background: #111827; color: #fff; font-weight: 600; }
+.tbw-gender-pill:not(.active):hover { background: #f3f4f6; color: #374151; }
+
+/* ══════════════════════════════════════════════════════
+   BOTÓN AGENDAR
+   ══════════════════════════════════════════════════════ */
+.tbw-submit-row { display: flex; margin-top: 6px; }
+.tbw-btn-pos-right  { justify-content: flex-end; }
+.tbw-btn-pos-left   { justify-content: flex-start; }
+.tbw-btn-pos-center { justify-content: center; }
+.tbw-btn-pos-full   { display: block; }
+.tbw-btn-pos-full .tbw-submit { width: 100%; }
+.tbw-btn-pos-full .tbw-btn-label { flex: 1; justify-content: center; }
+
+.tbw-submit {
+    display: inline-flex; align-items: stretch;
+    border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;
+    cursor: pointer; background: transparent; padding: 0;
+    transition: box-shadow .15s, transform .1s; font-family: inherit;
+}
+.tbw-submit:hover   { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,.10); }
+.tbw-submit:active  { transform: translateY(0); box-shadow: none; }
+.tbw-submit:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+.tbw-btn-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 11px 18px; background: #ffffff; color: #111827;
+    font-size: .88rem; font-weight: 600; line-height: 1; white-space: nowrap;
+    transition: background .15s, color .15s;
+}
+.tbw-submit:hover .tbw-btn-label { background: #f9fafb; }
+
+.tbw-btn-divider { width: 1px; background: #e5e7eb; flex-shrink: 0; align-self: stretch; }
+
+.tbw-btn-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; min-height: 44px; background: #111827; color: #ffffff;
+    font-size: .95rem; flex-shrink: 0; transition: background .15s;
+}
+.tbw-submit:hover .tbw-btn-icon { background: #374151; }
+
+.tbw-submit-unified .tbw-btn-label { padding-right: 6px; }
+.tbw-submit-unified .tbw-btn-icon {
+    background: transparent; color: inherit; width: auto;
+    min-height: auto; padding: 0 14px 0 2px;
+}
+.tbw-submit-unified { background: #111827; border-color: #111827; }
+.tbw-submit-unified .tbw-btn-label { background: #111827; color: #fff; }
+.tbw-submit-unified:hover .tbw-btn-label { background: #374151; }
+.tbw-submit-unified .tbw-btn-divider { display: none; }
+
+/* ══════════════════════════════════════════════════════
+   COLUMNA IMAGEN
+   ══════════════════════════════════════════════════════ */
+.tbw-col-body {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    padding: 28px 0; background: transparent;
+    min-height: 300px;
+}
+@media (max-width: 768px) {
+    .tbw-col-body { padding: 20px 0; min-height: 0; order: -1; }
+}
+
+.tbw-idle {
+    width: 100%; flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 200px;
+}
+.tbw-idle-inner { text-align: center; }
+.tbw-idle-icon { font-size: 2rem; opacity: .15; margin-bottom: 10px; }
+.tbw-idle-inner p { font-size: .8rem; color: #c4cad5; line-height: 1.7; margin: 0; }
+
+.tbw-viewer {
+    width: 100%;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+
+/* ──────────────────────────────────────────────────────
+   CONTENEDOR IMAGEN + CANVAS
+   Clave: position:relative + overflow:hidden contiene
+   el callout para que NO salga del bounding box.
+   ────────────────────────────────────────────────────── */
+.tbw-img-container {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden; /* ← contiene el callout */
+}
+.tb-body-photo {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+/* Canvas siempre sobre la imagen */
+.tbw-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+    /* no se fija width/height aquí — lo hace JS */
+}
+
+/* ──────────────────────────────────────────────────────
+   CALLOUT — etiqueta de zona
+   · position: absolute dentro del contenedor
+   · nunca sale del contenedor (overflow:hidden del padre)
+   · en móvil se posiciona siempre abajo de la imagen
+   ────────────────────────────────────────────────────── */
+.tbw-callout {
+    position: absolute;
+    display: none;                /* JS lo pone visible */
+    flex-direction: column;
+    gap: 1px;
+    background: rgba(255,255,255,.96);
+    border: 1.5px solid #111;
+    border-radius: 5px;
+    padding: 5px 9px;
+    min-width: 90px;
+    max-width: 130px;
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+    z-index: 10;
+    /* transición suave al reposicionarse */
+    transition: top .2s, left .2s;
+}
+.tbw-callout-name {
+    font-size: .64rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .07em;
+    color: #111827; display: block; white-space: nowrap;
+}
+.tbw-callout-level {
+    font-size: .62rem; font-weight: 600; display: block; white-space: nowrap;
+}
+
+/* En móvil: callout debajo de todo, fuera del canvas */
+@media (max-width: 600px) {
+    .tbw-callout {
+        position: static !important;
+        display: none;        /* JS usará clase .mobile-visible */
+        max-width: 100%;
+        border-radius: 8px;
+        margin-top: 6px;
+    }
+    .tbw-callout.mobile-visible {
+        display: flex !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════
+   VISIBILIDAD RESPONSIVA DE LOS INDICADORES DE DOLOR
+   · Desktop/tablet (>600px): callout lateral visible,
+     bloque superior oculto
+   · Móvil (≤600px): bloque superior visible,
+     callout oculto
+   ══════════════════════════════════════════════════════ */
+
+/* Bloque grande arriba — oculto en desktop/tablet */
+.tbw-pain-active-zone {
+    display: none !important;
+}
+/* Solo se muestra en móvil cuando tiene clase .visible */
+@media (max-width: 600px) {
+    .tbw-pain-active-zone.visible {
+        display: flex !important;
+    }
+}
+
+/* Callout lateral — visible en desktop, oculto en móvil */
+.tbw-callout {
+    /* base: oculto, JS lo muestra */
+    display: none;
+}
+@media (max-width: 600px) {
+    .tbw-callout,
+    .tbw-callout.mobile-visible {
+        display: none !important; /* en móvil nunca se muestra */
+    }
+}
+
+/* Leyenda */
+.tbw-legend {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center; margin-top: 2px;
+}
+.tbw-legend span { display: flex; align-items: center; gap: 4px; font-size: .67rem; color: #9ca3af; font-weight: 500; }
+.tbw-legend i    { width: 7px; height: 7px; border-radius: 2px; display: inline-block; flex-shrink: 0; }

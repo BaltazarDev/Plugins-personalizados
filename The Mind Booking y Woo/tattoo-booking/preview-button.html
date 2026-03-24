@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview Boton Agendar</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #f3f4f6;
+      font-family: Arial, sans-serif;
+    }
+
+    .stage {
+      background: #ffffff;
+      padding: 30px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .tbw-submit {
+      display: inline-flex;
+      align-items: stretch;
+      cursor: pointer;
+      background: transparent;
+      padding: 0;
+      transition: box-shadow .15s, transform .1s;
+      font-family: inherit;
+    }
+
+    .tbw-submit-group {
+      display: inline-flex;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .tbw-submit-main,
+    .tbw-submit-icon-only {
+      border: 2px solid #111111;
+      border-radius: 0;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .tbw-submit-main .tbw-btn-label {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 20px;
+      background: #ffffff;
+      color: #111111;
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tbw-submit-icon-only .tbw-btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 82px;
+      min-height: 74px;
+      background: #ededed;
+      color: #4b5563;
+      font-size: 44px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .tbw-submit-main:hover,
+    .tbw-submit-icon-only:hover {
+      transform: none;
+    }
+
+    .tbw-submit-main:hover .tbw-btn-label { background: #f8f8f8; }
+    .tbw-submit-icon-only:hover .tbw-btn-icon  { background: #e6e6e6; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="tbw-submit-group">
+      <button type="button" class="tbw-submit tbw-submit-main">
+        <span class="tbw-btn-label">Agendar Ahora</span>
+      </button>
+      <button type="button" class="tbw-submit tbw-submit-icon-only" aria-label="Agendar Ahora">
+        <span class="tbw-btn-icon" aria-hidden="true">↗</span>
+      </button>
+    </div>
+  </div>
+</body>
+</html>
