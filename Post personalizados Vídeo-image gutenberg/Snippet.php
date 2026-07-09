@@ -51,13 +51,32 @@ function cr_get_leading_video_embed($post_id) {
 		$blocks = parse_blocks($content);
 
 		foreach ($blocks as $block) {
+			$html = isset($block['innerHTML']) ? trim($block['innerHTML']) : '';
+
 			if (empty($block['blockName'])) {
+				// Bloques sin nombre (clásico/HTML suelto): si traen contenido,
+				// cuentan como inicio significativo para no detectar videos más abajo.
+				if (!empty($html)) {
+					if (preg_match('/^(?:<p>)?\s*(<iframe[\s\S]*?<\/iframe>|<video[\s\S]*?<\/video>)/i', $html, $m)) {
+						return $m[1];
+					}
+
+					if (stripos($html, '<iframe') !== false || stripos($html, '<video') !== false) {
+						// Hay video más abajo, pero no al inicio: no ocultar la imagen destacada.
+						break;
+					}
+
+					$non_empty_unnamed = !empty(trim(wp_strip_all_tags($html)));
+					if ($non_empty_unnamed) {
+						break;
+					}
+				}
+
 				continue;
 			}
 
 			$name = $block['blockName'];
 			$attrs = isset($block['attrs']) ? $block['attrs'] : array();
-			$html  = isset($block['innerHTML']) ? trim($block['innerHTML']) : '';
 
 			// Bloques de video/embed
 			if ($name === 'core/video') {
@@ -82,8 +101,8 @@ function cr_get_leading_video_embed($post_id) {
 
 			// Si pegaron iframe en HTML personalizado
 			if ($name === 'core/html' && !empty($html)) {
-				if (stripos($html, '<iframe') !== false || stripos($html, '<video') !== false) {
-					return $html;
+				if (preg_match('/^(?:<p>)?\s*(<iframe[\s\S]*?<\/iframe>|<video[\s\S]*?<\/video>)/i', $html, $m)) {
+					return $m[1];
 				}
 			}
 
@@ -148,12 +167,24 @@ function cr_get_first_content_image_html($post_id, $size = 'full') {
 }
 
 function cr_media_header_shortcode($atts = array()) {
-	if (!is_singular('post')) {
+	$atts = shortcode_atts(
+		array(
+			'only_resources' => '0',
+		),
+		$atts,
+		'cr_media_header'
+	);
+
+	if (!is_singular()) {
 		return '';
 	}
 
 	$post_id = get_the_ID();
-	if (!$post_id || !cr_is_in_resource_categories($post_id)) {
+	if (!$post_id) {
+		return '';
+	}
+
+	if ($atts['only_resources'] === '1' && !cr_is_in_resource_categories($post_id)) {
 		return '';
 	}
 
@@ -197,6 +228,13 @@ function cr_media_hero_styles() {
 			background: #000;
 		}
 
+		.cr-media-hero--image {
+			position: relative;
+			width: 100%;
+			overflow: visible;
+			background: transparent;
+		}
+
 		.cr-media-hero--video iframe,
 		.cr-media-hero--video video,
 		.cr-media-hero--video .wp-video,
@@ -212,6 +250,8 @@ function cr_media_hero_styles() {
 			display: block;
 			width: 100%;
 			height: auto;
+			object-fit: contain;
+			object-position: center;
 		}
 	</style>
 	<?php
