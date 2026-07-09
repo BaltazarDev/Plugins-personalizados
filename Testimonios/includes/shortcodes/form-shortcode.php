@@ -25,26 +25,30 @@ class The_Mind_Testimonial_Form {
                 <div class="tm-form-group">
                     <label for="tm_name"><?php esc_html_e( 'Nombre', 'the-mind-testimonials' ); ?></label>
                     <input type="text" name="tm_name" id="tm_name" required>
+                    <p class="tm-field-error" data-for="tm_name"></p>
                 </div>
                 
                 <div class="tm-form-group">
                     <label for="tm_email"><?php esc_html_e( 'Email', 'the-mind-testimonials' ); ?></label>
                     <input type="email" name="tm_email" id="tm_email" required>
+                    <p class="tm-field-error" data-for="tm_email"></p>
                 </div>
 
                 <div class="tm-form-group">
                     <label><?php esc_html_e( 'Calificación', 'the-mind-testimonials' ); ?></label>
                     <div class="tm-rating-inputs">
                         <?php for ( $i = 5; $i >= 1; $i-- ) : ?>
-                            <input type="radio" name="tm_rating" id="star<?php echo $i; ?>" value="<?php echo $i; ?>" required>
+                            <input type="radio" name="tm_rating" id="star<?php echo $i; ?>" value="<?php echo $i; ?>" <?php checked( 5, $i ); ?> required>
                             <label for="star<?php echo $i; ?>"><i class="fas fa-star"></i></label>
                         <?php endfor; ?>
                     </div>
+                    <p class="tm-field-error" data-for="tm_rating"></p>
                 </div>
                 
                 <div class="tm-form-group">
                     <label for="tm_content"><?php esc_html_e( 'Tu Testimonio', 'the-mind-testimonials' ); ?></label>
                     <textarea name="tm_content" id="tm_content" rows="4" required></textarea>
+                    <p class="tm-field-error" data-for="tm_content"></p>
                 </div>
                 
                 <button type="submit" name="tm_submit_testimonial" class="tm-submit-btn">
@@ -81,6 +85,10 @@ class The_Mind_Testimonial_Form {
                 color: #fff;
                 border-radius: 4px;
             }
+            .tm-form-group .tm-invalid {
+                border-color: #ff6b6b !important;
+                box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+            }
             .tm-rating-inputs {
                 display: flex;
                 flex-direction: row-reverse;
@@ -99,6 +107,12 @@ class The_Mind_Testimonial_Form {
             .tm-rating-inputs label:hover,
             .tm-rating-inputs label:hover ~ label {
                 color: #ffcc00; /* Yellow stars */
+            }
+            .tm-field-error {
+                margin: 6px 0 0;
+                font-size: 13px;
+                color: #ff6b6b;
+                min-height: 16px;
             }
             
             .tm-submit-btn {

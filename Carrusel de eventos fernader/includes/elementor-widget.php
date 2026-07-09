@@ -734,8 +734,144 @@ function ec_register_elementor_widget($widgets_manager) {
             );
             
             $this->end_controls_section();
+
+            // ========================================
+            // SECCIÓN: ESTILO - POPUP
+            // ========================================
+
+            $this->start_controls_section(
+                'style_popup_section',
+                [
+                    'label' => __('Popup', 'eventos-carrusel'),
+                    'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+                ]
+            );
+
+            // --- Título ---
+            $this->add_control(
+                'popup_title_heading',
+                [
+                    'label' => __('Título', 'eventos-carrusel'),
+                    'type'  => \Elementor\Controls_Manager::HEADING,
+                ]
+            );
+
+            $this->add_group_control(
+                \Elementor\Group_Control_Typography::get_type(),
+                [
+                    'name'     => 'popup_title_typography',
+                    'selector' => '#ec-evento-popup-overlay .ec-popup-title',
+                ]
+            );
+
+            $this->add_control(
+                'popup_title_color',
+                [
+                    'label'     => __('Color', 'eventos-carrusel'),
+                    'type'      => \Elementor\Controls_Manager::COLOR,
+                    'selectors' => [
+                        '#ec-evento-popup-overlay .ec-popup-title' => 'color: {{VALUE}}',
+                    ],
+                ]
+            );
+
+            // --- Fecha ---
+            $this->add_control(
+                'popup_date_heading',
+                [
+                    'label'     => __('Fecha', 'eventos-carrusel'),
+                    'type'      => \Elementor\Controls_Manager::HEADING,
+                    'separator' => 'before',
+                ]
+            );
+
+            $this->add_group_control(
+                \Elementor\Group_Control_Typography::get_type(),
+                [
+                    'name'     => 'popup_date_typography',
+                    'selector' => '#ec-evento-popup-overlay .ec-popup-date',
+                ]
+            );
+
+            $this->add_control(
+                'popup_date_color',
+                [
+                    'label'     => __('Color', 'eventos-carrusel'),
+                    'type'      => \Elementor\Controls_Manager::COLOR,
+                    'selectors' => [
+                        '#ec-evento-popup-overlay .ec-popup-date' => 'color: {{VALUE}}',
+                    ],
+                ]
+            );
+
+            // --- Contenido ---
+            $this->add_control(
+                'popup_content_heading',
+                [
+                    'label'     => __('Contenido', 'eventos-carrusel'),
+                    'type'      => \Elementor\Controls_Manager::HEADING,
+                    'separator' => 'before',
+                ]
+            );
+
+            $this->add_group_control(
+                \Elementor\Group_Control_Typography::get_type(),
+                [
+                    'name'     => 'popup_content_typography',
+                    'selector' => '#ec-evento-popup-overlay .ec-popup-body, #ec-evento-popup-overlay .ec-popup-body p',
+                ]
+            );
+
+            $this->add_control(
+                'popup_content_color',
+                [
+                    'label'     => __('Color', 'eventos-carrusel'),
+                    'type'      => \Elementor\Controls_Manager::COLOR,
+                    'selectors' => [
+                        '#ec-evento-popup-overlay .ec-popup-body' => 'color: {{VALUE}}',
+                    ],
+                ]
+            );
+
+            // --- Contenedor del popup ---
+            $this->add_control(
+                'popup_container_heading',
+                [
+                    'label'     => __('Contenedor', 'eventos-carrusel'),
+                    'type'      => \Elementor\Controls_Manager::HEADING,
+                    'separator' => 'before',
+                ]
+            );
+
+            $this->add_control(
+                'popup_bg_color',
+                [
+                    'label'     => __('Color de Fondo', 'eventos-carrusel'),
+                    'type'      => \Elementor\Controls_Manager::COLOR,
+                    'selectors' => [
+                        '#ec-evento-popup-overlay .ec-evento-popup-wrap' => 'background: {{VALUE}}',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'popup_border_radius',
+                [
+                    'label'      => __('Radio de Borde', 'eventos-carrusel'),
+                    'type'       => \Elementor\Controls_Manager::SLIDER,
+                    'size_units' => ['px'],
+                    'range'      => [
+                        'px' => ['min' => 0, 'max' => 40],
+                    ],
+                    'selectors'  => [
+                        '#ec-evento-popup-overlay .ec-evento-popup-wrap' => 'border-radius: {{SIZE}}{{UNIT}}',
+                    ],
+                ]
+            );
+
+            $this->end_controls_section();
         }
-        
+
         protected function render() {
             $settings = $this->get_settings_for_display();
             

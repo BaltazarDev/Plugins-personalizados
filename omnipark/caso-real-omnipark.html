@@ -1,0 +1,158 @@
+<style>
+.use-case {
+    background: transparent;
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    margin: 0;
+}
+
+.use-case-title {
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.use-case-gallery {
+    display: flex;
+    gap: 0;
+    position: relative;
+    height: 300px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.use-case-item {
+    position: absolute;
+    width: 240px;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+}
+
+.use-case-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.use-case-item:nth-child(1) { left: 0; z-index: 8; }
+.use-case-item:nth-child(2) { left: 165px; z-index: 7; }
+.use-case-item:nth-child(3) { left: 330px; z-index: 6; }
+.use-case-item:nth-child(4) { left: 495px; z-index: 5; }
+.use-case-item:nth-child(5) { left: 660px; z-index: 4; }
+.use-case-item:nth-child(6) { left: 825px; z-index: 3; }
+.use-case-item:nth-child(7) { left: 990px; z-index: 2; }
+.use-case-item:nth-child(8) { left: 1155px; z-index: 1; }
+
+.use-case-item:hover {
+    transform: translateY(-15px);
+    z-index: 10;
+}
+
+.use-case-description {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95em;
+}
+
+@media (max-width: 1024px) {
+    .use-case-gallery {
+        height: 250px;
+    }
+    
+    .use-case-item {
+        width: 185px;
+    }
+    
+    .use-case-item:nth-child(1) { left: 0; }
+    .use-case-item:nth-child(2) { left: 140px; }
+    .use-case-item:nth-child(3) { left: 280px; }
+    .use-case-item:nth-child(4) { left: 420px; }
+    .use-case-item:nth-child(5) { left: 560px; }
+    .use-case-item:nth-child(6) { left: 700px; }
+    .use-case-item:nth-child(7) { left: 840px; }
+    .use-case-item:nth-child(8) { left: 980px; }
+}
+
+@media (max-width: 768px) {
+    .use-case {
+        padding: 25px 20px;
+    }
+    
+    .use-case-gallery {
+        height: 200px;
+    }
+    
+    .use-case-item {
+        width: 150px;
+    }
+    
+    .use-case-item:nth-child(1) { left: 0; }
+    .use-case-item:nth-child(2) { left: 115px; }
+    .use-case-item:nth-child(3) { left: 230px; }
+    .use-case-item:nth-child(4) { left: 345px; }
+    .use-case-item:nth-child(5) { left: 460px; }
+    .use-case-item:nth-child(6) { left: 575px; }
+    .use-case-item:nth-child(7) { left: 690px; }
+    .use-case-item:nth-child(8) { left: 805px; }
+}
+
+@media (max-width: 480px) {
+    .use-case {
+        padding: 20px 15px;
+    }
+    
+    .use-case-gallery {
+        height: 150px;
+    }
+    
+    .use-case-item {
+        width: 110px;
+    }
+    
+    .use-case-item:nth-child(1) { left: 0; }
+    .use-case-item:nth-child(2) { left: 80px; }
+    .use-case-item:nth-child(3) { left: 160px; }
+    .use-case-item:nth-child(4) { left: 240px; }
+    .use-case-item:nth-child(5) { left: 320px; }
+    .use-case-item:nth-child(6) { left: 400px; }
+    .use-case-item:nth-child(7) { left: 480px; }
+    .use-case-item:nth-child(8) { left: 560px; }
+}
+</style>
+
+<div class="use-case">
+    <div class="use-case-gallery">
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-08.webp" alt="Inversión segura">
+        </div>
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-06.webp" alt="Plusvalía">
+        </div>
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-08.webp" alt="Business Hub">
+        </div>
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-07.webp" alt="Bodegas">
+        </div>
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-09.webp" alt="Naves premium">
+        </div>
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-08.webp" alt="Ubicación estratégica">
+        </div>
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-06.webp" alt="Imagen 7">
+        </div>
+        <div class="use-case-item">
+            <img src="https://omnipark.baltazarg.xyz/wp-content/uploads/2026/05/OmniPark_Pagina-Web_-09.webp" alt="Imagen 8">
+        </div>
+    </div>
+</div>

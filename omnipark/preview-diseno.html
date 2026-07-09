@@ -1,0 +1,231 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview OmniPark Diagonal Exacto</title>
+  <style>
+    :root {
+      --card-height: 400px;
+      --clip-left: 12%;
+      --clip-right: 88%;
+      --panel: #161d26;
+      --accent: #00bcd4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+      background: #ffffff;
+    }
+
+    .diagonal-images-container {
+      display: flex;
+      align-items: stretch;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      width: 100%;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .diagonal-image-wrapper {
+      height: var(--card-height);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 0;
+      min-width: 230px;
+      max-width: 330px;
+      background: var(--panel);
+      clip-path: polygon(var(--clip-left) 0%, 100% 0%, var(--clip-right) 100%, 0% 100%);
+    }
+
+    .diagonal-image-wrapper::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      bottom: -2px;
+      left: -1px;
+      width: 2px;
+      background: var(--accent);
+      transform: skewX(-14deg);
+      transform-origin: top left;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .diagonal-image-wrapper + .diagonal-image-wrapper {
+      margin-left: -12px;
+    }
+
+    .diagonal-image-media {
+      height: 75%;
+      overflow: hidden;
+    }
+
+    .diagonal-image-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .diagonal-label {
+      height: 25%;
+      background: var(--panel);
+      color: #fff;
+      padding: 8px 20px 14px;
+      font-size: 34px;
+      font-weight: 500;
+      line-height: 1.05;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      gap: 8px;
+      letter-spacing: 0;
+    }
+
+    .diagonal-label-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .diagonal-label-text {
+      display: block;
+      max-width: 94%;
+      word-break: break-word;
+    }
+
+    .helper {
+      padding: 14px 16px;
+      color: #111827;
+      font: 500 13px/1.5 "Segoe UI", Arial, sans-serif;
+    }
+
+    @media (max-width: 1024px) {
+      .diagonal-image-wrapper {
+        min-width: 180px;
+        max-width: 260px;
+        height: 320px;
+      }
+
+      .diagonal-label {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .diagonal-images-container {
+        flex-wrap: wrap;
+      }
+
+      .diagonal-image-wrapper {
+        min-width: 160px;
+        max-width: 220px;
+        height: 260px;
+      }
+
+      .diagonal-image-wrapper + .diagonal-image-wrapper {
+        margin-left: -8px;
+      }
+
+      .diagonal-label {
+        font-size: 16px;
+        padding: 6px 12px 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .diagonal-images-container {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .diagonal-image-wrapper + .diagonal-image-wrapper {
+        margin-left: 0;
+      }
+
+      .diagonal-image-wrapper {
+        min-width: 100%;
+        max-width: 100%;
+        height: 300px;
+      }
+
+      .diagonal-label {
+        font-size: 18px;
+        padding: 6px 14px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="diagonal-images-container">
+    <article class="diagonal-image-wrapper">
+      <div class="diagonal-image-media">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80" alt="Inversion segura" />
+      </div>
+      <div class="diagonal-label">
+        <span class="diagonal-label-icon">+</span>
+        <span class="diagonal-label-text">Inversión segura mediante fideicomiso</span>
+      </div>
+    </article>
+
+    <article class="diagonal-image-wrapper">
+      <div class="diagonal-image-media">
+        <img src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1200&q=80" alt="Plusvalia" />
+      </div>
+      <div class="diagonal-label">
+        <span class="diagonal-label-icon">+</span>
+        <span class="diagonal-label-text">Plusvalía acelerada y alto retorno</span>
+      </div>
+    </article>
+
+    <article class="diagonal-image-wrapper">
+      <div class="diagonal-image-media">
+        <img src="https://images.unsplash.com/photo-1617098474202-0d0d7f60f31a?auto=format&fit=crop&w=1200&q=80" alt="Business hub" />
+      </div>
+      <div class="diagonal-label">
+        <span class="diagonal-label-icon">+</span>
+        <span class="diagonal-label-text">Business Hub con amenidades premium</span>
+      </div>
+    </article>
+
+    <article class="diagonal-image-wrapper">
+      <div class="diagonal-image-media">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80" alt="Bodegas" />
+      </div>
+      <div class="diagonal-label">
+        <span class="diagonal-label-icon">+</span>
+        <span class="diagonal-label-text">Bodegas modulares con diseño de primer nivel</span>
+      </div>
+    </article>
+
+    <article class="diagonal-image-wrapper">
+      <div class="diagonal-image-media">
+        <img src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1200&q=80" alt="Acceso" />
+      </div>
+      <div class="diagonal-label">
+        <span class="diagonal-label-icon">+</span>
+        <span class="diagonal-label-text">Acceso directo a corredor logístico</span>
+      </div>
+    </article>
+  </div>
+
+  <div class="helper">Reemplaza los <code>src="https://..."</code> por tus renders reales para validación 1:1.</div>
+</body>
+</html>

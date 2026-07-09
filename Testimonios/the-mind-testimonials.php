@@ -3,7 +3,7 @@
  * Plugin Name: The Mind Testimonials
  * Plugin URI: https://baltazarg.xyz
  * Description: Custom Elementor widget for testimonials with a specific design and submission form integration.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Baltazar Dev
  * Author URI: https://baltazarg.xyz
  * Text Domain: the-mind-testimonials
@@ -21,7 +21,7 @@ final class The_Mind_Testimonials {
 	/**
 	 * Plugin Version
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * Minimum Elementor Version
@@ -162,7 +162,7 @@ final class The_Mind_Testimonials {
         // Note: Elementor 3.1+ loads swiper only when needed, usually by detecting 'swiper' dependency or via widgets.
         // We will add it as dependency in the widget script if needed, or rely on Elementor's loading.
         // But for custom script:
-        wp_register_script( 'the-mind-testimonials-script', plugins_url( 'assets/js/script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], '1.0.0', true );
+		wp_register_script( 'the-mind-testimonials-script', plugins_url( 'assets/js/script.js', __FILE__ ), [ 'jquery', 'elementor-frontend' ], self::VERSION, true );
         wp_enqueue_script( 'the-mind-testimonials-script' );
     }
 

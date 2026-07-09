@@ -86,6 +86,19 @@ function ec_add_evento_fecha_metabox() {
 }
 add_action('add_meta_boxes', 'ec_add_evento_fecha_metabox');
 
+// Agregar Metabox para Mostrar Botón de Registro
+function ec_add_evento_boton_metabox() {
+    add_meta_box(
+        'ec_evento_boton',
+        __('Botón de Registro', 'eventos-carrusel'),
+        'ec_evento_boton_callback',
+        'eventos',
+        'side',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'ec_add_evento_boton_metabox');
+
 // Callback del Metabox
 function ec_evento_fecha_callback($post) {
     wp_nonce_field('ec_save_evento_fecha', 'ec_evento_fecha_nonce');
@@ -97,6 +110,23 @@ function ec_evento_fecha_callback($post) {
     </p>
     <p class="description">
         <?php _e('Selecciona la fecha en que se realizará o se realizó el evento.', 'eventos-carrusel'); ?>
+    </p>
+    <?php
+}
+
+// Callback del Metabox del Botón
+function ec_evento_boton_callback($post) {
+    wp_nonce_field('ec_save_evento_boton', 'ec_evento_boton_nonce');
+    $mostrar_boton = get_post_meta($post->ID, '_evento_mostrar_boton', true);
+    ?>
+    <p>
+        <label for="evento_mostrar_boton">
+            <input type="checkbox" id="evento_mostrar_boton" name="evento_mostrar_boton" value="yes" <?php checked($mostrar_boton, 'yes'); ?>>
+            <?php _e('Mostrar botón de registro', 'eventos-carrusel'); ?>
+        </label>
+    </p>
+    <p class="description">
+        <?php _e('Marca esta casilla si deseas mostrar el botón de registro en este evento.', 'eventos-carrusel'); ?>
     </p>
     <?php
 }
@@ -124,4 +154,27 @@ function ec_save_evento_fecha($post_id) {
     }
 }
 add_action('save_post_eventos', 'ec_save_evento_fecha');
+
+// Guardar el Estado del Botón de Registro
+function ec_save_evento_boton($post_id) {
+    // Verificar nonce
+    if (!isset($_POST['ec_evento_boton_nonce']) || !wp_verify_nonce($_POST['ec_evento_boton_nonce'], 'ec_save_evento_boton')) {
+        return;
+    }
+
+    // Verificar autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Verificar permisos
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Guardar el estado del botón
+    $mostrar_boton = isset($_POST['evento_mostrar_boton']) ? 'yes' : '';
+    update_post_meta($post_id, '_evento_mostrar_boton', $mostrar_boton);
+}
+add_action('save_post_eventos', 'ec_save_evento_boton');
 

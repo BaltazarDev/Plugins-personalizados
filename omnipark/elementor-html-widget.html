@@ -1,0 +1,96 @@
+<!-- PARA USAR EN ELEMENTOR - Widget HTML -->
+
+<style>
+.omnipark-diagonal-container {
+    display: flex;
+    gap: var(--gap, 0px);
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.omnipark-diagonal-item {
+    height: var(--height, 300px);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    background: #f0f0f0;
+    clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+    transition: transform 0.3s ease;
+}
+
+.omnipark-diagonal-item:hover {
+    transform: scale(1.05);
+}
+
+.omnipark-diagonal-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .omnipark-diagonal-item {
+        min-width: 150px;
+        max-width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .omnipark-diagonal-container {
+        flex-direction: column;
+    }
+    .omnipark-diagonal-item {
+        min-width: 100%;
+        max-width: 100%;
+        height: 250px;
+    }
+}
+</style>
+
+<div class="omnipark-diagonal-container" style="--gap: 0px; --height: 300px;">
+    <!-- Imagen 1 -->
+    <div class="omnipark-diagonal-item">
+        <img src="https://tu-dominio.com/imagen-1.jpg" alt="Inversión segura">
+    </div>
+    
+    <!-- Imagen 2 -->
+    <div class="omnipark-diagonal-item">
+        <img src="https://tu-dominio.com/imagen-2.jpg" alt="Plusvalia acelerada">
+    </div>
+    
+    <!-- Imagen 3 -->
+    <div class="omnipark-diagonal-item">
+        <img src="https://tu-dominio.com/imagen-3.jpg" alt="Business Hub">
+    </div>
+    
+    <!-- Imagen 4 -->
+    <div class="omnipark-diagonal-item">
+        <img src="https://tu-dominio.com/imagen-4.jpg" alt="Bodegas modulares">
+    </div>
+</div>
+
+<!-- INSTRUCCIONES PARA ELEMENTOR:
+1. Agrega un widget "HTML" en Elementor
+2. Copia y pega este código completo
+3. Reemplaza las URLs de las imágenes (src="...")
+4. Modifica:
+   - --gap: para el espacio entre imágenes (0px, 10px, 15px, etc)
+   - --height: para la altura (300px, 400px, etc)
+5. Personaliza los atributos alt="" para SEO
+
+PARÁMETROS PARA AJUSTAR:
+- --gap: espacio entre imágenes
+- --height: altura y anchura de cada imagen
+- clip-path: los valores porcentuales controlan el ángulo diagonal
+
+Para más ángulo: 20% 0%, 100% 0%, 80% 100%, 0% 100%
+Para menos ángulo: 10% 0%, 100% 0%, 90% 100%, 0% 100%
+-->

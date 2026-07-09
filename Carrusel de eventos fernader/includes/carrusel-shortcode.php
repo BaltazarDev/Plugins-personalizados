@@ -108,7 +108,7 @@ function ec_carrusel_eventos_shortcode($atts) {
                                 style="object-fit: <?php echo $fit; ?>;"
                             />
                         <?php else : ?>
-                            <img src="<?php echo EC_PLUGIN_URL; ?>assets/images/placeholder.jpg" alt="<?php the_title_attribute(); ?>" class="ec-bg-image" style="object-fit: <?php echo esc_attr($atts['image_fit']); ?>;">
+                            <img src="<?php echo esc_url(EC_PLUGIN_URL); ?>assets/images/placeholder.jpg" alt="<?php the_title_attribute(); ?>" class="ec-bg-image" style="object-fit: <?php echo esc_attr($atts['image_fit']); ?>;" />
                         <?php endif; ?>
 
                         <!-- Overlay -->
@@ -134,30 +134,54 @@ function ec_carrusel_eventos_shortcode($atts) {
                             <!-- Title -->
                             <h3 class="ec-title"><?php echo esc_html(strtoupper(get_the_title())); ?></h3>
                         </div>
-                        
+
                         <!-- RSVP Button -->
                         <div class="ec-rsvp-container">
                             <?php
-                            $link_attributes = '';
-                            if ($atts['link_type'] === 'permalink') {
-                                $link_attributes = 'href="' . esc_url(get_permalink()) . '"';
-                            } else {
-                                if (!empty($atts['link_attrs'])) {
-                                    $link_attributes = base64_decode($atts['link_attrs']);
+                            $mostrar_boton = get_post_meta(get_the_ID(), '_evento_mostrar_boton', true);
+                            if ($mostrar_boton === 'yes') {
+                                $link_attributes = '';
+                                if ($atts['link_type'] === 'permalink') {
+                                    $link_attributes = 'href="' . esc_url(get_permalink()) . '"';
                                 } else {
-                                    $link_attributes = 'href="#"';
+                                    if (!empty($atts['link_attrs'])) {
+                                        $link_attributes = base64_decode($atts['link_attrs']);
+                                    } else {
+                                        $link_attributes = 'href="#"';
+                                    }
                                 }
-                            }
                             ?>
                             <a class="ec-rsvp-btn" <?php echo $link_attributes; ?>>
                                 <?php echo esc_html($atts['button_text']); ?>
                             </a>
+                            <?php } ?>
                         </div>
+                        </div>
+
+                        <?php
+                        $popup_content = apply_filters('the_content', get_the_content());
+                        $popup_content = wp_kses_post($popup_content);
+                        $popup_title   = get_the_title();
+                        $popup_fecha_raw = get_post_meta(get_the_ID(), '_evento_fecha', true);
+                        $popup_fecha   = '';
+                        if (!empty($popup_fecha_raw)) {
+                            $ts = strtotime($popup_fecha_raw);
+                            if ($ts) {
+                                $popup_fecha = date_i18n('j \d\e F \d\e Y', $ts);
+                            }
+                        }
+                        ?>
+                        <div class="ec-popup-data" aria-hidden="true" style="display:none;"
+                             data-title="<?php echo esc_attr($popup_title); ?>"
+                             data-date="<?php echo esc_attr($popup_fecha); ?>">
+                            <?php echo $popup_content; ?>
+                        </div>
+
                     </div>
-                    
-                </div>
-                
-            <?php endwhile; ?>
+
+                <?php endwhile; ?>
+
+            </div> <!-- .ec-scroll-container -->
             
         </div> <!-- .ec-carrusel-container -->
     </div> <!-- .ec-carrusel-wrapper -->

@@ -3,10 +3,10 @@
  * Plugin Name: Browser Recommendation Banner
  * Plugin URI: https://baltazarg.xyz
  * Description: Muestra un banner personalizable recomendando Chrome o Edge a usuarios de Safari y Firefox.
- * Version:     2.0.0
+ * Version: 2.0.0
  * Author: Baltazar Dev
  * Author URI: https://baltazarg.xyz
- * License:     GPL2
+ * License: GPL2
  * Text Domain: browser-rec
  */
 
@@ -35,17 +35,17 @@ function brec_defaults() {
         // Deep links
         'deeplink_enabled'   => 1,
         // Colors
-        'bg_color'           => '#0f172a',
-        'text_color'         => '#e2e8f0',
-        'title_color'        => '#f8fafc',
-        'accent_color'       => '#6366f1',
-        'btn_primary_bg'     => '#6366f1',
+        'bg_color'           => '#000000',
+        'text_color'         => '#ffffff',
+        'title_color'        => '#ffffff',
+        'accent_color'       => '#0335a6',
+        'btn_primary_bg'     => '#0335a6',
         'btn_primary_text'   => '#ffffff',
-        'btn_secondary_bg'   => '#1e293b',
-        'btn_secondary_text' => '#94a3b8',
-        'overlay_color'      => 'rgba(0,0,0,0.7)',
+        'btn_secondary_bg'   => '#000000',
+        'btn_secondary_text' => '#ffffff',
+        'overlay_color'      => 'rgba(0,0,0,0.5)',
         // Typography
-        'font_family'        => 'inherit',
+        'font_family'        => "'Jost', sans-serif",
         'title_size'         => '22',
         'message_size'       => '15',
         'btn_size'           => '14',
@@ -323,6 +323,7 @@ function brec_settings_page() {
                     <td>
                         <select name="brec_options[font_family]">
                             <option value="inherit"                    <?php selected($o['font_family'],'inherit'); ?>>Heredar del tema</option>
+                            <option value="'Jost',sans-serif"          <?php selected($o['font_family'],"'Jost',sans-serif"); ?>>Jost</option>
                             <option value="'Segoe UI',sans-serif"      <?php selected($o['font_family'],"'Segoe UI',sans-serif"); ?>>Segoe UI</option>
                             <option value="Georgia,serif"              <?php selected($o['font_family'],'Georgia,serif'); ?>>Georgia</option>
                             <option value="'Courier New',monospace"    <?php selected($o['font_family'],"'Courier New',monospace"); ?>>Courier New</option>
@@ -417,7 +418,7 @@ function brec_render_preview( $o ) {
     $btn_r = min( (int)$o['border_radius'], 8 );
     echo "<div style='{$style}'>";
     if ( $o['show_icon'] ) echo "<div style='font-size:36px;margin-bottom:12px;'>🌐</div>";
-    echo "<div style='font-size:{$o['title_size']}px;font-weight:700;color:{$o['title_color']};margin-bottom:10px;'>" . esc_html($o['title']) . "</div>";
+    echo "<div style='font-size:{$o['title_size']}px;font-weight:700;color:{$o['title_color']};margin-bottom:10px;font-family:\"Bodoni Moda\", serif;'>" . esc_html($o['title']) . "</div>";
     echo "<div style='font-size:{$o['message_size']}px;line-height:1.6;margin-bottom:20px;'>" . wp_kses_post($o['message']) . "</div>";
     echo "<div style='display:flex;flex-wrap:wrap;gap:10px;align-items:center;'>";
     echo "<a href='#' style='background:{$o['btn_primary_bg']};color:{$o['btn_primary_text']};font-size:{$o['btn_size']}px;padding:10px 20px;border-radius:{$btn_r}px;text-decoration:none;font-weight:600;'>🟢 " . esc_html($o['btn_chrome_text']) . "</a>";
@@ -475,6 +476,9 @@ function brec_frontend_output() {
         --brec-radius:   {$o['border_radius']}px;
     ";
     ?>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style id="brec-css">
 :root { <?php echo $css_vars; ?> }
 
@@ -516,6 +520,7 @@ function brec_frontend_output() {
     line-height: 1.2;
     flex: 1;
     margin: 0;
+    font-family: 'Bodoni Moda', serif;
 }
 .brec-close {
     background: none;

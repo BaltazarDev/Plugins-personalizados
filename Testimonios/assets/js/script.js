@@ -96,3 +96,99 @@ jQuery(window).on('elementor/frontend/init', function () {
 
     });
 });
+
+jQuery(function ($) {
+    $('.tm-testimonial-submission-form').attr('novalidate', 'novalidate');
+
+    function getFieldErrorMessage(fieldName, isInvalidEmail) {
+        if (fieldName === 'tm_email' && isInvalidEmail) {
+            return 'Ingresa un correo electronico valido.';
+        }
+
+        switch (fieldName) {
+            case 'tm_name':
+                return 'El nombre es obligatorio.';
+            case 'tm_email':
+                return 'El email es obligatorio.';
+            case 'tm_rating':
+                return 'La calificacion es obligatoria.';
+            case 'tm_content':
+                return 'El testimonio es obligatorio.';
+            default:
+                return 'Este campo es obligatorio.';
+        }
+    }
+
+    function clearFieldError($form, fieldName) {
+        var $error = $form.find('.tm-field-error[data-for="' + fieldName + '"]');
+        var $field = $form.find('[name="' + fieldName + '"]');
+
+        $error.text('');
+        $field.removeClass('tm-invalid').attr('aria-invalid', 'false');
+    }
+
+    function setFieldError($form, fieldName, message) {
+        var $error = $form.find('.tm-field-error[data-for="' + fieldName + '"]');
+        var $field = $form.find('[name="' + fieldName + '"]');
+
+        $error.text(message);
+        $field.addClass('tm-invalid').attr('aria-invalid', 'true');
+    }
+
+    $(document).on('submit', '.tm-testimonial-submission-form', function (e) {
+        var $form = $(this);
+        var hasErrors = false;
+
+        ['tm_name', 'tm_email', 'tm_rating', 'tm_content'].forEach(function (fieldName) {
+            clearFieldError($form, fieldName);
+        });
+
+        var $name = $form.find('[name="tm_name"]');
+        var $email = $form.find('[name="tm_email"]');
+        var $content = $form.find('[name="tm_content"]');
+        var $ratingChecked = $form.find('[name="tm_rating"]:checked');
+
+        if (!$name.val() || !$name.val().trim()) {
+            setFieldError($form, 'tm_name', getFieldErrorMessage('tm_name'));
+            hasErrors = true;
+        }
+
+        if (!$email.val() || !$email.val().trim()) {
+            setFieldError($form, 'tm_email', getFieldErrorMessage('tm_email'));
+            hasErrors = true;
+        } else {
+            var emailValue = $email.val().trim();
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailValue)) {
+                setFieldError($form, 'tm_email', getFieldErrorMessage('tm_email', true));
+                hasErrors = true;
+            }
+        }
+
+        if (!$content.val() || !$content.val().trim()) {
+            setFieldError($form, 'tm_content', getFieldErrorMessage('tm_content'));
+            hasErrors = true;
+        }
+
+        if (!$ratingChecked.length) {
+            setFieldError($form, 'tm_rating', getFieldErrorMessage('tm_rating'));
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            e.preventDefault();
+        }
+    });
+
+    $(document).on('input change', '.tm-testimonial-submission-form [name="tm_name"], .tm-testimonial-submission-form [name="tm_email"], .tm-testimonial-submission-form [name="tm_content"], .tm-testimonial-submission-form [name="tm_rating"]', function () {
+        var $field = $(this);
+        var $form = $field.closest('.tm-testimonial-submission-form');
+        var fieldName = $field.attr('name');
+
+        if (!fieldName) {
+            return;
+        }
+
+        clearFieldError($form, fieldName);
+    });
+});

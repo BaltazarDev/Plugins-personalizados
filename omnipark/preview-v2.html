@@ -1,0 +1,40 @@
+<style>
+  .diagonal-images-container {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .diagonal-image-wrapper {
+    height: 300px;
+    aspect-ratio: 1 / 1;
+    min-width: 200px;
+    max-width: 300px;
+    overflow: hidden;
+    position: relative;
+    clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+  }
+
+  .diagonal-image-wrapper + .diagonal-image-wrapper {
+    margin-left: -12px; /* mas juntas en desktop */
+  }
+
+  @media (max-width: 768px) {
+    .diagonal-image-wrapper + .diagonal-image-wrapper {
+      margin-left: -8px; /* mas juntas en tablet */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .diagonal-image-wrapper + .diagonal-image-wrapper {
+      margin-left: 0; /* sin solape en movil */
+    }
+  }
+</style>
+
+<div class="diagonal-images-container">
+  <div class="diagonal-image-wrapper"><img src="img1.jpg" alt=""></div>
+  <div class="diagonal-image-wrapper"><img src="img2.jpg" alt=""></div>
+  <div class="diagonal-image-wrapper"><img src="img3.jpg" alt=""></div>
+  <div class="diagonal-image-wrapper"><img src="img4.jpg" alt=""></div>
+</div>

@@ -110,11 +110,12 @@
     right: 0;
     bottom: 0;
     left: 0;
-    /* Safari <14.1 inset fallback */
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover !important;
+    min-width: 100%;
+    min-height: 100%;
     filter: grayscale(100%);
     -webkit-transition: filter 0.5s ease, -webkit-transform 0.7s ease;
     transition: filter 0.5s ease, transform 0.7s ease;
@@ -300,4 +301,96 @@
         top: -40px;
         right: 16px;
     }
+}
+
+/* Popup de evento */
+.ec-evento-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 99999;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.ec-evento-popup-wrap {
+    max-width: 760px;
+    width: 100%;
+    padding: 24px;
+    background: #fff;
+    color: #1f2937;
+    border-radius: 14px;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.35);
+    position: relative;
+    margin: 0;
+}
+
+.ec-evento-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.ec-evento-popup-content {
+    max-height: calc(100vh - 180px);
+    overflow: auto;
+    line-height: 1.5;
+}
+
+body.ec-evento-popup-active {
+    overflow: hidden;
+}
+
+/* Popup header: título y fecha */
+.ec-popup-header {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.ec-popup-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    color: #111827;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.ec-popup-date {
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #6b7280;
+    letter-spacing: 0.06em;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+/* Popup body: contenido del editor */
+.ec-popup-body {
+    line-height: 1.6;
+    color: #374151;
+}
+
+.ec-popup-body p {
+    margin: 0 0 12px 0;
+}
+
+.ec-popup-body p:last-child {
+    margin-bottom: 0;
 }

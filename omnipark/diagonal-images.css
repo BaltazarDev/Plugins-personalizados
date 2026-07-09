@@ -1,0 +1,249 @@
+/* ========================================
+   OmniPark Diagonal Images - Estilos
+   ======================================== */
+
+/* Contenedor principal */
+.diagonal-images-container {
+    display: flex;
+    gap: var(--gap, 0px);
+    overflow: visible;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    background: transparent !important;
+}
+
+/* Wrapper de cada imagen */
+.diagonal-image-wrapper {
+    height: var(--height, 300px);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: var(--item-min-width, 210px);
+    max-width: var(--item-max-width, 320px);
+    background: #161d26;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Clip path diagonal */
+    clip-path: polygon(
+        var(--clip-path-angle, 12%) 0%,
+        100% 0%,
+        calc(100% - var(--clip-path-angle, 12%)) 100%,
+        0% 100%
+    );
+}
+
+.diagonal-image-media {
+    height: 75%;
+    overflow: hidden;
+}
+
+.diagonal-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    left: -1px;
+    width: 2px;
+    background: #00bcd4;
+    transform: skewX(-14deg);
+    transform-origin: top left;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Solape suave para que queden mas juntas */
+.diagonal-image-wrapper + .diagonal-image-wrapper {
+    margin-left: -20px;
+}
+
+/* Imagen dentro del wrapper */
+.diagonal-image-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* Etiqueta de texto - Oculta por defecto */
+.diagonal-label {
+    height: 25%;
+    background: #161d26;
+    color: white;
+    padding: 8px 20px 14px;
+    font-weight: 500;
+    text-align: left;
+    font-size: 1.98rem;
+    line-height: 1.06;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* Mostrar texto cuando esta activado */
+.show-image-text-yes .diagonal-label {
+    display: flex;
+}
+
+.diagonal-label-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: #00bcd4;
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+.diagonal-label-text {
+    display: block;
+    max-width: 94%;
+    word-break: break-word;
+}
+
+/* ========================================
+   Efectos Hover
+   ======================================== */
+
+/* Efecto Zoom */
+.hover-effect-zoom .diagonal-image-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.hover-effect-zoom .diagonal-image-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* Efecto Elevación */
+.hover-effect-lift .diagonal-image-wrapper:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Efecto Escala de grises */
+.hover-effect-grayscale .diagonal-image-wrapper:hover img {
+    filter: grayscale(100%);
+}
+
+/* Sin efecto */
+.hover-effect-none .diagonal-image-wrapper {
+    pointer-events: none;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .diagonal-image-wrapper {
+        min-width: 180px;
+        max-width: 260px;
+    }
+
+    .diagonal-label {
+        font-size: 1.35rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .diagonal-image-wrapper {
+        min-width: 150px;
+        max-width: 220px;
+        height: 260px;
+    }
+
+    .diagonal-image-wrapper + .diagonal-image-wrapper {
+        margin-left: -8px;
+    }
+    
+    .diagonal-label {
+        font-size: 1rem;
+        padding: 6px 12px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .diagonal-images-container {
+        flex-direction: column;
+        gap: var(--gap, 20px) !important;
+    }
+
+    .diagonal-image-wrapper + .diagonal-image-wrapper {
+        margin-left: 0;
+    }
+    
+    .diagonal-image-wrapper {
+        min-width: 100%;
+        max-width: 100%;
+        height: 280px;
+    }
+    
+    .diagonal-label {
+        font-size: 1.1rem;
+        padding: 6px 14px 12px;
+    }
+}
+
+/* ========================================
+   Estados especiales
+   ======================================== */
+
+/* Loading */
+.diagonal-image-wrapper.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Error */
+.diagonal-image-wrapper.error {
+    background: #ffe6e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.diagonal-image-wrapper.error::after {
+    content: '⚠️ Imagen no disponible';
+    color: #cc0000;
+    font-weight: bold;
+}
+
+/* ========================================
+   Animaciones de entrada
+   ======================================== */
+
+.diagonal-image-wrapper {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

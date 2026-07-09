@@ -56,6 +56,10 @@ jQuery(document).ready(function ($) {
                 disabledClass: 'swiper-nav-disabled',
             },
 
+            preventClicks: false,
+            preventClicksPropagation: false,
+            slideToClickedSlide: false,
+
             breakpoints: {
                 // >= 768px → tablet
                 768: {
@@ -85,6 +89,79 @@ jQuery(document).ready(function ($) {
             }
         }, 300);
     }
+
+    function ec_create_popup_modal() {
+        if ($('#ec-evento-popup-overlay').length) {
+            return;
+        }
+
+        var modalHtml = `
+            <div id="ec-evento-popup-overlay" class="ec-evento-popup-overlay" aria-hidden="true">
+                <div class="ec-evento-popup-wrap" role="dialog" aria-modal="true" aria-labelledby="ec-evento-popup-title">
+                    <button type="button" class="ec-evento-popup-close" aria-label="Cerrar">&times;</button>
+                    <div class="ec-evento-popup-content"></div>
+                </div>
+            </div>
+        `;
+
+        $('body').append(modalHtml);
+
+        $(document).on('click', '.ec-evento-popup-close, #ec-evento-popup-overlay', function (e) {
+            if (e.target !== this) {
+                return;
+            }
+            ec_close_popup();
+        });
+
+        $(document).on('keyup', function (e) {
+            if (e.key === 'Escape') {
+                ec_close_popup();
+            }
+        });
+    }
+
+    function ec_open_popup(contentHtml) {
+        ec_create_popup_modal();
+        var $overlay = $('#ec-evento-popup-overlay');
+        $overlay.find('.ec-evento-popup-content').html(contentHtml);
+        $overlay.attr('aria-hidden', 'false').fadeIn(200);
+        $('body').addClass('ec-evento-popup-active');
+    }
+
+    function ec_close_popup() {
+        var $overlay = $('#ec-evento-popup-overlay');
+        $overlay.attr('aria-hidden', 'true').fadeOut(200, function () {
+            $overlay.find('.ec-evento-popup-content').empty();
+            $('body').removeClass('ec-evento-popup-active');
+        });
+    }
+
+    // Click on card opens the popup (except al hacer click en el boton RSVP)
+    $(document).on('click', '.ec-card', function (e) {
+        if ($(e.target).closest('.ec-rsvp-btn').length) {
+            return; // keep RSVP button behavior
+        }
+
+        var $data   = $(this).find('.ec-popup-data');
+        var title   = $data.attr('data-title') || '';
+        var date    = $data.attr('data-date')  || '';
+        var content = $data.html()             || '';
+
+        var html = '<div class="ec-popup-header">';
+        if (title) {
+            html += '<h2 class="ec-popup-title">' + $('<div>').text(title).html() + '</h2>';
+        }
+        if (date) {
+            html += '<p class="ec-popup-date">' + $('<div>').text(date).html() + '</p>';
+        }
+        html += '</div>';
+
+        if (content && content.trim().length > 0) {
+            html += '<div class="ec-popup-body">' + content + '</div>';
+        }
+
+        ec_open_popup(html);
+    });
 
     // ── Elementor Frontend ──────────────────────────────────────────────────
     $(window).on('elementor/frontend/init', function () {

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagonal Images Preview - OmniPark</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .section p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Estilos principales */
+        .diagonal-images-container {
+            display: flex;
+            gap: var(--gap, 0px);
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .diagonal-image-wrapper {
+            height: var(--height, 300px);
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .diagonal-image-wrapper + .diagonal-image-wrapper {
+            margin-left: -12px;
+        }
+
+        .diagonal-image-wrapper:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .diagonal-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 20px 15px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95em;
+        }
+
+        /* Variantes */
+        .variant-1 { --gap: 0px; --height: 300px; }
+        .variant-2 { --gap: 10px; --height: 300px; }
+        .variant-3 { --gap: 20px; --height: 350px; }
+        .variant-4 { --gap: 5px; --height: 250px; }
+
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #333;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 768px) {
+            .diagonal-image-wrapper {
+                min-width: 150px;
+                max-width: 200px;
+                height: 200px;
+            }
+
+            .diagonal-image-wrapper + .diagonal-image-wrapper {
+                margin-left: -8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .diagonal-images-container {
+                flex-direction: column;
+            }
+
+            .diagonal-image-wrapper + .diagonal-image-wrapper {
+                margin-left: 0;
+            }
+            
+            .diagonal-image-wrapper {
+                min-width: 100%;
+                max-width: 100%;
+                height: 250px;
+            }
+        }
+
+        .footer {
+            color: white;
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 OmniPark - Diagonal Images Preview</h1>
+
+        <!-- Variante 1: Sin espaciado -->
+        <div class="section">
+            <h2>✨ Variante 1: Sin espaciado (Gap: 0px)</h2>
+            <p>Las imágenes están completamente juntas, sin espacio entre ellas.</p>
+            <div class="diagonal-images-container variant-1">
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=400&fit=crop" alt="Inversión segura">
+                    <div class="label">Inversión segura</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585088820-c22ae3b8ba13?w=400&h=400&fit=crop" alt="Plusvalía acelerada">
+                    <div class="label">Plusvalía acelerada</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop" alt="Business Hub">
+                    <div class="label">Business Hub</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400&h=400&fit=crop" alt="Bodegas modulares">
+                    <div class="label">Bodegas modulares</div>
+                </div>
+            </div>
+            <div class="code-block">[diagonal_images ids="101,102,103,104" gap="0" height="300"]</div>
+        </div>
+
+        <!-- Variante 2: Pequeño espaciado -->
+        <div class="section">
+            <h2>✨ Variante 2: Con espaciado (Gap: 10px)</h2>
+            <p>Las imágenes tienen un pequeño espacio entre ellas, más separación visual.</p>
+            <div class="diagonal-images-container variant-2">
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=400&fit=crop" alt="Inversión segura">
+                    <div class="label">Inversión segura</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585088820-c22ae3b8ba13?w=400&h=400&fit=crop" alt="Plusvalía acelerada">
+                    <div class="label">Plusvalía acelerada</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop" alt="Business Hub">
+                    <div class="label">Business Hub</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400&h=400&fit=crop" alt="Bodegas modulares">
+                    <div class="label">Bodegas modulares</div>
+                </div>
+            </div>
+            <div class="code-block">[diagonal_images ids="101,102,103,104" gap="10" height="300"]</div>
+        </div>
+
+        <!-- Variante 3: Espaciado mayor y altura mayor -->
+        <div class="section">
+            <h2>✨ Variante 3: Espaciado mayor (Gap: 20px, Height: 350px)</h2>
+            <p>Imágenes más grandes y con más espaciado, ideal para destacar.</p>
+            <div class="diagonal-images-container variant-3">
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=400&fit=crop" alt="Inversión segura">
+                    <div class="label">Inversión segura</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585088820-c22ae3b8ba13?w=400&h=400&fit=crop" alt="Plusvalía acelerada">
+                    <div class="label">Plusvalía acelerada</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop" alt="Business Hub">
+                    <div class="label">Business Hub</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400&h=400&fit=crop" alt="Bodegas modulares">
+                    <div class="label">Bodegas modulares</div>
+                </div>
+            </div>
+            <div class="code-block">[diagonal_images ids="101,102,103,104" gap="20" height="350"]</div>
+        </div>
+
+        <!-- Variante 4: Compacta -->
+        <div class="section">
+            <h2>✨ Variante 4: Compacta (Gap: 5px, Height: 250px)</h2>
+            <p>Versión más compacta, ideal para espacios limitados.</p>
+            <div class="diagonal-images-container variant-4">
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=400&fit=crop" alt="Inversión segura">
+                    <div class="label">Inversión segura</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585088820-c22ae3b8ba13?w=400&h=400&fit=crop" alt="Plusvalía acelerada">
+                    <div class="label">Plusvalía acelerada</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=400&fit=crop" alt="Business Hub">
+                    <div class="label">Business Hub</div>
+                </div>
+                <div class="diagonal-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400&h=400&fit=crop" alt="Bodegas modulares">
+                    <div class="label">Bodegas modulares</div>
+                </div>
+            </div>
+            <div class="code-block">[diagonal_images ids="101,102,103,104" gap="5" height="250"]</div>
+        </div>
+
+        <!-- Información -->
+        <div class="section">
+            <h2>📋 Cómo usar</h2>
+            <p><strong>Opción A: Con IDs de WordPress (Recomendado)</strong></p>
+            <div class="code-block">[diagonal_images ids="101,102,103,104" gap="0" height="300"]</div>
+            
+            <p><strong>Opción B: Con URLs directas</strong></p>
+            <div class="code-block">[diagonal_images images="url1.jpg,url2.jpg,url3.jpg,url4.jpg" gap="0" height="300"]</div>
+
+            <p><strong>Parámetros:</strong></p>
+            <ul style="margin-left: 20px; color: #666; line-height: 1.8;">
+                <li><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">ids</code> - IDs de imágenes en WordPress (separadas por comas)</li>
+                <li><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">images</code> - URLs directas de imágenes (separadas por comas)</li>
+                <li><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">gap</code> - Espacio entre imágenes en píxeles (default: 0)</li>
+                <li><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">height</code> - Altura de las imágenes en píxeles (default: 300)</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>🚀 Diagonal Images for WordPress & Elementor | OmniPark Project</p>
+            <p>Prueba estas variantes y elige la que mejor se adapte a tu diseño</p>
+        </div>
+    </div>
+</body>
+</html>
